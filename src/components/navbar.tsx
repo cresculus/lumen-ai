@@ -3,7 +3,12 @@ import { auth } from "@/auth";
 import { ShoppingCart, User } from "lucide-react";
 
 export async function Navbar() {
-  const session = await auth();
+  let session = null;
+  try {
+    session = await auth();
+  } catch {
+    // Auth may not be configured yet during initial deploy.
+  }
 
   return (
     <header className="border-b border-white/10 bg-[#0b1020]/80 backdrop-blur-md sticky top-0 z-50">

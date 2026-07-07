@@ -5,6 +5,8 @@ import { Navbar } from "@/components/navbar";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

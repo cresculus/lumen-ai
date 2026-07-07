@@ -3,18 +3,25 @@ import { ProductCard } from "@/components/product-card";
 import { prisma } from "@/lib/db";
 
 export default async function HomePage() {
-  const [music, shop] = await Promise.all([
-    prisma.digitalProduct.findMany({
-      where: { status: "PUBLISHED" },
-      orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
-      take: 3,
-    }),
-    prisma.physicalProduct.findMany({
-      where: { status: "PUBLISHED" },
-      orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
-      take: 3,
-    }),
-  ]);
+  let music: Awaited<ReturnType<typeof prisma.digitalProduct.findMany>> = [];
+  let shop: Awaited<ReturnType<typeof prisma.physicalProduct.findMany>> = [];
+
+  try {
+    [music, shop] = await Promise.all([
+      prisma.digitalProduct.findMany({
+        where: { status: "PUBLISHED" },
+        orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
+        take: 3,
+      }),
+      prisma.physicalProduct.findMany({
+        where: { status: "PUBLISHED" },
+        orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
+        take: 3,
+      }),
+    ]);
+  } catch {
+    // Database may not be connected or migrated yet during initial deploy.
+  }
 
   return (
     <div>
