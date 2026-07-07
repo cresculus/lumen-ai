@@ -1,17 +1,15 @@
 import { notFound } from "next/navigation";
 import { BuyButton } from "@/components/buy-button";
-import { prisma } from "@/lib/db";
+import { getPublishedShopBySlug } from "@/lib/catalog";
 import { formatPrice } from "@/lib/utils";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export default async function ShopDetailPage({ params }: Props) {
   const { slug } = await params;
-  const product = await prisma.physicalProduct.findUnique({ where: { slug } });
+  const product = await getPublishedShopBySlug(slug);
 
-  if (!product || product.status !== "PUBLISHED") {
-    notFound();
-  }
+  if (!product) notFound();
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">

@@ -1,8 +1,8 @@
+import { NavbarClient } from "@/components/navbar-client";
+import { Footer } from "@/components/footer";
+import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Footer } from "@/components/footer";
-import { Navbar } from "@/components/navbar";
-import { Providers } from "@/components/providers";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -33,9 +33,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
@@ -43,7 +41,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Providers>
-          <Navbar />
+          <NavbarClient />
           <main className="flex-1">{children}</main>
           <Footer />
         </Providers>

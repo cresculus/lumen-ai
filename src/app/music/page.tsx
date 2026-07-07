@@ -1,5 +1,5 @@
 import { MusicTrackCard } from "@/components/music-track-card";
-import { prisma } from "@/lib/db";
+import { getPublishedMusic } from "@/lib/catalog";
 
 export const metadata = { title: "Music" };
 
@@ -12,14 +12,7 @@ export default async function MusicPage({
 }) {
   const { tag } = await searchParams;
   const activeTag = tag && tag !== "all" ? tag : undefined;
-
-  const tracks = await prisma.digitalProduct.findMany({
-    where: {
-      status: "PUBLISHED",
-      ...(activeTag ? { tags: { has: activeTag } } : {}),
-    },
-    orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
-  });
+  const tracks = await getPublishedMusic(activeTag);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
@@ -28,8 +21,8 @@ export default async function MusicPage({
           Sleep & focus catalog
         </h1>
         <p className="mt-3 text-slate-400">
-          Stream in the highest quality your files support — WAV, FLAC, or high-bitrate MP3
-          uploaded from admin.
+          Stream in the highest quality your files support. Demo tracks play sample
+          audio until you upload to admin.
         </p>
       </div>
 
@@ -54,22 +47,18 @@ export default async function MusicPage({
       </div>
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {tracks.length === 0 ? (
-          <p className="text-slate-500">No tracks in this category yet.</p>
-        ) : (
-          tracks.map((track) => (
-            <MusicTrackCard
-              key={track.id}
-              id={track.id}
-              title={track.title}
-              slug={track.slug}
-              price={track.price}
-              tags={track.tags}
-              description={track.description}
-              featured={track.featured}
-            />
-          ))
-        )}
+        {tracks.map((track) => (
+          <MusicTrackCard
+            key={track.id}
+            id={track.id}
+            title={track.title}
+            slug={track.slug}
+            price={track.price}
+            tags={track.tags}
+            description={track.description}
+            featured={track.featured}
+          />
+        ))}
       </div>
     </div>
   );

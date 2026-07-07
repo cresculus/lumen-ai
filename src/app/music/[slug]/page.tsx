@@ -4,14 +4,14 @@ import { auth } from "@/auth";
 import { BuyButton } from "@/components/buy-button";
 import { PlayTrackButton } from "@/components/music-player";
 import { hasActiveSubscription } from "@/lib/access";
-import { prisma } from "@/lib/db";
+import { getPublishedMusicBySlug } from "@/lib/catalog";
 import { buildUtmUrl, formatDuration, formatPrice } from "@/lib/utils";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const track = await prisma.digitalProduct.findUnique({ where: { slug } });
+  const track = await getPublishedMusicBySlug(slug);
   if (!track) return { title: "Track not found" };
   return {
     title: track.title,
@@ -22,14 +22,12 @@ export async function generateMetadata({ params }: Props) {
 export default async function MusicDetailPage({ params }: Props) {
   const { slug } = await params;
   const session = await auth();
-  const track = await prisma.digitalProduct.findUnique({ where: { slug } });
+  const track = await getPublishedMusicBySlug(slug);
 
-  if (!track || track.status !== "PUBLISHED") {
-    notFound();
-  }
+  if (!track) notFound();
 
   const subscribed =
-    session?.user?.id
+    session?.user?.id && !session.user.id.startsWith("mock-")
       ? await hasActiveSubscription(session.user.id)
       : false;
 
@@ -60,20 +58,13 @@ export default async function MusicDetailPage({ params }: Props) {
             {track.title}
           </h1>
           <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-400">
-            {track.duration && (
-              <span>{formatDuration(track.duration)}</span>
-            )}
+            {track.duration && <span>{formatDuration(track.duration)}</span>}
             {track.bpm && <span>{track.bpm} BPM</span>}
             <span className="text-violet-300">Lossless stream</span>
           </div>
           <p className="mt-6 text-3xl text-violet-200">{formatPrice(track.price)}</p>
           {track.description && (
-            <p className="mt-4 text-slate-300 leading-relaxed">{track.description}</p>
-          )}
-          {subscribed && (
-            <p className="mt-4 rounded-lg bg-violet-500/15 px-3 py-2 text-sm text-violet-100">
-              Included in your Lumen Unlimited subscription
-            </p>
+            <p className="mt-4 leading-relaxed text-slate-300">{track.description}</p>
           )}
           <div className="mt-8 flex flex-wrap gap-3">
             <PlayTrackButton
@@ -84,15 +75,13 @@ export default async function MusicDetailPage({ params }: Props) {
                 tags: track.tags,
               }}
             />
-            {!subscribed && (
-              <BuyButton
-                productId={track.id}
-                title={track.title}
-                price={track.price}
-                slug={track.slug}
-                type="DIGITAL"
-              />
-            )}
+            <BuyButton
+              productId={track.id}
+              title={track.title}
+              price={track.price}
+              slug={track.slug}
+              type="DIGITAL"
+            />
             <Link
               href="/pricing"
               className="rounded-full border border-white/15 px-6 py-2.5 text-sm text-white hover:bg-white/5"
