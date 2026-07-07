@@ -10,6 +10,35 @@ type CartItem = {
   quantity: number;
 };
 
+async function syncSubscription(
+  subscription: Stripe.Subscription,
+  userId: string,
+) {
+  const periodEnd = subscription.items.data[0]?.current_period_end;
+  await prisma.subscription.upsert({
+    where: { userId },
+    create: {
+      userId,
+      stripeSubscriptionId: subscription.id,
+      stripePriceId: subscription.items.data[0]?.price.id,
+      status: subscription.status,
+      currentPeriodEnd: periodEnd
+        ? new Date(periodEnd * 1000)
+        : null,
+      cancelAtPeriodEnd: subscription.cancel_at_period_end,
+    },
+    update: {
+      stripeSubscriptionId: subscription.id,
+      stripePriceId: subscription.items.data[0]?.price.id,
+      status: subscription.status,
+      currentPeriodEnd: periodEnd
+        ? new Date(periodEnd * 1000)
+        : null,
+      cancelAtPeriodEnd: subscription.cancel_at_period_end,
+    },
+  });
+}
+
 export async function POST(request: Request) {
   const stripe = getStripe();
   if (!stripe) {
@@ -36,6 +65,24 @@ export async function POST(request: Request) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
+
+    if (session.mode === "subscription" && session.metadata?.userId) {
+      const subId =
+        typeof session.subscription === "string"
+          ? session.subscription
+          : session.subscription?.id;
+      if (subId) {
+        const subscription = await stripe.subscriptions.retrieve(subId);
+        await syncSubscription(subscription, session.metadata.userId);
+        if (session.customer && typeof session.customer === "string") {
+          await prisma.user.update({
+            where: { id: session.metadata.userId },
+            data: { stripeCustomerId: session.customer },
+          });
+        }
+      }
+      return NextResponse.json({ received: true });
+    }
 
     if (!session.metadata?.userId || !session.metadata.cart) {
       return NextResponse.json({ received: true });
@@ -139,10 +186,7 @@ export async function POST(request: Request) {
             digitalProductId: item.digitalProductId,
             expiresAt,
           },
-          update: {
-            expiresAt,
-            downloadCount: 0,
-          },
+          update: { expiresAt, downloadCount: 0 },
         });
       }
     }
@@ -157,6 +201,17 @@ export async function POST(request: Request) {
         orderId: order.id,
         items: order.items.map((i) => i.title),
       });
+    }
+  }
+
+  if (
+    event.type === "customer.subscription.updated" ||
+    event.type === "customer.subscription.deleted"
+  ) {
+    const subscription = event.data.object as Stripe.Subscription;
+    const userId = subscription.metadata.userId;
+    if (userId) {
+      await syncSubscription(subscription, userId);
     }
   }
 

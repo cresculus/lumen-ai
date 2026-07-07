@@ -12,6 +12,13 @@ export function formatPrice(cents: number) {
   }).format(cents / 100);
 }
 
+export function formatDuration(seconds: number) {
+  if (!seconds || !Number.isFinite(seconds)) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
 export function slugify(text: string) {
   return text
     .toLowerCase()

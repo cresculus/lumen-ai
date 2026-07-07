@@ -4,6 +4,7 @@ import type { SessionProviderProps } from "next-auth/react";
 import { SessionProvider } from "next-auth/react";
 import type { ReactNode } from "react";
 import { CartProvider } from "@/components/cart-provider";
+import { MusicPlayerProvider } from "@/components/music-player";
 
 const AuthProvider = SessionProvider as React.ComponentType<
   SessionProviderProps & { children?: ReactNode }
@@ -12,7 +13,9 @@ const AuthProvider = SessionProvider as React.ComponentType<
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <AuthProvider>
-      <CartProvider>{children}</CartProvider>
+      <CartProvider>
+        <MusicPlayerProvider>{children}</MusicPlayerProvider>
+      </CartProvider>
     </AuthProvider>
   );
 }
