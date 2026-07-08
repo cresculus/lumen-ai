@@ -264,6 +264,42 @@
       font-weight: 600;
     }
     button.epic-btn:hover { filter: brightness(1.1); }
+    button.yt2026-btn {
+      background: linear-gradient(135deg, #c9a227 0%, #0f1c2e 55%, #1a3a5c 100%);
+      border: 1px solid #e8d48b;
+      color: #f8f4ed;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: 0 0 0 1px rgba(201, 162, 39, 0.25), 0 8px 24px rgba(15, 28, 46, 0.45);
+    }
+    button.yt2026-btn:hover { filter: brightness(1.12); }
+    button.neo-btn {
+      background: linear-gradient(135deg, #e8d5b5 0%, #c9a227 40%, #5c4a2a 100%);
+      border: 1px solid #f5edd8;
+      color: #0f1c2e;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: 0 0 0 1px rgba(232, 213, 181, 0.35), 0 8px 24px rgba(201, 162, 39, 0.25);
+    }
+    button.neo-btn:hover { filter: brightness(1.08); }
+    button.dark-chamber-btn {
+      background: linear-gradient(135deg, #2a2130 0%, #1a1218 45%, #3d2a20 100%);
+      border: 1px solid #8a6a4a;
+      color: #e8d5b5;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      box-shadow: 0 0 0 1px rgba(138, 106, 74, 0.3), 0 8px 28px rgba(0, 0, 0, 0.45);
+    }
+    button.dark-chamber-btn:hover { filter: brightness(1.15); }
+    button.cortisol-btn {
+      background: linear-gradient(135deg, #1a4a4a 0%, #0f2a3a 40%, #c45c26 100%);
+      border: 1px solid #5ec4b0;
+      color: #f0fff8;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: 0 0 0 1px rgba(94, 196, 176, 0.25), 0 8px 24px rgba(15, 42, 58, 0.45);
+    }
+    button.cortisol-btn:hover { filter: brightness(1.1); }
     .epic-vars-panel {
       margin-top: 1rem;
       padding: 1rem 1.25rem;
@@ -305,7 +341,7 @@
   <div class="app">
     <aside class="sidebar">
       <div class="logo">Lumen AI Music</div>
-      <div class="logo-sub">Content Studio v2</div>
+      <div class="logo-sub">Content Studio v3.5 · Suno Style Format</div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
       <ul class="step-nav" id="stepNav"></ul>
       <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
@@ -349,8 +385,12 @@
         </div>
         <div class="btn-row">
           <button onclick="goStep(1)">Start New Video →</button>
+          <button class="cortisol-btn" onclick="randomizePartial('cortisol100k')">🌿 Cortisol Flush 100k</button>
+          <button class="dark-chamber-btn" onclick="randomizePartial('darkchamber')">🕯️ Dark Chamber · Cello</button>
+          <button class="neo-btn" onclick="randomizePartial('neoclassical')">🎹 Neoclassical Mix</button>
+          <button class="yt2026-btn" onclick="randomizePartial('yt2026')">📈 2026 → Music Prompts</button>
           <button class="secondary" onclick="randomizePartial('cosmic');goStep(1)">🌌 Random Cosmic Idea</button>
-          <button class="epic-btn" onclick="randomizePartial('epic');goStep(1)">🔥 Epic Post-Grunge</button>
+          <button class="epic-btn" onclick="randomizePartial('epic')">🔥 Epic Post-Grunge</button>
           <button class="secondary" onclick="randomizeAll();goStep(1)">🎲 Random Idea</button>
         </div>
       </section>
@@ -358,19 +398,29 @@
       <!-- STEP 1: Variables -->
       <section class="panel" data-step="1">
         <h1>1. Configure Variables</h1>
-        <p class="lead">Fill variables, tune <strong>Suno best practices</strong>, or hit Randomize. Use <strong>🔥 Epic Post-Grunge</strong> for cinematic arcs.</p>
+        <p class="lead">35+ moods &amp; purposes across 8 categories. Tune Suno, epic arcs, frequency stack, and production variables — or hit a category randomizer.</p>
         <div class="btn-row">
+          <button class="cortisol-btn" onclick="randomizePartial('cortisol100k')">🌿 Cortisol Flush 100k</button>
+          <button class="dark-chamber-btn" onclick="randomizePartial('darkchamber')">🕯️ Dark Chamber · Cello</button>
+          <button class="neo-btn" onclick="randomizePartial('neoclassical')">🎹 Neoclassical Mix</button>
+          <button class="yt2026-btn" onclick="randomizePartial('yt2026')">📈 2026 → Music Prompts</button>
           <button class="ghost" onclick="randomizeAll()">🎲 Randomize All</button>
           <button class="secondary" onclick="randomizePartial('mood')">Random Mood</button>
-          <button class="secondary" onclick="randomizePartial('sci-fi')">Random Sci-Fi</button>
-          <button class="secondary" onclick="randomizePartial('healing')">Random Healing</button>
-          <button class="secondary" onclick="randomizePartial('cosmic')">🌌 Random Cosmic Idea</button>
-          <button class="secondary" onclick="randomizePartial('epic')">🔥 Epic Post-Grunge</button>
+          <button class="secondary" onclick="randomizePartial('sleep')">🌙 Random Sleep</button>
+          <button class="secondary" onclick="randomizePartial('focus')">🎯 Random Focus</button>
+          <button class="secondary" onclick="randomizePartial('healing')">💫 Random Healing</button>
+          <button class="secondary" onclick="randomizePartial('meditation')">🧘 Random Meditation</button>
+          <button class="secondary" onclick="randomizePartial('sci-fi')">🚀 Random Sci-Fi</button>
+          <button class="secondary" onclick="randomizePartial('cosmic')">🌌 Random Cosmic</button>
+          <button class="epic-btn" onclick="randomizePartial('epic')">🔥 Epic Post-Grunge</button>
         </div>
+        <p class="regen-hint" style="margin-top:-0.25rem"><strong>🌿 Cortisol Flush 100k</strong> = Neural Frequency–style titles (174+528 Hz) + soft Suno bed + DAW Hz stack (competitors hit 400k–4M). <strong>🕯️ Dark Chamber</strong> = cello solitude. <strong>🎹 Neo</strong> = chamber mix. <strong>📈 2026</strong> = cinematic SEO.</p>
         <div class="grid" id="varForm">
           <div>
             <label>Primary Mood / Purpose</label>
-            <select id="mood"></select>
+            <select id="mood" onchange="applyMoodDefaults()"></select>
+            <label>Listening Purpose (intent)</label>
+            <select id="listeningPurpose"></select>
             <label>Target Duration</label>
             <select id="duration"></select>
             <label>Primary Genre</label>
@@ -381,8 +431,12 @@
             </select>
             <label>Sci-Fi Sub-Mode (if applicable)</label>
             <select id="scifiMode"></select>
+            <label>Time of Day</label>
+            <select id="timeOfDay"></select>
+            <label>Listener Entry State</label>
+            <select id="listenerState"></select>
             <label>Mood Words (comma-separated)</label>
-            <input id="moodWords" placeholder="serene, ethereal" />
+            <input id="moodWords" placeholder="serene, ethereal, velvet" />
             <label>Key Instruments (comma-separated)</label>
             <input id="instruments" placeholder="bowed glass harmonics, soft synth choir" />
           </div>
@@ -390,23 +444,43 @@
             <label>Atmosphere / Keywords</label>
             <input id="atmosphere" placeholder="misty forest, soft rain" />
             <label>Lore Element (optional)</label>
-            <input id="lore" placeholder="featuring Lumen the Dream Weaver" />
+            <select id="lore">
+              <option value="">— none —</option>
+            </select>
             <label>BPM</label>
             <input id="bpm" type="number" value="52" />
             <label>Energy Level</label>
             <select id="energy"></select>
+            <label>Intensity Arc</label>
+            <select id="intensityArc"></select>
+            <label>Rhythm Feel</label>
+            <select id="rhythmFeel"></select>
+            <label>Texture Density</label>
+            <select id="textureDensity"></select>
+            <label>Wordless Vocal Texture</label>
+            <select id="vocalTexture"></select>
             <label>Production / Mix Tone</label>
             <input id="production" placeholder="wide cinematic reverb, tape-saturated warmth" />
             <label>Series Name (optional, e.g. O N Y X)</label>
             <input id="seriesName" placeholder="O N Y X" />
             <label>Title Style</label>
             <select id="titleStyle">
+              <option value="cortisol100k">🌿 Cortisol Flush / Nervous System (100k)</option>
+              <option value="darkchamber">🕯️ Dark Chamber (Cello · Violin · Piano)</option>
+              <option value="neoclassical">🎹 Neoclassical</option>
+              <option value="yt2026">2026 Cinematic Ambient (SEO / Focus)</option>
               <option value="standard">Lumen Standard</option>
               <option value="cosmic">Cosmic Ambience (Astral-style)</option>
               <option value="epic">Cinematic Epic (Post-Grunge)</option>
             </select>
+            <label>Benefit Angle (YouTube SEO)</label>
+            <select id="benefitAngle"></select>
             <label>Cosmic Track Name</label>
             <input id="cosmicName" placeholder="Velvet Meridian, Glass Orchard, Lumen: The Listener" />
+            <label>YouTube Mode Badge</label>
+            <select id="youtubeBadge"></select>
+            <label>Healing Layer Intent (experiential)</label>
+            <select id="healingIntent"></select>
           </div>
           <div class="full-width suno-vars-panel" id="sunoVarsPanel">
             <h2>🎵 Suno Best Practices</h2>
@@ -540,7 +614,10 @@
         <p class="regen-hint">Regenerate keeps mood, duration &amp; genre — shuffles BPM, instruments, prompts &amp; more. <strong>🔥 More Epic</strong> = maximum cinematic post-grunge energy.</p>
         <div class="btn-row quick-copy">
           <button onclick="regeneratePackage('all')">↻ Regenerate All</button>
-          <button class="epic-btn" onclick="regeneratePackage('epic')">🔥 More Epic</button>
+          <button class="cortisol-btn" onclick="randomizePartial('cortisol100k')">🌿 Cortisol Flush 100k</button>
+          <button class="dark-chamber-btn" onclick="randomizePartial('darkchamber')">🕯️ Dark Chamber · Cello</button>
+          <button class="neo-btn" onclick="randomizePartial('neoclassical')">🎹 Neoclassical Mix</button>
+          <button class="yt2026-btn" onclick="randomizePartial('yt2026')">📈 2026 → Music Prompts</button>
           <button class="secondary" onclick="copySuno()">Copy Suno</button>
           <button class="secondary" onclick="copyAIImage()">Copy AI Image</button>
           <button class="secondary" onclick="copyYoutube()">Copy YouTube</button>
@@ -549,7 +626,7 @@
           <button class="ghost" onclick="copyBlock('fullPackage')">Copy All</button>
         </div>
         <div class="btn-row regen-controls">
-          <button class="ghost" onclick="regeneratePackage('suno')">↻ New Suno</button>
+          <button class="ghost" onclick="regeneratePackage('suno')">↻ New Sonic DNA</button>
           <button class="ghost" onclick="regeneratePackage('sunoExtraTags')">↻ Suno Tags</button>
           <button class="ghost" onclick="regeneratePackage('bpm')">↻ New BPM</button>
           <button class="ghost" onclick="regeneratePackage('instruments')">↻ New Instruments</button>
@@ -562,8 +639,11 @@
         </div>
 
         <div class="card">
-          <div class="card-header"><span class="card-title">Suno Prompt (Core ~8 min)</span><div><span class="badge gold">Suno</span> <button class="secondary" onclick="copySuno()">Copy Suno</button></div></div>
+          <div class="card-header"><span class="card-title">Suno Prompt (Core ~8 min)</span><div><span class="badge gold">Paste into Suno</span> <button class="secondary" onclick="copySuno()">Copy Suno Prompt</button> <button class="ghost" onclick="copySunoStyle()">Copy Style Box</button> <button class="cortisol-btn" onclick="randomizePartial('cortisol100k')">🌿 New Cortisol</button> <button class="dark-chamber-btn" onclick="randomizePartial('darkchamber')">🕯️ New Dark Chamber</button> <button class="neo-btn" onclick="randomizePartial('neoclassical')">🎹 New Neo Flavor</button> <button class="yt2026-btn" onclick="regeneratePackage('suno')">↻ New Sonic DNA</button></div></div>
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem"><strong>🌿 Cortisol 100k:</strong> <em>Style box</em> = Suno’s long flowing rewrite (pads, bpm, intro/middle/outro, mix tags). <em>Custom</em> = short structure + avoids. <strong>NO Hz in Suno</strong> — add 174/528 in DAW. Titles/thumbs sell the flush.</p>
           <div class="output-block" id="outSuno"></div>
+          <textarea class="tall full-width" id="sunoStyleOnly" style="display:none"></textarea>
+          <textarea class="tall full-width" id="sunoCustomOnly" style="display:none"></textarea>
         </div>
         <div class="card">
           <div class="card-header"><span class="card-title">Suno Formula Breakdown</span><span class="badge gold" id="sunoFormulaBadge" style="display:none">🔥 Epic</span></div>
@@ -601,7 +681,8 @@
           <div class="output-block" id="outCosmicAlts"></div>
         </div>
         <div class="card">
-          <div class="card-header"><span class="card-title">YouTube Titles + Description + Tags</span><div><span class="badge">YouTube</span> <button class="secondary" onclick="copyYoutube()">Copy YouTube</button></div></div>
+          <div class="card-header"><span class="card-title">YouTube Titles + Description + Tags</span><div><span class="badge gold">2026 SEO</span> <button class="secondary" onclick="copyYoutube()">Copy YouTube</button></div></div>
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem">Formula: <em>[Poetic Name] | Cinematic Ambient for [Benefit] 2026 • [Duration]</em> — matches current top Focus / Luxury Ambient channels while keeping Lumen’s poetic brand.</p>
           <div class="output-block" id="outYoutube"></div>
         </div>
         <div class="card">
@@ -798,21 +879,118 @@
   <script>
     const DATA = {
       moods: [
-        { id: 'deep-sleep', label: 'Deep Sleep', genre: 'ambient', bpm: [45,58], energy: 'ultra-low', tag: 'Sleep' },
-        { id: 'healing', label: 'Healing & Restoration', genre: 'ambient', bpm: [50,65], energy: 'low', tag: 'Healing' },
-        { id: 'focus', label: 'Focus & Study', genre: 'lo-fi', bpm: [70,90], energy: 'low-mid', tag: 'Focus' },
-        { id: 'cortisol', label: 'Low Cortisol / Nervous System Reset', genre: 'ambient', bpm: [50,65], energy: 'low', tag: 'Healing' },
-        { id: 'cinematic', label: 'Cinematic Epic', genre: 'post-grunge ambient rock', bpm: [80, 104], energy: 'low-mid', tag: 'Cinematic' },
-        { id: 'epic-rock', label: 'Cinematic Post-Grunge Epic', genre: 'post-grunge ambient rock', bpm: [80, 104], energy: 'low-mid', tag: 'Epic' },
-        { id: 'fantasy', label: 'Fantasy Dreamscape', genre: 'dark ambient', bpm: [55,75], energy: 'low', tag: 'Fantasy' },
-        { id: 'scifi', label: 'Sci-Fi Space / Atmospheric Sci-Fi', genre: 'sci-fi ambient', bpm: [60,85], energy: 'ultra-low', tag: 'Sci-Fi' },
+        // Sleep & Rest
+        { id: 'deep-sleep', category: 'Sleep & Rest', categoryKey: 'sleep', label: 'Deep Sleep — Full Night Rest', purpose: 'uninterrupted overnight drift', genre: 'ambient', bpm: [45,58], energy: 'ultra-low', tag: 'Deep Sleep', freqDefault: 'delta', badge: 'Sleep Mode' },
+        { id: 'power-nap', category: 'Sleep & Rest', categoryKey: 'sleep', label: 'Power Nap — Quick Reset', purpose: 'short restorative rest', genre: 'ambient', bpm: [48,62], energy: 'ultra-low', tag: 'Power Nap', freqDefault: 'theta', badge: 'Rest Mode' },
+        { id: 'insomnia-wind-down', category: 'Sleep & Rest', categoryKey: 'sleep', label: 'Insomnia Wind-Down — Mind Won\'t Stop', purpose: 'racing thoughts to stillness', genre: 'drone ambient', bpm: [46,56], energy: 'ultra-low', tag: 'Sleep', freqDefault: 'delta', badge: 'Sleep Mode' },
+        { id: 'pre-sleep', category: 'Sleep & Rest', categoryKey: 'sleep', label: 'Pre-Sleep Transition — Last Hour Awake', purpose: 'gentle descent into rest', genre: 'ambient', bpm: [50,64], energy: 'low', tag: 'Sleep', freqDefault: 'theta', badge: 'Sleep Mode' },
+        { id: 'dream-state', category: 'Sleep & Rest', categoryKey: 'sleep', label: 'Dream State — Hypnagogic Drift', purpose: 'liminal sleep-wake imagery', genre: 'dark ambient', bpm: [48,60], energy: 'ultra-low', tag: 'Dream', freqDefault: 'theta', badge: 'Dreamstate: ACTIVATED' },
+        // Nervous System & Calm
+        { id: 'cortisol', category: 'Nervous System & Calm', categoryKey: 'nervous', label: 'Low Cortisol / Nervous System Reset', purpose: 'body softening after stress', genre: 'ambient', bpm: [50,65], energy: 'low', tag: 'Healing', freqDefault: 'grounding', badge: 'Nervous System Reset' },
+        { id: 'vagus-rest', category: 'Nervous System & Calm', categoryKey: 'nervous', label: 'Vagus Rest — Soft Landing', purpose: 'parasympathetic invitation', genre: 'healing ambient', bpm: [48,58], energy: 'ultra-low', tag: 'Healing', freqDefault: 'grounding', badge: 'CALM MODE: ON' },
+        { id: 'parasympathetic', category: 'Nervous System & Calm', categoryKey: 'nervous', label: 'Parasympathetic Restore — Body Exhale', purpose: 'full-body downshift', genre: 'ambient', bpm: [50,62], energy: 'ultra-low', tag: 'Healing', freqDefault: 'cortisol', badge: 'Stress Relief: ON' },
+        { id: 'stress-unwind', category: 'Nervous System & Calm', categoryKey: 'nervous', label: 'Stress Unwind — After a Hard Day', purpose: 'release the weight of the day', genre: 'ambient', bpm: [52,68], energy: 'low', tag: 'Healing', freqDefault: 'grounding', badge: 'Stress Relief: ON' },
+        { id: 'anxiety-ease', category: 'Nervous System & Calm', categoryKey: 'nervous', label: 'Anxiety Ease — Racing Mind Slow', purpose: 'quiet the inner noise', genre: 'drone ambient', bpm: [50,60], energy: 'ultra-low', tag: 'Calm', freqDefault: 'fear', badge: 'Serene Mode' },
+        // Focus & Productivity
+        { id: 'focus', category: 'Focus & Productivity', categoryKey: 'focus', label: 'Deep Focus — Sustained Attention', purpose: 'long-session concentration', genre: 'lo-fi', bpm: [70,90], energy: 'low-mid', tag: 'Focus Flow', freqDefault: 'alpha', badge: 'Deep Focus Mode' },
+        { id: 'study', category: 'Focus & Productivity', categoryKey: 'focus', label: 'Study Flow — Reading & Retention', purpose: 'learning without burnout', genre: 'lo-fi hip hop', bpm: [72,88], energy: 'low-mid', tag: 'Focus', freqDefault: 'alpha', badge: 'Study Mode' },
+        { id: 'creative-flow', category: 'Focus & Productivity', categoryKey: 'focus', label: 'Creative Flow — Writing & Ideas', purpose: 'imaginative work in motion', genre: 'neo-classical', bpm: [68,92], energy: 'low-mid', tag: 'Focus', freqDefault: 'alpha', badge: 'Flow State' },
+        { id: 'deep-work', category: 'Focus & Productivity', categoryKey: 'focus', label: 'Deep Work — Zero Distraction', purpose: 'locked-in professional focus', genre: 'minimal piano', bpm: [65,85], energy: 'low', tag: 'Focus Flow', freqDefault: 'alpha', badge: 'Deep Focus Mode' },
+        { id: 'gentle-productivity', category: 'Focus & Productivity', categoryKey: 'focus', label: 'Gentle Productivity — Low Burnout', purpose: 'steady work without force', genre: 'chillhop', bpm: [75,95], energy: 'gentle groove', tag: 'Focus', freqDefault: 'none', badge: 'Focus Flow' },
+        // Healing & Emotional
+        { id: 'healing', category: 'Healing & Emotional', categoryKey: 'healing', label: 'Healing & Restoration', purpose: 'quiet inner repair', genre: 'ambient', bpm: [50,65], energy: 'low', tag: 'Healing', freqDefault: 'heart', badge: 'HEALING SLEEP MODE' },
+        { id: 'grief-comfort', category: 'Healing & Emotional', categoryKey: 'healing', label: 'Grief Comfort — Tender Holding', purpose: 'space for sorrow to breathe', genre: 'dark ambient', bpm: [48,58], energy: 'ultra-low', tag: 'Healing', freqDefault: 'fear', badge: 'Serene Mode' },
+        { id: 'emotional-release', category: 'Healing & Emotional', categoryKey: 'healing', label: 'Emotional Release — Quiet Processing', purpose: 'feel without forcing', genre: 'healing ambient', bpm: [50,62], energy: 'low', tag: 'Healing', freqDefault: 'fear', badge: 'CALM MODE: ON' },
+        { id: 'heart-coherence', category: 'Healing & Emotional', categoryKey: 'healing', label: 'Heart Coherence — Warm Inner Balance', purpose: 'heart-centered stillness', genre: 'new age', bpm: [55,70], energy: 'low', tag: 'Healing', freqDefault: 'heart', badge: 'HEALING SLEEP MODE' },
+        { id: 'self-compassion', category: 'Healing & Emotional', categoryKey: 'healing', label: 'Self-Compassion — Soft Return', purpose: 'gentle kindness inward', genre: 'ambient', bpm: [52,66], energy: 'low', tag: 'Healing', freqDefault: 'heart', badge: 'Serene Mode' },
+        // Meditation & Ritual
+        { id: 'meditation', category: 'Meditation & Ritual', categoryKey: 'meditation', label: 'Meditation — Still Awareness', purpose: 'sitting practice support', genre: 'meditation music', bpm: [50,68], energy: 'ultra-low', tag: 'Meditation', freqDefault: 'theta', badge: 'CALM MODE: ON' },
+        { id: 'yoga-nidra', category: 'Meditation & Ritual', categoryKey: 'meditation', label: 'Yoga Nidra — Body Scan Drift', purpose: 'guided-rest without voice', genre: 'drone ambient', bpm: [45,55], energy: 'ultra-low', tag: 'Meditation', freqDefault: 'delta', badge: 'Dreamstate: ACTIVATED' },
+        { id: 'breathwork', category: 'Meditation & Ritual', categoryKey: 'meditation', label: 'Breathwork Support — Slow Exhale', purpose: 'paced breathing companion', genre: 'ambient', bpm: [48,60], energy: 'ultra-low', tag: 'Meditation', freqDefault: 'theta', badge: 'Serene Mode' },
+        { id: 'mindfulness', category: 'Meditation & Ritual', categoryKey: 'meditation', label: 'Mindfulness — Present Moment', purpose: 'awareness without effort', genre: 'soundscape', bpm: [52,70], energy: 'low', tag: 'Meditation', freqDefault: 'alpha', badge: 'CALM YOUR MIND' },
+        { id: 'mantra-space', category: 'Meditation & Ritual', categoryKey: 'meditation', label: 'Mantra Space — Repetitive Calm', purpose: 'cyclical meditative trance', genre: 'tribal ambient', bpm: [55,72], energy: 'low', tag: 'Meditation', freqDefault: 'theta', badge: 'INFINITE CALM' },
+        // Time & Ritual
+        { id: 'morning-gentle', category: 'Time & Ritual', categoryKey: 'ritual', label: 'Morning Gentle — Soft Awakening', purpose: 'ease into the day', genre: 'acoustic ambient', bpm: [58,75], energy: 'low', tag: 'Morning', freqDefault: 'alpha', badge: 'Serene Mode' },
+        { id: 'evening-unwind', category: 'Time & Ritual', categoryKey: 'ritual', label: 'Evening Unwind — Day to Night', purpose: 'close the day with grace', genre: 'ambient', bpm: [52,68], energy: 'low', tag: 'Evening', freqDefault: 'theta', badge: 'CALM MODE: ON' },
+        { id: 'midnight-hour', category: 'Time & Ritual', categoryKey: 'ritual', label: 'Midnight Hour — 2am Companion', purpose: 'lonely late-night comfort', genre: 'dark ambient', bpm: [48,58], energy: 'ultra-low', tag: 'Night', freqDefault: 'delta', badge: 'Sleep Mode' },
+        { id: 'golden-hour', category: 'Time & Ritual', categoryKey: 'ritual', label: 'Golden Hour — Dusk Reflection', purpose: 'twilight contemplation', genre: 'cinematic', bpm: [60,78], energy: 'low', tag: 'Cinematic Drift', freqDefault: 'none', badge: 'Cinematic Drift' },
+        // Nature & Immersion
+        { id: 'nature-immersion', category: 'Nature & Immersion', categoryKey: 'nature', label: 'Nature Immersion — Forest & Rain', purpose: 'organic world envelopment', genre: 'nature soundscape', bpm: [48,62], energy: 'ultra-low', tag: 'Nature', freqDefault: 'none', badge: 'Serene Mode' },
+        { id: 'ocean-drift', category: 'Nature & Immersion', categoryKey: 'nature', label: 'Ocean Drift — Tide & Horizon', purpose: 'coastal infinite calm', genre: 'ambient', bpm: [50,60], energy: 'ultra-low', tag: 'Deep Sleep', freqDefault: 'delta', badge: 'Sleep Mode' },
+        { id: 'rain-window', category: 'Nature & Immersion', categoryKey: 'nature', label: 'Rain on Window — Cozy Interior', purpose: 'safe shelter in storm', genre: 'ambient', bpm: [48,58], energy: 'ultra-low', tag: 'Sleep', freqDefault: 'none', badge: 'Sleep Mode' },
+        // Cinematic & Epic
+        { id: 'cinematic', category: 'Cinematic & Epic', categoryKey: 'epic', label: 'Cinematic Epic — Emotional Landscape', purpose: 'narrative instrumental journey', genre: 'post-grunge ambient rock', bpm: [80,104], energy: 'low-mid', tag: 'Cinematic Drift', freqDefault: 'none', badge: 'Cinematic Mode' },
+        { id: 'epic-rock', category: 'Cinematic & Epic', categoryKey: 'epic', label: 'Cinematic Post-Grunge Epic', purpose: 'heroic slow-build drift', genre: 'post-grunge ambient rock', bpm: [80,104], energy: 'low-mid', tag: 'Epic', freqDefault: 'none', badge: 'Cinematic Drift' },
+        { id: 'fantasy', category: 'Cinematic & Epic', categoryKey: 'epic', label: 'Fantasy Dreamscape — Otherworld', purpose: 'realm between sleep and myth', genre: 'dark ambient', bpm: [55,75], energy: 'low', tag: 'Fantasy', freqDefault: 'theta', badge: 'Dreamstate: ACTIVATED' },
+        { id: 'scifi', category: 'Cinematic & Epic', categoryKey: 'scifi', label: 'Sci-Fi Space — Atmospheric Cosmos', purpose: 'interstellar solitude', genre: 'sci-fi ambient', bpm: [60,85], energy: 'ultra-low', tag: 'Sci-Fi', freqDefault: 'none', badge: 'Cosmic Drift' },
+      ],
+      listeningPurposes: [
+        'Deep uninterrupted sleep', 'Nervous system downshift', 'Stress release after work',
+        'Focused study session', 'Creative writing flow', 'Meditation sit',
+        'Yoga / body scan rest', 'Emotional processing space', 'Morning gentle awakening',
+        'Evening wind-down ritual', 'Cinematic inner journey', 'Cosmic escape / drift',
+        'Background work ambiance', 'Grief holding space', 'Pre-sleep transition',
+        'Deep Focus / Flow State', 'Hyperfocus deep work', 'Luxury unwind / chillout',
+        'Calm productivity session', 'Mental clarity drift',
+      ],
+      benefitAngles: [
+        'Deep Focus & Flow',
+        'Flow State & High Productivity',
+        'Hyperfocus & Deep Work',
+        'Deep Focus & Mental Clarity',
+        'Calm Productivity',
+        'Luxury Calm & Deep Relaxation',
+        'Deep Unwind & Stillness',
+        'Deep Sleep & Overnight Calm',
+        'Nervous System Reset',
+        'Meditation & Still Focus',
+        'Cinematic Drift & Escape',
+        'Study Flow & Concentration',
+      ],
+      yt2026CoreKeywords: [
+        'Cinematic Ambient',
+        'Luxury Cinematic Ambient',
+        'Cinematic Post-Grunge Ambient',
+        'Serene Cosmic Ambient',
+        'Deep Focus Music',
+        'Cinematic Ambient Music',
+      ],
+      listenerStates: [
+        'wired and overstimulated', 'mentally exhausted', 'anxious / racing thoughts',
+        'grieving or tender', 'creatively blocked', 'seeking deep focus',
+        'already calm — deepening', 'lonely late night', 'post-work decompression',
+        'seeking inspiration', 'body tense / shallow breath', 'open and receptive',
+      ],
+      timeOfDay: ['Pre-dawn / 4–6am', 'Morning / 6–10am', 'Midday / 10am–2pm', 'Afternoon / 2–6pm', 'Evening / 6–10pm', 'Night / 10pm–2am', 'Deep night / 2–5am', 'Any time'],
+      intensityArcs: ['Flat calm — no peaks', 'Slow bloom — gentle rise', 'Wave ebb — soft crests', 'Single crest — one restrained peak', 'Plateau drift — steady hypnotic', 'Fade to silence — sleep descent'],
+      rhythmFeels: ['pulseless / free time', 'slow tidal sway', 'breath-paced pulse', 'muted heartbeat', 'gentle 4/4 sway', 'rubato drift', 'restrained post-grunge groove'],
+      textureDensities: ['sparse — lots of space', 'medium weave', 'dense pad stack', 'layered but transparent', 'monolithic drone'],
+      vocalTextures: ['none — purely instrumental', 'distant wordless choir pad', 'soft breath texture', 'ethereal hum (no lyrics)', 'vocalise whisper (no words)'],
+      healingIntents: [
+        'none — music only', 'gentle body softening', 'quiet mind invitation', 'heart warmth',
+        'fear/stress release (experiential)', 'grounding and safety', 'sleep descent support',
+        'focus entrainment (experiential)', 'emotional holding space',
+      ],
+      loreElements: [
+        '', 'featuring Lumen the Dream Weaver', 'featuring Lumen the Listener',
+        'featuring Lumen the Cartographer', 'from the O N Y X series', 'from the Astral Archive',
+        'a quiet transmission from Lumen', 'Lumen invites you to drift',
+      ],
+      youtubeBadges: [
+        '', 'Deep Sleep', 'Focus Flow', 'Cinematic Drift', 'Nervous System Reset',
+        'Healing Mode', 'Meditation', 'Sleep Mode', 'CALM MODE: ON', 'Cosmic Drift',
+        'Stress Relief: ON', 'Dreamstate: ACTIVATED', 'Serene Mode',
+        'Deep Focus', 'Flow State', 'Deep Work', 'Hyperfocus', 'Luxury Ambient', '2026',
       ],
       durations: [
         { id: '8min', label: 'Single Track ~6–8 min', minutes: 8, segments: 1 },
+        { id: '30min', label: '30 Min', minutes: 30, segments: 4 },
         { id: '45min', label: '45 Min', minutes: 45, segments: 6 },
         { id: '1hr', label: '1 Hour', minutes: 60, segments: 8 },
         { id: '2hr', label: '2 Hours', minutes: 120, segments: 15 },
         { id: '3hr', label: '3 Hours', minutes: 180, segments: 23 },
+        { id: '4hr', label: '4 Hours', minutes: 240, segments: 30 },
+        { id: '8hr', label: '8 Hours', minutes: 480, segments: 60 },
       ],
       genres: ['ambient','post-grunge ambient rock','ambient rock','alternative rock ambient','new age','lo-fi','neo-classical','cinematic','dark ambient','nature soundscape','sci-fi ambient','space music','retro-futuristic synth'],
       genreGroups: {
@@ -838,14 +1016,17 @@
           'fantasy ambient', 'dark fantasy', 'epic ambient', 'orchestral ambient', 'cinematic fantasy', 'dungeon ambient',
         ],
       },
-      scifiModes: ['Serene Space','Neon-Noir Focus','Dark Dystopian','Cosmic Meditation','Interstellar Sleep','N/A'],
-      energies: ['ultra-low','low','low-mid','gentle groove','slow-build dynamic'],
-      moodWords: ['ethereal','serene','melancholic','dreamy','nostalgic','dark cinematic','spiritual','reflective','womb-like','still','weightless','otherworldly','cosmic','futuristic','vast','neon-noir','interstellar','heroic','grit-soft','cathedral','sweeping','restrained'],
+      scifiModes: ['Serene Space','Neon-Noir Focus','Dark Dystopian','Cosmic Meditation','Interstellar Sleep','Cryo-Chamber Calm','Orbital Dawn','Deep Void Drift','Retro-Future Lounge','N/A'],
+      energies: ['ultra-low','low','low-mid','gentle groove','slow-build dynamic','patient swell'],
+      moodWords: ['ethereal','serene','melancholic','dreamy','nostalgic','dark cinematic','spiritual','reflective','womb-like','still','weightless','otherworldly','cosmic','futuristic','vast','neon-noir','interstellar','heroic','grit-soft','cathedral','sweeping','restrained','velvet','luminous','hush','ember','tide','drift','glow','horizon','intimate','poetic','sanctuary'],
       instruments: {
-        healing: ['bowed glass harmonics','soft synth choir pads','field recording rain','warm analog synth pads','cello drone','reversed piano fragments'],
-        nature: ['field recording rain/wind','acoustic fingerstyle guitar','soft synth choir pads','sub-harmonic drone'],
+        healing: ['bowed glass harmonics','soft synth choir pads','field recording rain','warm analog synth pads','cello drone','reversed piano fragments','crystal bowl tones','harp harmonics'],
+        nervous: ['warm analog synth pads','sub-harmonic drone','bowed glass harmonics','soft tape piano','cello sustain','breath-like pad swell','muted Rhodes chords'],
+        meditation: ['singing bowl harmonics','bamboo flute breath','soft tanpura drone','temple bell decay','bowed glass harmonics','monochord resonance','gentle wind chimes'],
+        ritual: ['acoustic fingerstyle guitar','soft hand drum brush','shaker whisper','frame drum pulse','warm nylon guitar','distant gong fade'],
+        nature: ['field recording rain/wind','acoustic fingerstyle guitar','soft synth choir pads','sub-harmonic drone','stream water texture','forest bird distant'],
         scifi: ['evolving synth textures','pulsing synth bass drone','distant choir pad','metallic shimmer textures','FM synth bells','modular synth wash','arpeggiated analog synth'],
-        focus: ['Rhodes piano','soft vinyl crackle','muted pad layers','solo cello drone','sparse piano notes'],
+        focus: ['Rhodes piano','soft vinyl crackle','muted pad layers','solo cello drone','sparse piano notes','muted jazz guitar','soft brush snare ghost'],
         cinematic: ['soft string ostinatos','evolving synth textures','brass swells (muted)','analog synth pad'],
         epic: [
           'warm analog pad wash','distant brushed-guitar haze','sparse piano motifs','low cello drones',
@@ -862,11 +1043,14 @@
         'cathedral-wide reverb, centered low-mid clarity','heroic pad stack, breath-controlled dynamics',
       ],
       atmospheres: {
-        healing: ['soft dawn mist, warm safe light, gentle rain','moonlit clearing, velvet stillness','misty forest, distant wind chimes'],
-        nature: ['misty forest, soft rain, moonlit clearing','ocean horizon at dusk, gentle waves','mountain lake reflection, morning fog'],
+        healing: ['soft dawn mist, warm safe light, gentle rain','moonlit clearing, velvet stillness','misty forest, distant wind chimes','candlelit room, soft blanket warmth'],
+        nervous: ['weighted blanket stillness, dim amber glow','safe interior while rain falls outside','slow tide on dark shore, exhale rhythm','warm bath steam, muted world'],
+        meditation: ['zen garden at dawn, single stone, still water','temple interior, incense haze, soft light','mountain summit above cloud sea, breath of wind','cave with distant water drip, sacred quiet'],
+        ritual: ['golden hour meadow, long shadows, gentle breeze','fireside circle at dusk, ember glow','coastal cliff at twilight, salt air calm','autumn forest path, leaf-fall hush'],
+        nature: ['misty forest, soft rain, moonlit clearing','ocean horizon at dusk, gentle waves','mountain lake reflection, morning fog','redwood cathedral, filtered green light'],
         scifi: ['lone platform above cloud sea, ringed planet on horizon','neon city rain reflected in wet asphalt','cryo-chamber blue glow, orbital twilight','deep space dock, nebula viewport','alien sunrise over silent wasteland'],
-        focus: ['quiet study room, warm lamp glow','rain on window, city lights bokeh','minimal desk, candlelight'],
-        sleep: ['starlit bedroom, soft blanket warmth','underwater dreamscape, slow light pulses','floating among clouds, weightless dark'],
+        focus: ['quiet study room, warm lamp glow','rain on window, city lights bokeh','minimal desk, candlelight','library stacks, afternoon dust motes'],
+        sleep: ['starlit bedroom, soft blanket warmth','underwater dreamscape, slow light pulses','floating among clouds, weightless dark','snow-muted world outside frosted window'],
         epic: [
           'rain-soaked highway at blue hour, distant headlights, vast lonely sky',
           'cliff edge overlook, storm clouds parting, golden god-rays through mist',
@@ -949,15 +1133,45 @@
         { id: 'theta', label: 'Meditation / Theta — 4–8 Hz binaural', stack: { primary: '396 Hz undertone', secondary: 'Theta 4 Hz R / 7 Hz L binaural', behind: ['396 Hz — fear/stress release','Theta 4/7 — deep relaxation, subconscious calm'] } },
         { id: 'alpha', label: 'Relaxed Focus / Alpha — 8–12 Hz', stack: { primary: 'none', secondary: 'Alpha 10 Hz monaural', behind: ['Alpha 10 Hz — relaxed focus, flow state'] } },
         { id: 'grounding', label: 'Root Grounding — 174 Hz + 396 Hz stack', stack: { primary: '174 Hz + 396 Hz sine', secondary: 'Theta 4 Hz R / 7 Hz L binaural', behind: ['174 Hz — harmony, tension ease','396 Hz — fear/stress release','Theta 4/7 — deep relaxation, quiet mind'] } },
+        { id: 'schumann', label: 'Earth Resonance — 7.83 Hz + 174 Hz', stack: { primary: '174 Hz sine', secondary: 'Schumann 7.83 Hz binaural', behind: ['174 Hz — bodily grounding','7.83 Hz — earth resonance association'] } },
+        { id: 'solfeggio-stack', label: 'Full Solfeggio Bed — 174/396/528 blend', stack: { primary: '174 + 396 + 528 Hz subtle blend', secondary: 'Theta 6 Hz binaural', behind: ['Multi-tone solfeggio wash — subtle, tone-forward mix only'] } },
       ],
       freqMix: ['barely audible under music','subtle bed','tone-forward — listener hears clear tone'],
       binaural: ['binaural (headphones required)','monaural (speakers OK)','isochronic','solfeggio tone only — no brainwave layer'],
       thumbPalettes: ['deep indigo + warm gold','neon cyan + deep purple + black void','rust orange nebula + starlight white','soft sage + cream + mist white','midnight blue + rose gold'],
       shortHooks: {
         'deep-sleep': ['POV: your brain finally shuts off at 2am','This is what falling asleep feels like','When the world goes quiet'],
-        cortisol: ['Your nervous system needed this','Lower cortisol. Breathe.','When stress won\'t let go'],
+        'power-nap': ['Twenty minutes to reset','Close your eyes. Let go.','A short drift when you need it'],
+        'insomnia-wind-down': ['When sleep won\'t come — start here','Mind still racing? Press play.','The long exhale you needed'],
+        'pre-sleep': ['The last hour before dreams','Let the day dissolve','Gentle descent into rest'],
+        'dream-state': ['Between waking and dreaming','Where images begin to float','The hypnagogic doorway'],
+        cortisol: ['Your nervous system needed this','Soft landing for a wired body','When stress won\'t let go'],
+        'vagus-rest': ['Invite the body to exhale','Parasympathetic drift','Downshift without force'],
+        parasympathetic: ['Full-body downshift','Let the nervous system rest','Quiet restoration'],
+        'stress-unwind': ['After the hard day ends','Release what you carried','Unwind without effort'],
+        'anxiety-ease': ['Racing mind, slow tide','Quiet the inner noise','Stillness for anxious hours'],
         healing: ['Let your body remember how to rest','Healing starts when you stop trying','Soft music. Soft landing.'],
+        'grief-comfort': ['Space for what hurts','Held in sound','Tender company in sorrow'],
+        'emotional-release': ['Feel without forcing','Quiet processing','Let it move through you'],
+        'heart-coherence': ['Warmth in the center','Heart-centered stillness','Inner balance in sound'],
+        'self-compassion': ['Be gentle with yourself','A soft return inward','Kindness in the drift'],
         focus: ['Lock in without burning out','Study mode: activated','Deep focus. Zero chaos.'],
+        study: ['Read deeper. Remember more.','Library in your headphones','Study without strain'],
+        'creative-flow': ['Ideas need room to breathe','Write into the drift','Creative doors opening'],
+        'deep-work': ['No notifications. Just this.','Professional deep focus','The work deserves silence'],
+        'gentle-productivity': ['Steady without burnout','Productive calm','Work that doesn\'t exhaust'],
+        meditation: ['Sit. Breathe. Drift.','Still awareness in sound','Meditation without instruction'],
+        'yoga-nidra': ['Body scan in music','Yogic rest without voice','Surrender to the drift'],
+        breathwork: ['Follow the slow exhale','Breath-paced calm','Inhale less. Exhale more.'],
+        mindfulness: ['Here. Now. This.','Present moment companion','Awareness without effort'],
+        'mantra-space': ['Cyclical calm','Repetition as sanctuary','Mantra without words'],
+        'morning-gentle': ['Ease into the day','Soft awakening','Morning without alarm'],
+        'evening-unwind': ['Day to night transition','Close the day gently','Evening exhale'],
+        'midnight-hour': ['2am and you\'re still here','Late night companion','The quiet hours'],
+        'golden-hour': ['Dusk in sound','Golden light, slow tide','Twilight reflection'],
+        'nature-immersion': ['Forest around you','The natural world envelops','Organic calm'],
+        'ocean-drift': ['Tide and horizon','Ocean as lullaby','Coastal infinite calm'],
+        'rain-window': ['Rain on glass, safe inside','Cozy shelter in storm','Window world at night'],
         scifi: ['Drift through the cosmos','Your mind leaves the planet','Deep space. Deep calm.'],
         cinematic: ['A moment suspended in time','Breathe into the scene','Where the story pauses'],
         'epic-rock': ['When the world feels too heavy — press play','This is your slow-build anthem','POV: cinematic drift at 90 BPM','Heroic calm. No vocals. All feeling.'],
@@ -1027,7 +1241,7 @@
 
     const AI_IMAGE_NEGATIVE = 'text, letters, words, logo, watermark, signature, people, faces, blurry, low quality, jpeg artifacts';
 
-    let state = { step: 0, package: null, segmentDone: {}, checklist: {} };
+    let state = { step: 0, package: null, segmentDone: {}, checklist: {}, _forcedDna: null, _forcedNeo: null, _lastNeo: null, _forcedCortisol: null };
 
     function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
     function pickN(arr, n) {
@@ -1042,20 +1256,1291 @@
     }
 
     function getInstrumentKey(moodId) {
-      if (moodId === 'epic-rock' || moodId === 'cinematic') return 'epic';
-      if (moodId === 'scifi') return 'scifi';
-      if (moodId === 'focus') return 'focus';
-      if (moodId === 'fantasy') return 'cinematic';
-      if (moodId === 'deep-sleep') return 'nature';
-      return 'healing';
+      const m = DATA.moods.find(x => x.id === moodId);
+      if (!m) return 'healing';
+      if (moodId === 'epic-rock' || moodId === 'cinematic' || m.categoryKey === 'epic') return 'epic';
+      if (moodId === 'scifi' || m.categoryKey === 'scifi') return 'scifi';
+      if (m.categoryKey === 'focus') return 'focus';
+      if (m.categoryKey === 'nature' || m.categoryKey === 'sleep') return 'nature';
+      if (m.categoryKey === 'meditation') return 'meditation';
+      if (m.categoryKey === 'nervous') return 'nervous';
+      if (m.categoryKey === 'ritual') return 'ritual';
+      if (m.categoryKey === 'healing') return 'healing';
+      return DATA.instruments[m.categoryKey] ? m.categoryKey : 'healing';
     }
 
     function getAtmosphereKey(moodId) {
-      if (moodId === 'epic-rock' || moodId === 'cinematic') return 'epic';
-      if (moodId === 'scifi') return 'scifi';
-      if (moodId === 'focus') return 'focus';
-      if (moodId === 'deep-sleep') return 'sleep';
+      const m = DATA.moods.find(x => x.id === moodId);
+      if (!m) return 'healing';
+      if (moodId === 'epic-rock' || moodId === 'cinematic' || m.categoryKey === 'epic') return 'epic';
+      if (moodId === 'scifi' || m.categoryKey === 'scifi') return 'scifi';
+      if (m.categoryKey === 'focus') return 'focus';
+      if (m.categoryKey === 'nature') return 'nature';
+      if (m.categoryKey === 'sleep') return 'sleep';
+      if (m.categoryKey === 'meditation') return 'meditation';
+      if (m.categoryKey === 'nervous') return 'nervous';
+      if (m.categoryKey === 'ritual') return 'ritual';
       return 'healing';
+    }
+
+    function getMoodById(id) {
+      return DATA.moods.find(m => m.id === id) || DATA.moods[0];
+    }
+
+    function fillMoodSelect() {
+      const el = document.getElementById('mood');
+      const groups = {};
+      DATA.moods.forEach(m => {
+        const cat = m.category || 'General';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(m);
+      });
+      el.innerHTML = Object.entries(groups).map(([cat, moods]) =>
+        `<optgroup label="${cat}">${moods.map(m => `<option value="${m.id}">${m.label}</option>`).join('')}</optgroup>`
+      ).join('');
+    }
+
+    function setField(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.value = val;
+    }
+
+    function setCheck(id, checked) {
+      const el = document.getElementById(id);
+      if (el) el.checked = checked;
+    }
+
+    function maybe(p = 0.5) {
+      return Math.random() < p;
+    }
+
+    const SUNO_EXCLUDE_POOL = [
+      'no guitar solos, no choir, no sudden stops',
+      'no vocals, no sudden percussion, no EDM elements',
+      'no hooks, no drops, no drum fills',
+      'no brass stabs, no cinematic impacts',
+      'no sudden volume changes, no glitch',
+      'no artist names, no copyrighted melodies',
+      'no hi-hats, no snare, no trap elements',
+    ];
+
+    const SUNO_TAG_POOLS = [
+      'drone, atmospheric, slow-evolving, instrumental',
+      'soundscape, meditative, soft, crossfade-ready',
+      'cinematic, ambient, narrow dynamics, instrumental',
+      'space music, cosmic, synth, vast, instrumental',
+      'post-grunge, ambient rock, slow-build, gritty-soft',
+      'sleep music, delta-friendly, ultra-calm, instrumental',
+      'focus music, study beats, lo-fi, minimal, instrumental',
+      'healing ambient, warm pads, tone-forward, instrumental',
+    ];
+
+    /**
+     * Distinct sonic DNA profiles — each one forces a DIFFERENT sound in Suno.
+     * Same "luxury cinematic ambient" tags = identical mush. Lead instrument + motion + weird detail = variety.
+     */
+    const SUNO_SONIC_DNA = [
+      {
+        id: 'glass-harp',
+        label: 'Glass Harp Drift',
+        style: 'neo-classical ambient, glass harp, soft piano, 52 BPM, sparse, intimate, instrumental',
+        lead: 'bowed glass harmonics and fragile glass harp as the primary voice',
+        body: 'tiny delayed piano notes fall like dew; almost no pad — emptiness is the instrument',
+        motion: 'near-static, micro-dynamics only, lots of silence between notes',
+        weird: 'occasional single crystal overtone that hangs 8 seconds then vanishes',
+        avoid: 'no thick pad walls, no guitar, no drums, no choir, no cinematic impacts',
+        bpm: [48, 58],
+        keys: ['A minor', 'E minor', 'D minor', ''],
+        tags: 'neo-classical, glass harp, sparse piano, intimate ambient, instrumental, silence',
+      },
+      {
+        id: 'tape-piano',
+        label: 'Worn Tape Piano',
+        style: 'lo-fi neo-classical, tape-worn upright piano, vinyl hiss, 60 BPM, dusty, instrumental',
+        lead: 'imperfect upright piano with soft felt hammers and audible room air',
+        body: 'distant soft vinyl crackle and one muted Rhodes chord every 16 bars',
+        motion: 'rubato, human timing, never quantized, notes arrive late like tired breath',
+        weird: 'one sustained wrong-note that resolves after 3 seconds — keep it honest',
+        avoid: 'no lush string pads, no synth leads, no drums, no modern EDM sheen',
+        bpm: [54, 68],
+        keys: ['C major', 'F major', 'G major', 'A minor'],
+        tags: 'lo-fi piano, tape warmth, neo-classical, dusty ambient, instrumental',
+      },
+      {
+        id: 'sub-drone',
+        label: 'Monolith Sub-Drone',
+        style: 'dark ambient drone, monolithic sub bass, 40 BPM feel, vast, cold, instrumental',
+        lead: 'single continuous sub-harmonic drone that barely moves',
+        body: 'high thin metallic shimmer far away; almost nothing in the midrange',
+        motion: 'ultra-slow pitch drift of 1–2 cents over minutes; hypnosis through stasis',
+        weird: 'a faint industrial air-conditioner hum buried at -30 dB',
+        avoid: 'no melody, no piano, no guitar, no percussion, no chord changes',
+        bpm: [40, 52],
+        keys: ['E minor', 'B minor', 'D minor', ''],
+        tags: 'dark ambient, drone, sub bass, monolithic, instrumental, hypnosis',
+      },
+      {
+        id: 'rain-guitar',
+        label: 'Rain Guitar Haze',
+        style: 'shoegaze ambient, rain field recording, soft electric guitar wash, 72 BPM, wet, instrumental',
+        lead: 'heavily reverbed clean electric guitar chords smeared into haze',
+        body: 'real rain / window textures in the left and right edges; soft tape hiss bed',
+        motion: 'slow swelling chord changes every 8–12 bars; wet bloom then retreat',
+        weird: 'one distant car passing under the rain at 2:00 mark then gone forever',
+        avoid: 'no drums, no distorted solos, no vocals, no upbeat pop structure',
+        bpm: [64, 78],
+        keys: ['E minor', 'A minor', 'D major', 'G major'],
+        tags: 'shoegaze ambient, rain, guitar wash, wet reverb, instrumental',
+      },
+      {
+        id: 'modular-ocean',
+        label: 'Modular Ocean',
+        style: 'modular synth ambient, ocean swell, Buchla-like bloom, 55 BPM, liquid, instrumental',
+        lead: 'random modular synth blooms and soft FM bells that appear unpredictably',
+        body: 'deep rolling ocean undercurrent; filtered pink noise like distant surf',
+        motion: 'generative: new soft phrase every 20–40 seconds, never repeating exactly',
+        weird: 'occasional watery bubbly modulation that feels underwater',
+        avoid: 'no piano, no guitar, no trap beats, no sudden brass, no choir lyrics',
+        bpm: [50, 62],
+        keys: ['C major', 'A minor', 'F major', ''],
+        tags: 'modular synth, ocean, generative ambient, FM bells, instrumental',
+      },
+      {
+        id: 'cello-fog',
+        label: 'Cello in Fog',
+        style: 'neo-classical dark ambient, solo cello drone, fog, 48 BPM, mournful, instrumental',
+        lead: 'long bowed cello tones, slow vibrato, human and imperfect',
+        body: 'grey fog pad underneath; almost no high frequencies',
+        motion: 'one note held forever, then a half-step sigh downward every minute',
+        weird: 'breath noise of the cellist faintly audible between bows',
+        avoid: 'no piano melody, no synth leads, no drums, no hopeful major fanfares',
+        bpm: [44, 56],
+        keys: ['D minor', 'A minor', 'E minor', 'B minor'],
+        tags: 'cello drone, neo-classical, fog, mournful ambient, instrumental',
+      },
+      {
+        id: 'rhodes-focus',
+        label: 'Rhodes Focus Grid',
+        style: 'focus ambient, muted Rhodes, soft click groove ghost, 78 BPM, clean, instrumental',
+        lead: 'muted Fender Rhodes chords with soft attack, metronomic but calm',
+        body: 'thin silent spaces; occasional soft brush ghost almost inaudible',
+        motion: 'gentle 4/4 sway, repeating 4-chord loop with micro variations',
+        weird: 'a soft page-turn or pen click sample once every 90 seconds',
+        avoid: 'no lush pads filling everything, no epic guitar, no sleep-drone mush, no trap hats',
+        bpm: [70, 86],
+        keys: ['C major', 'G major', 'F major', 'A minor'],
+        tags: 'rhodes, focus music, study ambient, clean, instrumental, mild groove',
+      },
+      {
+        id: 'grit-cathedral',
+        label: 'Grit Soft Cathedral',
+        style: 'post-grunge ambient rock, grit-soft guitar, cathedral reverb, 88 BPM, heroic restrained, instrumental',
+        lead: 'distant brushed overdriven guitar texture — grit soft, never a solo',
+        body: 'cathedral pad blooming behind; low cello anchor',
+        motion: 'slow-build patient swell to one restrained crest then exhale',
+        weird: 'room tone of an empty arena between guitar washes',
+        avoid: 'no metal screams, no double-kick, no EDM drops, no pop chorus',
+        bpm: [80, 100],
+        keys: ['E minor', 'D minor', 'B minor', 'A minor'],
+        tags: 'post-grunge, ambient rock, grit-soft, cathedral, slow-build, instrumental',
+      },
+      {
+        id: 'neon-noir',
+        label: 'Neon Noir Rain',
+        style: 'cyberpunk ambient, neon noir, analog synth wash, rain asphalt, 66 BPM, cold glow, instrumental',
+        lead: 'dark analog bass drone with slow filter opens',
+        body: 'city rain on asphalt, distant neon buzz, soft arpeggiated analog plucks (very sparse)',
+        motion: 'noir pulse: low throbbing every 2 bars under still pads',
+        weird: 'one police-siren-like filtered tone extremely distant and abstract — not realistic',
+        avoid: 'no happy major lifts, no piano ballad, no acoustic guitar, no trap hi-hats',
+        bpm: [60, 74],
+        keys: ['A minor', 'E minor', 'D minor', ''],
+        tags: 'cyberpunk ambient, neon noir, rain, analog synth, instrumental',
+      },
+      {
+        id: 'bamboo-zen',
+        label: 'Bamboo Breath',
+        style: 'meditation ambient, bamboo flute breath, temple bell, 50 BPM, zen empty, instrumental',
+        lead: 'soft bamboo flute phrases with airy breath noise, never virtuosic',
+        body: 'single temple bell every 30–45 seconds; tanpura-like soft drone',
+        motion: 'breath-paced: phrase, long silence, phrase, longer silence',
+        weird: 'insect night ambience barely audible under the drone',
+        avoid: 'no Western piano, no guitar, no pads thicker than a whisper, no cinematic trailers',
+        bpm: [46, 56],
+        keys: ['D minor', 'G major', 'A minor', ''],
+        tags: 'zen, bamboo flute, temple bell, meditation, empty space, instrumental',
+      },
+      {
+        id: 'harp-aurora',
+        label: 'Harp Aurora',
+        style: 'ethereal harp ambient, aurora shimmer, soft choir pad, 58 BPM, luminous, instrumental',
+        lead: 'gentle harp arpeggios — slow, sparkling, high register',
+        body: 'aurora-like shimmer pads and soft wordless choir air (no lyrics)',
+        motion: 'cascading downward arpeggios every 12–16 bars then float',
+        weird: 'ice-crack texture briefly once then never repeats',
+        avoid: 'no dark drones, no industrial grit, no drums, no bass-heavy EDM',
+        bpm: [52, 64],
+        keys: ['C major', 'G major', 'F major', 'A minor'],
+        tags: 'harp, ethereal, aurora, luminous ambient, soft choir pad, instrumental',
+      },
+      {
+        id: 'kalimba-stars',
+        label: 'Kalimba Under Stars',
+        style: 'organic ambient, kalimba, soft night insects, 62 BPM, childlike calm, instrumental',
+        lead: 'soft kalimba melodic fragments, simple and sparse',
+        body: 'warm night air ambience; very soft nylon guitar harmonics rarely',
+        motion: 'playful but slow call-and-response between kalimba notes and silence',
+        weird: 'one soft owl hoot extremely far — once only',
+        avoid: 'no heavy pads, no distorted guitar, no techno pulses, no choir',
+        bpm: [56, 68],
+        keys: ['C major', 'G major', 'F major', 'D major'],
+        tags: 'kalimba, organic ambient, night, simple melody, instrumental',
+      },
+    ];
+
+    const SEGMENT_LABELS = ['~6 min segment', '~8 min segment', '~10 min segment', '~12 min segment'];
+
+    const FREQ_SECONDARIES = [
+      'none',
+      'Theta 4 Hz R / 7 Hz L binaural',
+      'Delta 1–2 Hz binaural',
+      'Alpha 10 Hz monaural',
+      'Schumann 7.83 Hz binaural',
+      'Theta 6 Hz binaural',
+    ];
+
+    const SUNO_KEYS = ['', 'C major', 'A minor', 'D minor', 'E minor', 'G major', 'F major', 'B minor', 'C# minor', 'F# minor', 'Bb major', 'D major'];
+
+    /**
+     * Neoclassical prompt mix — many different flavors so each roll sounds distinct.
+     * Paste style → Style box, prompt → Custom. Instrumental ON. No artist names.
+     */
+    const NEOCLASSICAL_MIX = [
+      {
+        id: 'solo-felt-piano',
+        label: 'Solo Felt Piano',
+        style: 'neo-classical solo piano, felted soft hammers, intimate close mic, 56 BPM, sparse, melancholic, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Solo Piano]
+
+A single felted upright piano in a quiet room. Soft hammers, imperfect human timing, rubato.
+Melody arrives as short, honest phrases with long silences between them — never busy, never virtuoso.
+Sustain pedal washes soft overtones; no strings, no pads, no synths underneath.
+Occasionally one high note rings alone for 6–8 seconds then decays into room tone.
+Emotion: tender melancholy, late-night letter writing.
+Hard avoid: no orchestral swells, no cinematic trailer drums, no arpeggio wallpaper loops, no new-age sparkle overload.
+Structure: sparse opening → gentle mid phrase → thinner closing for crossfade.`,
+        bpm: [50, 62],
+        keys: ['A minor', 'D minor', 'E minor', 'C major'],
+        instruments: 'felted upright piano, soft pedal wash, room tone',
+        moodWords: 'tender, melancholic, intimate, sparse',
+        tags: 'neo-classical, solo piano, felt piano, intimate, sparse, instrumental',
+      },
+      {
+        id: 'piano-string-mist',
+        label: 'Piano + String Mist',
+        style: 'neo-classical piano with soft string mist, cinematic restraint, 60 BPM, melancholic, elegant, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Piano & Strings]
+
+Lead: soft acoustic grand piano — simple motif of 4–6 notes, repeating with tiny variations.
+Underneath: a whisper of legato strings (violins/viola only), barely there, like fog behind glass — never melodic lead.
+No brass, no choir, no percussion.
+Dynamics stay narrow and human; one restrained swell mid-piece then returns to hush.
+Emotion: elegant nostalgia, rainy window, European dusk.
+Hard avoid: no Hans Zimmer drums, no huge string ostinatos, no epic choir.
+Structure: piano alone 0:00–1:20 → string mist enters → both breathe → fade on piano alone.`,
+        bpm: [54, 68],
+        keys: ['C major', 'A minor', 'F major', 'G major'],
+        instruments: 'acoustic grand piano, soft legato violins, viola mist',
+        moodWords: 'nostalgic, elegant, melancholic, luminous',
+        tags: 'neo-classical, piano, soft strings, cinematic restraint, instrumental',
+      },
+      {
+        id: 'cello-piano-dialogue',
+        label: 'Cello & Piano Dialogue',
+        style: 'neo-classical cello and piano duet, chamber intimacy, 58 BPM, mournful, warm, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Chamber Duo]
+
+Dialogue between solo cello and soft piano. They take turns — cello sings a long bowed phrase, piano answers with three quiet chords and silence.
+Imperfect vibrato on the cello; wood and breath audible.
+Never a busy accompaniment — mostly empty space.
+Occasionally they meet on one sustained chord then separate again.
+Emotion: quiet grief that still feels beautiful.
+Hard avoid: no full orchestra, no synth pads filling the gaps, no fast passagework, no drums.
+Structure: cello enters alone → piano joins sparsely → short unison moment → cello fades last.`,
+        bpm: [52, 64],
+        keys: ['D minor', 'A minor', 'E minor', 'B minor'],
+        instruments: 'solo cello, soft piano chords, chamber room',
+        moodWords: 'mournful, warm, intimate, reflective',
+        tags: 'neo-classical, cello, piano duet, chamber, instrumental',
+      },
+      {
+        id: 'glass-piano-glimmer',
+        label: 'Glass Harmonics + Piano',
+        style: 'neo-classical glass harmonics and soft piano, ethereal chamber, 54 BPM, crystalline, serene, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Glass & Piano]
+
+PRIMARY: bowed glass harmonics / glass harp overtones — fragile, high, shimmering.
+SUPPORT: very soft piano in the mid-low register — slow chords, lots of decay.
+Almost no midrange clutter; crystal clarity.
+One glass tone hangs longer than expected, like light through ice.
+Emotion: serene wonder, winter morning, quiet focus.
+Hard avoid: no thick pads, no guitar, no choir lyrics, no dark industrial drones.
+Structure: glass alone → piano flowers underneath → both thin to a single glass overtone.`,
+        bpm: [48, 58],
+        keys: ['C major', 'G major', 'A minor', 'F major'],
+        instruments: 'bowed glass harmonics, soft piano, crystalline overtones',
+        moodWords: 'crystalline, serene, ethereal, luminous',
+        tags: 'neo-classical, glass harp, soft piano, ethereal, instrumental',
+      },
+      {
+        id: 'string-quartet-fog',
+        label: 'String Quartet in Fog',
+        style: 'neo-classical string quartet, soft fog ambient, 50 BPM, slow harmonies, intimate hall, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [String Quartet]
+
+Soft string quartet (2 violins, viola, cello) playing extremely slow shifting harmonies — almost ambient.
+No solo fireworks; ensemble breathes as one grey-gold cloud.
+Occasional single violin harmonic floated above the chord pad for 5 seconds.
+Room of a small hall, natural reverb, close but not dry.
+Emotion: contemplative calm, museum closing hour.
+Hard avoid: no romantic virtuosic solos, no piano, no percussion, no synth.
+Structure: hold chord → gentle voice-leading shift every 12–16 bars → thin to cello alone at end.`,
+        bpm: [44, 56],
+        keys: ['E minor', 'A minor', 'D minor', ''],
+        instruments: 'string quartet, slow harmonies, soft hall reverb',
+        moodWords: 'contemplative, grey-gold, still, foggy',
+        tags: 'neo-classical, string quartet, slow harmony, ambient classical, instrumental',
+      },
+      {
+        id: 'night-nocturne',
+        label: 'Night Nocturne',
+        style: 'neo-classical nocturne piano, night stillness, soft sustain, 52 BPM, moonlit, romantic restraint, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Nocturne]
+
+Late-night nocturne for soft piano. Left hand: slow broken chords far apart. Right hand: a simple singing line that avoids melodrama.
+Pedal blur creates soft halo — romantic but restrained, never sappy.
+Tiny rubato; breathe on phrase ends.
+A single soft high cluster near the end like distant starlight, then silence.
+Emotion: moonlit room, sleepless tenderness.
+Hard avoid: no Rachmaninoff-level intensity, no orchestra, no cinematic hits, no modern trap elements.
+Structure: quiet night open → gentle peak phrase → dissolve into pedal haze.`,
+        bpm: [48, 58],
+        keys: ['Db major', 'Bb major', 'F major', 'A minor', 'C major'],
+        instruments: 'soft grand piano, sustain pedal halo, night stillness',
+        moodWords: 'moonlit, romantic restraint, tender, nocturnal',
+        tags: 'neo-classical, nocturne, soft piano, night, instrumental',
+      },
+      {
+        id: 'minimal-motif-loop',
+        label: 'Minimal Motif Drift',
+        style: 'minimal neo-classical, repeating soft piano motif, Philip Glass-adjacent calm (original), 64 BPM, hypnotic, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Minimal Motif]
+
+A short soft piano motif (5–7 notes) that repeats with tiny evolution — add one inner voice, omit one note, shift octave — never identical loops.
+Hypnotic but gentle; dynamics stay soft (pp–mp).
+Optional ghost of very quiet cello drone under the motif, monotone.
+No sudden builds into climax; the trance IS the form.
+Emotion: deep focus, calm productivity, meditative study.
+Hard avoid: copying any famous minimalist piece; no loud arpeggio racing, no electronic beat.
+Structure: establish motif → slow mutations → sparse end on two notes.`,
+        bpm: [58, 72],
+        keys: ['C major', 'G major', 'A minor', 'E minor'],
+        instruments: 'soft piano motif, optional cello drone, hypnotic repetition',
+        moodWords: 'hypnotic, focused, minimal, calm',
+        tags: 'neo-classical, minimal piano, motif, focus, hypnotic, instrumental',
+      },
+      {
+        id: 'harp-piano-aurora',
+        label: 'Harp & Soft Piano Aurora',
+        style: 'neo-classical harp and soft piano, aurora shimmer, 58 BPM, luminous, floating, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Harp & Piano]
+
+PRIMARY: gentle harp arpeggios cascading slowly downward then floating.
+SUPPORT: soft piano answering with sparse chords in the lower mid.
+Luminous, high-air shimmer; never dark or heavy.
+Leave space — do not fill every beat.
+Emotion: quiet awe, northern light, healing calm.
+Hard avoid: no epic fantasy brass, no choir with lyrics, no drums, no dark drones.
+Structure: harp opens → piano joins → both drift → fade on single harp harmonic.`,
+        bpm: [52, 64],
+        keys: ['C major', 'G major', 'F major', 'A minor'],
+        instruments: 'gentle harp arpeggios, soft piano chords, luminous air',
+        moodWords: 'luminous, floating, serene, awe',
+        tags: 'neo-classical, harp, soft piano, luminous, instrumental',
+      },
+      {
+        id: 'piano-rain-room',
+        label: 'Piano in a Rain Room',
+        style: 'neo-classical soft piano with distant rain, intimate room, 55 BPM, melancholy warmth, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Piano & Rain]
+
+Soft piano in a small room while rain falls softly outside the window — rain is ambient texture, never loud.
+Piano remains the hero: simple minor-key phrases, human timing.
+No other instruments.
+The rain and piano never compete — rain sits at the edges, piano centered and dry-warm.
+Emotion: safe melancholy, notebook and coffee, autumn.
+Hard avoid: no thunder impacts, no synth, no strings, no drums.
+Structure: rain bed first 10s → piano enters → both continue → piano thins while rain remains.`,
+        bpm: [50, 62],
+        keys: ['A minor', 'D minor', 'E minor', 'G major'],
+        instruments: 'soft piano, distant window rain, intimate room',
+        moodWords: 'melancholy, warm, safe, autumnal',
+        tags: 'neo-classical, soft piano, rain, intimate, instrumental',
+      },
+      {
+        id: 'violin-whisper',
+        label: 'Whisper Violin Solo',
+        style: 'neo-classical solo violin whisper, soft chamber, 54 BPM, fragile, expressive, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Solo Violin]
+
+Nearly whispered solo violin — soft bow, fragile, never aggressive vibrato extremes.
+Very occasional soft piano pizzicato-like single notes far underneath OR total silence under violin.
+Long phrases with honest breath gaps.
+One double-stop soft dyad near the midpoint then returns to single line.
+Emotion: vulnerable beauty, letter left unsent.
+Hard avoid: no Romantic showpiece flash, no full orchestra, no electronic beats, no choir.
+Structure: violin alone → brief soft support → alone again → long final sustain fading.`,
+        bpm: [48, 60],
+        keys: ['A minor', 'D minor', 'E minor', 'G major'],
+        instruments: 'solo violin whisper, optional soft piano dots',
+        moodWords: 'fragile, vulnerable, expressive, quiet',
+        tags: 'neo-classical, solo violin, chamber, fragile, instrumental',
+      },
+      {
+        id: 'prepared-soft-keys',
+        label: 'Soft Prepared Piano Texture',
+        style: 'experimental neo-classical prepared piano, soft muted thuds, 50 BPM, textural, intimate, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Prepared Piano]
+
+Soft prepared / muted piano textures — felt, soft thuds, gentle string scrapes inside the piano — still musical and calm, not noisy avant-garde aggression.
+Sparse rhythmic placement, almost ritual.
+Melody is secondary; texture and space are primary.
+Keep everything pretty and listenable for sleep/focus audiences.
+Emotion: curious calm, candlelight workshop.
+Hard avoid: harsh metallic noise, loud industrial hits, drums, synth leads.
+Structure: textural exploration → brief clear pitched motif → return to soft muted texture → fade.`,
+        bpm: [44, 56],
+        keys: ['', 'A minor', 'D minor', 'C major'],
+        instruments: 'prepared soft piano, muted thuds, gentle string scrapes',
+        moodWords: 'textural, curious, intimate, ritual',
+        tags: 'neo-classical, prepared piano, textural, soft experimental, instrumental',
+      },
+      {
+        id: 'piano-warm-pad-veil',
+        label: 'Piano + Warm Veil (Barely There)',
+        style: 'neo-classical piano with barely-there warm pad veil, 58 BPM, soft cinematic, intimate, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Piano + Veil]
+
+PRIMARY always: soft piano motif — clear, human, simple.
+SUPPORT: one warm analog-ish pad veil at extremely low level — only felt in headphones — never competing.
+If the pad becomes obvious, it is too loud — keep piano 80% of attention.
+Emotion: modern neo-classical streaming calm, soft focus, healing quiet.
+Hard avoid: pad wallpaper with no piano; no epic; no drums; no aggressive reverb wash drowning piano.
+Structure: piano alone → veil sneaks in → both → veil exits first → piano alone ends.`,
+        bpm: [52, 66],
+        keys: ['C major', 'F major', 'A minor', 'G major'],
+        instruments: 'soft piano motif, barely-there warm pad veil',
+        moodWords: 'soft, modern, healing, intimate',
+        tags: 'neo-classical, soft piano, warm veil, streaming ambient classical, instrumental',
+      },
+    ];
+
+    /**
+     * Dark Chamber Solitude — hyper-real cello / violin / piano only.
+     * Very low BPM. Deep focus. Chamber of Solitude / thinking-mind energy.
+     * Few instruments, strikingly realistic, maximum space between phrases.
+     */
+    const DARK_CHAMBER_MIX = [
+      {
+        id: 'solitude-cello-lead',
+        label: 'Solitude — Low Cello Lead',
+        style: 'dark neo-classical chamber, solo cello, intimate close mic, 44 BPM, deep focus, realist acoustic, sparse, instrumental',
+        prompt: `[Instrumental] [Dark Neo-Classical] [Solo Cello Chamber]
+
+HYPER-REAL ACOUSTIC ONLY — must sound like a real cello recorded in a small stone chamber, not a synth pad.
+
+PRIMARY: solo cello — close microphone, audible wood, bow hair, fingerboard micro-noise, natural vibrato that is human and imperfect.
+Phrases are MEASURED and SHORT. Long silence between phrases so thought can breathe.
+Sustain each note fully; let decay die into room tone before the next note.
+SUPPORT (optional, barely): soft distant dry piano — single low chords every 16–24 bars, or total silence under cello.
+NO violin swarm. NO orchestra. NO synth pads. NO choir.
+
+Tempo feel: 40–48 BPM (very slow). Narrow dynamics. Restrained intensity — gravity, isolation, deep thinking.
+Emotion: the mind thinks itself into silence.
+Hard avoid: cinematic trailer swells, epic strings, warm spa pads, lo-fi beats, sudden volume jumps, synthetic cello.
+
+Structure: cello alone from silence → one restrained mid intensity → return to near-whisper → fade on open-string resonance + room air.`,
+        bpm: [40, 48],
+        keys: ['D minor', 'A minor', 'E minor', 'B minor'],
+        instruments: 'hyper-real solo cello, optional sparse low piano, chamber room tone',
+        moodWords: 'solitary, deep, restrained, gravity',
+        tags: 'dark neoclassical, solo cello, deep focus, chamber, sparse, instrumental, realist',
+      },
+      {
+        id: 'thinking-mind-trio',
+        label: 'Thinking Mind — Cello Violin Piano',
+        style: 'dark neo-classical trio, cello violin soft piano, 46 BPM, chamber solitude, realist acoustic, deep focus, instrumental',
+        prompt: `[Instrumental] [Dark Neo-Classical] [Cello Violin Piano Trio]
+
+ONLY THREE REAL INSTRUMENTS — cello, violin, soft piano. Nothing else. Must sound live and recorded, not generated synth.
+
+Hierarchy of attention:
+1. CELLO — long low bowed tones, center of gravity, close and tactile (wood + bow noise).
+2. VIOLIN — enters rarely as a thin high whisper answer, then disappears for long spans. Never busy.
+3. PIANO — soft felted or soft-hammer chords, far and spare, marking quiet architecture of thought.
+
+Huge negative space. Notes arrive like measured thoughts. Restrained intensity. Dark academia library midnight mood without sounding cliché.
+
+Tempo: ~44–50 BPM. Minor key. No percussion. No pads. No brass. No choir.
+Emotion: solitude of the thinking mind — dark, focused, deep.
+Hard avoid: lush romantic orchestral writing, fast runs, drone wallpaper, lo-fi clicks, EDM, fantasy epic.
+
+Structure: piano opens with 2 soft chords → cello enters and leads → violin answers once → all three briefly → thin back to cello alone.`,
+        bpm: [42, 50],
+        keys: ['A minor', 'D minor', 'E minor', 'C# minor'],
+        instruments: 'solo cello, sparse violin whisper, soft piano chords',
+        moodWords: 'dark, focused, solitary, profound',
+        tags: 'dark neoclassical, cello, violin, piano, deep focus, solitude, instrumental',
+      },
+      {
+        id: 'dark-piano-gravity',
+        label: 'Gravity Piano — Dark Focus',
+        style: 'dark neo-classical soft piano, low register, 48 BPM, deep focus, realist upright, sparse, instrumental',
+        prompt: `[Instrumental] [Dark Neo-Classical] [Soft Dark Piano]
+
+HYPER-REAL soft upright or grand piano — close mic, hammer felt, key mechanism faintly audible, imperfect human rubato.
+Mostly LOW and MID register. Very few notes. Leave entire bars empty.
+Melody is not lyrical virtuosity — it is slow gravity: simple minor intervals, held, then silence.
+Optional: extremely distant soft cello drone ONCE every minute OR none at all — piano must stay 90% of the sound.
+
+Tempo: 44–52 BPM. pp to mp only. Dark thinking / deep work solitude.
+Hard avoid: bright sparkling high-register new-age piano, arpeggio wallpaper, string pads under everything, drums.
+
+Structure: silence → sparse left-hand figure → quiet right-hand answer → long decay → thinner ending.`,
+        bpm: [44, 52],
+        keys: ['D minor', 'A minor', 'F minor', 'E minor'],
+        instruments: 'hyper-real soft piano (low register), optional distant cello hue',
+        moodWords: 'heavy calm, dark focus, sparse, intimate',
+        tags: 'dark neoclassical, soft piano, deep focus, sparse, solitude, instrumental',
+      },
+      {
+        id: 'violin-cello-duet-void',
+        label: 'Violin & Cello in the Void',
+        style: 'dark neo-classical violin cello duet, 42 BPM, realist chamber, deep stillness, instrumental',
+        prompt: `[Instrumental] [Dark Neo-Classical] [Violin & Cello Duet]
+
+TWO INSTRUMENTS ONLY — violin and cello. Real acoustic strings. Close and honest.
+
+Cello holds the earth: slow open tones, rich low body.
+Violin enters as a thin fragile line ABOVE — never romantic soaring; more like a question asked quietly then abandoned.
+They almost never play continuous harmony; they leave holes. Isolation is the point.
+Bow changes audible. Breathing room between phrases.
+
+Tempo: ~40–46 BPM. Deep focus / overthinker calm / dark chamber.
+No piano. No orchestra. No synth. No percussion.
+Hard avoid: film-score climax, tremolo horror effects, synth string libraries that sound plastic.
+
+Structure: cello alone → violin asks → dialogue with silence → unison soft dyad once → cello closes alone.`,
+        bpm: [40, 46],
+        keys: ['E minor', 'A minor', 'D minor', 'B minor'],
+        instruments: 'realist violin and cello duet only',
+        moodWords: 'void, fragile, deep, chamber',
+        tags: 'dark neoclassical, violin, cello, duet, deep focus, sparse, instrumental',
+      },
+      {
+        id: 'chamber-of-solitude',
+        label: 'Chamber of Solitude (Full Dark)',
+        style: 'dark neo-classical, low cello, soft piano, distant violin, 45 BPM, solitude deep focus, realist chamber, instrumental',
+        prompt: `[Instrumental] [Dark Neo-Classical] [Chamber of Solitude]
+
+Reference energy: dark neoclassical music for deep thinkers — measured phrases, restrained intensity, emotion that breathes BETWEEN notes. Subtle harmonic layers far in the distance. Isolation and gravity.
+
+INSTRUMENTS (only these, hyper-realistic):
+• Low cello — primary voice, close mic, wood resonance, slow bows
+• Soft piano — sparse chords, distant, architectural
+• Violin — rare, thin, almost overheard from another room
+
+Write ORIGINAL music. No artist names. No famous themes.
+Very low tempo (~42–48 BPM). Huge silence. Dark minor harmony. Focus / solitude / thinking mind.
+Subtle "layers in the distance" means softer cello double-stops or soft piano — NOT a pad wall.
+
+Hard avoid: generic ambient pads, trailer drums, choir, bright spa neoclassical, AI mushy strings.
+
+Structure: enter from near-silence → establish cello gravity → distant piano architecture → one violin breath → thin to cello + room → silence.`,
+        bpm: [42, 48],
+        keys: ['D minor', 'A minor', 'E minor', 'G minor'],
+        instruments: 'low cello, soft distant piano, rare violin',
+        moodWords: 'solitude, restrained, deep thinking, gravity',
+        tags: 'dark neoclassical, deep focus, cello, violin, piano, solitude, chamber, instrumental',
+      },
+      {
+        id: 'overthinker-low-cello',
+        label: 'Low Cello for Deep Thinkers',
+        style: 'neo-classical low cello focus music, 43 BPM, unbroken concentration, realist cello, dark calm, instrumental',
+        prompt: `[Instrumental] [Neo-Classical] [Low Cello Focus]
+
+A single low cello for unbroken deep focus. Extremely realistic acoustic cello sound — body resonance, bow grit, soft finger shifts.
+Almost monophonic. Very slow. Notes land like steady thinking — no drama spikes.
+If harmony appears, it is the cello double-stopping softly, not a second instrument entering loudly.
+Optional ghost: one soft piano note every 30–40 seconds — or none.
+
+Tempo: 40–46 BPM. Designed for deep work / overthinkers / dark quiet concentration.
+Hard avoid: emotional cinematic crying cello, fast baroque, synth beds, percussion.
+
+Structure: begin mid-phrase as if already thinking → continue with tiny variations → end unresolved-soft (no big cadence).`,
+        bpm: [40, 46],
+        keys: ['A minor', 'D minor', 'C minor', 'E minor'],
+        instruments: 'hyper-real low cello, optional ghost piano dots',
+        moodWords: 'unbroken focus, dark calm, measured, deep',
+        tags: 'low cello, deep thinkers, neoclassical, deep focus, instrumental, sparse',
+      },
+    ];
+
+    let _lastNeoId = '';
+    let _lastSonicDnaId = '';
+    let _lastDarkChamberId = '';
+    let _lastCortisolId = '';
+
+    /**
+     * Cortisol / Nervous System 100k playbook (Neural Frequency Sounds style).
+     * CRITICAL: NO Hz numbers in Suno prompts — add 174/528 in DAW after stitch.
+     * YouTube title/thumb sells Flush / Reset / Parasympathetic.
+     */
+    const CORTISOL_100K_MIX = [
+      {
+        id: 'soft-pad-flush',
+        label: 'Soft Pad Cortisol Bed',
+        hook: 'CORTISOL FLUSH',
+        hzLabel: '174 + 528 Hz',
+        // Suno Style box — flowing rewrite format (how Suno itself prefers Styles)
+        style: 'Ambient healing meditation bed with ultra-soft warm analog pads, extremely slow 52 bpm evolution, long attacks and long releases, thin steady bloom, narrow dynamics, open midrange headroom, seamless loop feel, gentle stereo drift, soft low-end cushion, pure tone space for later DAW layering; intro starts as a quiet field, middle section swells in velvety pad layers, final section thins to a calm fade, Close, warm, sleep-safe mix with a smooth analog glow for stress relief, soft, steady, dynamics, sleep, tone, musical, gentle, healing, meditation, slow, ambient, warm, instrumental',
+        prompt: `[Instrumental] [Healing Ambient] [Meditation Bed]
+
+Ultra-soft warm analog pads only. Extremely slow evolution. No melody hooks. No drums. No percussion.
+Narrow dynamics — sleep-safe and stress-safe. Long attacks, long releases.
+Feeling: cortisol dissolving, parasympathetic exhale, overthinking fading into quiet body.
+Keep midrange gentle and open (headroom for a pure tone bed added later in DAW — do NOT generate beep tones or frequency sine waves in this track).
+Structure: silence → soft pad bloom → steady calm field → thin fade for seamless loop/crossfade.
+Hard avoid: cinematic trailer hits, vocals, EDM beats/drops, busy arpeggios, dark horror drones, alternative rock energy, post-grunge grit.`,
+        bpm: [48, 58],
+        keys: ['C major', 'A minor', 'F major', 'G major'],
+        instruments: 'warm analog pads, soft choir pad air, gentle low drone',
+        moodWords: 'healing, soft, parasympathetic, serene',
+        tags: 'healing ambient, meditation, soft pads, cortisol calm, instrumental',
+        nature: false,
+      },
+      {
+        id: 'rain-flush',
+        label: 'Rain + Soft Pad Flush',
+        hook: 'STRESS DISSOLVER',
+        hzLabel: '174 + 528 Hz',
+        style: 'Ambient rain healing meditation bed with soft continuous rain texture and ultra-soft warm pads underneath, extremely slow 50 bpm evolution, long attacks and long releases, never thunder spikes, narrow dynamics, open midrange headroom, seamless loop feel, gentle stereo rain drift, soft low-end cushion, pure tone space for later DAW layering; intro starts with quiet rain field, middle section blooms pads under rain, final section thins pads while rain remains, Close, warm, sleep-safe mix for body release after stress, soft, steady, sheltered, healing, meditation, slow, ambient, rain, instrumental',
+        prompt: `[Instrumental] [Ambient] [Rain Healing]
+
+Gentle continuous rain field recording texture blended with soft warm pads underneath.
+Rain stays natural and soft — never thunder spikes. Pads carry emotional warmth.
+Ultra-low energy. Body release after stress. Safe indoor shelter feeling.
+No melody solos. No drums. No vocals.
+Do not include electronic sine beeps or labeled frequency tones — pure musical ambient only.
+Structure: rain alone briefly → pads bloom under rain → both sustain → pads thin, rain remains for crossfade.
+Hard avoid: EDM, trailers, rock energy, sudden volume jumps.`,
+        bpm: [46, 56],
+        keys: ['A minor', 'D minor', 'C major', ''],
+        instruments: 'soft rain ambience, warm pads, faint low drone',
+        moodWords: 'releasing, sheltered, soft rain, calm',
+        tags: 'rain ambient, healing, stress relief, soft pads, instrumental',
+        nature: true,
+      },
+      {
+        id: 'bowls-soft',
+        label: 'Soft Bowls + Pad Reset',
+        hook: 'NERVOUS SYSTEM RESET',
+        hzLabel: '174 Hz',
+        style: 'Singing bowl meditation healing bed with sparse crystal bowl strikes and long decay, barely-there warm pad veil underneath, extremely slow 48 bpm feel, many seconds of silence between strikes, narrow dynamics, open midrange headroom, seamless loop feel, quiet room air, pure tone space for later DAW layering; intro starts with a single soft bowl, middle section adds gentle pad veil, final section fades to soft pad hum, Close, ritual, sleep-safe mix for nervous system downshift, soft, spacious, healing, meditation, slow, ambient, bowls, instrumental',
+        prompt: `[Instrumental] [Meditation] [Singing Bowls]
+
+Sparse soft singing bowl / crystal bowl strikes with LONG decay — many seconds of silence between strikes.
+Underneath: barely-there warm pad veil.
+Ritual calm for nervous system downshift. Not busy, not new-age sparkle overload.
+No drums, no vocals, no cinematic impacts.
+No sine-wave frequency generators — musical bowls and pads only.
+Structure: bowl alone → soft pad appears → sparse bowls continue → fade to pad hum.`,
+        bpm: [44, 54],
+        keys: ['C major', 'G major', 'A minor', ''],
+        instruments: 'crystal singing bowls, soft pad veil, quiet room air',
+        moodWords: 'ritual calm, reset, spacious, healing',
+        tags: 'singing bowls, meditation, nervous system, soft ambient, instrumental',
+        nature: false,
+      },
+      {
+        id: 'theta-drift-bed',
+        label: 'Theta Drift Soft Bed',
+        hook: 'OVERSTIMULATION RELIEF',
+        hzLabel: '528 Hz',
+        style: 'Deep soft ambient meditation bed with almost monochromatic slow pads, extremely slow 46 bpm evolution, minimal information maximum safety, occasional ultra-quiet high shimmer, narrow dynamics, open midrange headroom, seamless loop feel, soft low-end cushion, pure tone space for later DAW layering; intro starts near silence, middle section holds a steady calm field, final section soft fades, Close, held, sleep-safe mix for overstimulated minds, soft, steady, deep calm, healing, meditation, slow, ambient, instrumental',
+        prompt: `[Instrumental] [Deep Ambient] [Calm Drift]
+
+Deep, slow, soft pads with almost monochromatic harmony. Very little motion.
+Designed under overstimulated minds — minimal information, maximum safety.
+Occasional soft high shimmer extremely quiet.
+No percussion, no bass drops, no melody hooks.
+Leave spectral room in the low-mid for a pure tone layer to be mixed later (do not synthesize beep tones yourself).
+Structure: from near silence → hold steady field entire segment → soft fade.`,
+        bpm: [42, 52],
+        keys: ['D minor', 'A minor', 'E minor', ''],
+        instruments: 'deep soft pads, faint shimmer, sub-harmonic warmth',
+        moodWords: 'overstimulation relief, deep calm, held, quiet',
+        tags: 'deep ambient, meditation, overstimulation relief, soft, instrumental',
+        nature: false,
+      },
+      {
+        id: 'morning-bird-flush',
+        label: 'Morning Bird Soft Flush',
+        hook: 'MORNING CORTISOL FLUSH',
+        hzLabel: '417 Hz',
+        style: 'Morning ambient healing meditation bed with soft luminous pads and distant gentle birdsong, extremely slow 55 bpm evolution, long attacks and long releases, bright but never sharp, narrow dynamics, open midrange headroom, seamless loop feel, birds far in stereo field, soft low-end cushion, pure tone space for later DAW layering; intro starts with soft pads, middle section adds quiet birdsong, final section gentle brighten then soft hold, Close, warm, morning sleep-safe mix for cortisol soft-landing, soft, hopeful, clearing, healing, meditation, slow, ambient, birdsong, instrumental',
+        prompt: `[Instrumental] [Morning Ambient] [Gentle Awakening]
+
+Soft luminous pads with distant gentle birdsong — morning cortisol soft-landing energy.
+Bright but never sharp. Hopeful calm, not energetic pop.
+No drums, no vocals, no sudden events.
+Birds stay far in the stereo field; pads are the emotional body.
+No electronic tone generators or beep frequencies in the render.
+Structure: soft pads → birds enter quietly → both sustain → gentle brighten then soft hold.`,
+        bpm: [50, 60],
+        keys: ['C major', 'G major', 'F major', 'A minor'],
+        instruments: 'luminous soft pads, distant birdsong, gentle air',
+        moodWords: 'morning soft, clearing, gentle hope, flush',
+        tags: 'morning ambient, birdsong, cortisol flush, soft pads, instrumental',
+        nature: true,
+      },
+      {
+        id: 'vagus-soft-pulse',
+        label: 'Vagus Soft Breath Pulse',
+        hook: 'PARASYMPATHETIC CALM',
+        hzLabel: '174 + 528 Hz',
+        style: 'Breath-paced healing ambient meditation bed with soft pads that swell and release like calm breathing in gentle 5 to 6 second cycles, extremely slow 54 bpm feel, long attacks and long releases, narrow dynamics, open midrange headroom, seamless loop feel, soft low-end cushion, pure tone space for later DAW layering; intro establishes breath swell, middle section deepens slightly, final section fades on exhale, Close, warm, sleep-safe mix for parasympathetic downshift, soft, steady, breath, healing, meditation, slow, ambient, warm, instrumental',
+        prompt: `[Instrumental] [Healing Ambient] [Breath Pace]
+
+Soft pads that slowly swell and release like calm breathing — about 5–6 second cycles, very gentle.
+Feeling of vagus-nerve quiet, parasympathetic on, body dropping out of stress.
+No rhythmic drums — only pad breath.
+No melody earworms. No vocals.
+Do not include labeled Hz beeps; keep this a musical soft bed only.
+Structure: establish breath swell → deepen slightly → return to soft → fade on exhale.`,
+        bpm: [48, 58],
+        keys: ['F major', 'C major', 'A minor', 'G major'],
+        instruments: 'breathing soft pads, gentle low warmth, airy highs',
+        moodWords: 'parasympathetic, breath, soft body, release',
+        tags: 'healing ambient, breath paced, parasympathetic, soft pads, instrumental',
+        nature: false,
+      },
+    ];
+
+    function pickCortisolFlavor(excludeId) {
+      let flav = pick(CORTISOL_100K_MIX.filter(n => n.id !== (excludeId || _lastCortisolId)));
+      if (!flav) flav = pick(CORTISOL_100K_MIX);
+      _lastCortisolId = flav.id;
+      return flav;
+    }
+
+    /** Suno Style box = long flowing prose (how Suno rewrites Styles). Inject live BPM. */
+    function toSunoFlowStyle(template, bpm) {
+      return String(template || '')
+        .replace(/\b\d+\s*bpm\b/gi, `${bpm} bpm`)
+        .replace(/\b\d+\s*BPM\b/g, `${bpm} bpm`);
+    }
+
+    function buildCortisolMasterPrompt(v, pack) {
+      const flav = pack.flav;
+      const hz = flav.hzLabel;
+      return `You are the YouTube + Suno production strategist for LUMEN AI MUSIC creating a 400k–1M+ view cortisol / nervous-system meditation video.
+
+GOAL: Match winners like Neural Frequency Sounds, Inner Lotus Music, The Path to Moksha, vl.vladimirovaa (400k–4.3M views on "cortisol" / "nervous system" / "174 Hz" / "528 Hz" queries).
+
+═══════════════════════════════════════
+WINNING FORMULA (non-negotiable)
+═══════════════════════════════════════
+1) TITLE sells medicine-adjacent benefit + Hz (Flush / Reset / Purge / Overstimulation Relief)
+2) THUMB = HUGE white all-caps hook + surreal teal/orange/lotus energy art
+3) RUNTIME = 1:11:11 or 3:33:33 or 8:00:00
+4) SUNO = soft ambient bed ONLY — Style box uses FLOWING PROSE rewrite format
+5) DAW = add pure 174/528 (or title Hz) sine tones UNDER the music after stitch
+6) NEVER put Hz beeps inside Suno generations
+7) Wellness language only — not medical advice
+
+═══════════════════════════════════════
+SUNO STYLE BOX FORMAT (copy this shape exactly)
+═══════════════════════════════════════
+Long flowing sentence covering: genre bed + instruments + bpm evolution + attacks/releases + dynamics + stereo + low-end + "pure tone space for later DAW layering" + intro/middle/final structure + Close mix adjectives + tag trail.
+WRONG (comma spam only): healing ambient, soft pads, 52 BPM
+RIGHT (Suno rewrite style):
+"${pack.styleOfMusic}"
+
+═══════════════════════════════════════
+SUNO CUSTOM BOX
+═══════════════════════════════════════
+Short [Instrumental] brackets + feeling + hard avoids (no EDM, no rock, no Hz beeps) + reminder that frequencies go in DAW later.
+
+Current Custom draft:
+${pack.pasteReady}
+
+═══════════════════════════════════════
+YOUTUBE TITLE FORMULAS (generate 4)
+═══════════════════════════════════════
+• {Hz} 🌿 Cortisol Flush • Activate Parasympathetic Nervous System & Calm Your Mind
+• {Hz} • Nervous System Reset 🧬 Release Anxiety & Inner Tension | {Duration} Meditation Music
+• LOWER YOUR CORTISOL LEVELS | Solfeggio Frequency {Hz}
+• {HOOK} | {Hz} Stress Dissolver • Reduce Anxiety & Overthinking
+
+Use Hz stack: ${hz}
+Hook word: ${flav.hook}
+Duration target: ${v.duration.label}
+
+═══════════════════════════════════════
+THUMBNAIL
+═══════════════════════════════════════
+1280×720 · center HUGE white sans "${flav.hook}" · sub "${hz} • NERVOUS SYSTEM RESET • DEEP CALM" · lotus / glowing flora / teal+orange+violet OR Lumen indigo+gold · no faces · Lumen AI Music watermark
+
+═══════════════════════════════════════
+OUTPUT NOW
+═══════════════════════════════════════
+1) Final Suno Style (flowing rewrite, live BPM)
+2) Final Suno Custom (Instrumental ON)
+3) Variations B + C Styles in same flowing format
+4) DAW Hz stack steps
+5) 4 titles + description with chapters + tags
+6) Thumbnail Canva + image prompt
+7) Upload checklist (runtime 1:11:11 / 3:33:33)
+
+Variables: ${JSON.stringify({
+        mood: v.mood.label,
+        duration: v.duration.label,
+        bpm: v.bpm,
+        flavor: flav.label,
+        hz,
+        hook: flav.hook,
+        slug: v.slug,
+        instruments: v.instruments,
+      }, null, 2)}`;
+    }
+
+    function buildCortisol100kPackage(v, flavForced) {
+      const flav = flavForced || pickCortisolFlavor();
+      const bpm = v.bpm && v.bpm >= flav.bpm[0] && v.bpm <= flav.bpm[1]
+        ? v.bpm
+        : randBetween(flav.bpm[0], flav.bpm[1]);
+      const key = v.sunoKey && flav.keys.includes(v.sunoKey) ? v.sunoKey : pick(flav.keys.filter(Boolean).concat(flav.keys));
+      const name = poeticNameForTitles(v, null);
+      const durShort = durShortLabel(v.duration);
+      const hz = flav.hzLabel;
+      const styleOfMusic = toSunoFlowStyle(flav.style, bpm);
+      const custom = `${flav.prompt}
+
+Track concept soft-bed for "${name}" / YouTube cortisol nervous-system video.
+Tempo ${bpm} BPM.${key ? ` Key: ${key}.` : ''}
+Instrumental only. Original ambient — no artist names.
+REMINDER: Do NOT put Hertz numbers, sine beeps, or "174 Hz" text into the musical performance. Frequency tones are added later in a DAW under this bed.
+
+Tags: ${flav.tags}`;
+
+      const titles = [
+        `${hz} 🌿 Cortisol Flush • Activate Parasympathetic Nervous System & Calm Your Mind`,
+        `${hz} • Nervous System Reset 🧬 Release Anxiety & Inner Tension | ${durShort} Meditation Music`,
+        `LOWER YOUR CORTISOL LEVELS | Solfeggio Frequency ${hz.replace(/\s+/g, '')} · ${name}`,
+        `${flav.hook} | ${hz} Stress Dissolver • Reduce Anxiety & Overthinking · ${durShort}`,
+      ];
+
+      const thumb = `THUMBNAIL (1280×720) — Neural Frequency competitor style:
+- HUGE all-caps white sans text CENTER: "${flav.hook}"
+- Sub-line: "${hz} • NERVOUS SYSTEM RESET • DEEP CALM"
+- Background: surreal high-saturation nature/energy (lotus, glowing flora, teal+orange+purple swirls) OR soft Lumen indigo+gold god-rays if brand-first
+- Minimal words. High contrast. No faces.
+- Tiny watermark: Lumen AI Music`;
+
+      const daw = `DAW FREQUENCY STACK (AFTER Suno stitch — this is what makes the YouTube title true):
+1. Generate pure sine (or soft triangle) at primary Hz from title (${hz.split('+')[0].trim()}) at −28 to −34 dB under music
+2. Optional second tone (${hz.includes('528') ? '528 Hz' : hz.includes('417') ? '417 Hz' : '396 Hz'}) even quieter
+3. Optional binaural: Theta 4 Hz R / 7 Hz L OR 6 Hz — headphones note in description
+4. Fade tones in first 2 min; hold; fade last 2 min
+5. Tools: Audacity Tone, Reaper JSFX, Gnaural
+6. Master −16 LUFS · do NOT claim medical effects beyond wellness language`;
+
+      const chapters = `CHAPTERS / DESCRIPTION BEATS (match Neural Frequency style):
+0:00 Opening Calm Field (foundation tone bed)
+… Harmonic Expansion Layer
+… Soft Body Release Phase
+… Frequency Renewal Activation (title Hz present in mix)
+… Expanded Harmonic Field
+… Deep Rest Integration`;
+
+      const description = `${titles[0]}
+
+A hand-curated calm field for moments when stress sits in the body and the mind won't unclench.
+Soft ambient layers composed for continuous listening — with a gentle tonal bed mixed for this ${hz} nervous-system session.
+
+What this session is for:
+• Softening after chronic stress / overthinking
+• Parasympathetic downshift (experiential wellness)
+• Background for rest, meditation, or quiet work
+
+How to listen:
+🎧 Headphones recommended if using the binaural / spatial layer
+🔊 Keep volume comfortable — never force loudness
+
+Session structure:
+${chapters}
+
+🌙 Stream ad-free originals: https://www.lumenaimusic.com/music/${v.slug}?utm_source=youtube&utm_medium=video&utm_campaign=${v.slug}
+
+#CortisolFlush #NervousSystemReset #174Hz #528Hz #Solfeggio #MeditationMusic #HealingFrequency #Parasympathetic #AnxietyRelief #LumenAIMusic #AmbientMusic
+
+Wellness / relaxation only — not medical advice. Frequencies are used as tonal ambience. Consult a professional for health concerns.
+
+All music is original AI-assisted composition + human curation. Do not re-upload.`;
+
+      const dna = {
+        id: flav.id,
+        label: flav.label,
+        lead: flav.instruments,
+        motion: flav.moodWords,
+        weird: flav.hook,
+        avoid: 'Hz beeps inside Suno',
+        style: flav.style,
+        tags: flav.tags,
+        bpm: flav.bpm,
+        keys: flav.keys,
+      };
+
+      const full = `═══ CORTISOL / NERVOUS SYSTEM 400k–1M+ PLAYBOOK ═══
+Competitors: Neural Frequency Sounds, Inner Lotus, Path to Moksha (400k–4M views)
+Formula: HOOK title (FLUSH/RESET) + Hz in TITLE + Suno FLOWING Style bed + DAW Hz tones + long runtime + surreal thumb
+
+═══ FLAVOR: ${flav.label} ═══
+
+═══ SUNO — STYLE BOX (flowing rewrite format — paste as Style of Music) ═══
+${styleOfMusic}
+
+═══ SUNO — CUSTOM / LYRICS (Instrumental ON · NO Hz NUMBERS) ═══
+${custom}
+
+═══ AFTER SUNO (REQUIRED FOR TITLE CLAIM) ═══
+${daw}
+
+═══ YOUTUBE TITLES ═══
+1. ${titles[0]}
+2. ${titles[1]}
+3. ${titles[2]}
+4. ${titles[3]}
+
+═══ ${thumb} ═══
+
+═══ DESCRIPTION ═══
+${description}
+
+═══ HASHTAGS ═══
+#CortisolFlush #NervousSystemReset #174Hz #528Hz #MeditationMusic #HealingFrequency #Parasympathetic #LumenAIMusic`;
+
+      return {
+        flav,
+        dna,
+        styleOfMusic,
+        custom,
+        pasteReady: custom,
+        full,
+        titles,
+        description,
+        thumb,
+        daw,
+      };
+    }
+
+    function pickNeoclassicalFlavor(excludeId) {
+      let flav = pick(NEOCLASSICAL_MIX.filter(n => n.id !== (excludeId || _lastNeoId)));
+      if (!flav) flav = pick(NEOCLASSICAL_MIX);
+      _lastNeoId = flav.id;
+      return flav;
+    }
+
+    function pickDarkChamberFlavor(excludeId) {
+      let flav = pick(DARK_CHAMBER_MIX.filter(n => n.id !== (excludeId || _lastDarkChamberId)));
+      if (!flav) flav = pick(DARK_CHAMBER_MIX);
+      _lastDarkChamberId = flav.id;
+      return flav;
+    }
+
+    function buildNeoclassicalSunoPrompt(v, flavForced) {
+      const flav = flavForced || pickNeoclassicalFlavor();
+      const bpm = v.bpm && v.bpm >= flav.bpm[0] && v.bpm <= flav.bpm[1]
+        ? v.bpm
+        : randBetween(flav.bpm[0], flav.bpm[1]);
+      const key = v.sunoKey && flav.keys.includes(v.sunoKey) ? v.sunoKey : pick(flav.keys);
+      const name = poeticNameForTitles(v, null);
+      const keyLine = key ? `\nKey: ${key}.` : '';
+      const isDark = DARK_CHAMBER_MIX.some(d => d.id === flav.id);
+      const styleOfMusic = toSunoFlowStyle(
+        isDark
+          ? `Dark neo-classical chamber bed with hyper-real ${flav.instruments}, extremely slow ${bpm} bpm measured phrases, long silence between notes, narrow dynamics, close-mic wood and bow realism, intimate stone-chamber air, soft low-end gravity, restrained intensity; intro starts from near-silence, middle section settles into solitary ${flav.label.toLowerCase()} voice, final section thins to open resonance for seamless crossfade, Close, warm-dark, sleep-safe focus mix for deep thinkers, soft, steady, sparse, solitude, cello, violin, piano, instrumental, neo-classical, dark chamber`
+          : `Neo-classical chamber bed with ${flav.instruments}, extremely slow ${bpm} bpm evolution, human rubato, long attacks and long releases, narrow dynamics, intimate small-hall air, soft low-end cushion; intro starts sparse, middle section breathes through measured phrases, final section thins for seamless crossfade, Close, warm, sleep-safe mix, soft, elegant, melancholic, healing, meditation, slow, ambient, neo-classical, instrumental`,
+        bpm,
+      );
+      const custom = `${flav.prompt}
+
+Track concept: "${name}". Tempo ${bpm} BPM.${keyLine}
+Listening purpose: ${v.benefitAngle || v.listeningPurpose || (isDark ? 'deep focus / solitude of the thinking mind' : 'calm focus & emotional stillness')}.
+Instrumental only. Original neo-classical writing — no artist names, no famous melodies.
+${isDark ? 'CRITICAL: instruments must sound strikingly REAL — acoustic recording realism, not synthetic pads.' : ''}
+
+Tags: ${flav.tags}`;
+
+      return {
+        flav,
+        dna: { id: flav.id, label: flav.label, lead: flav.instruments, motion: flav.moodWords, weird: flav.label, avoid: 'generic pad ambient', style: flav.style, tags: flav.tags, bpm: flav.bpm, keys: flav.keys },
+        styleOfMusic,
+        custom,
+        pasteReady: custom,
+        full: `═══ ${isDark ? 'DARK CHAMBER SOLITUDE' : 'NEOCLASSICAL MIX'}: ${flav.label} ═══\n${isDark ? 'Hyper-real cello / violin / piano · very low BPM · deep focus.\n' : `One of ${NEOCLASSICAL_MIX.length} distinct neoclassical flavors — each roll sounds different.\n`}\n═══ SUNO — STYLE (flowing rewrite format) ═══\n${styleOfMusic}\n\n═══ SUNO — CUSTOM (Instrumental ON) ═══\n${custom}`,
+      };
+    }
+
+    function buildNeoclassicalVariations(v, flavA) {
+      const pool = DARK_CHAMBER_MIX.some(d => d.id === flavA.id) ? DARK_CHAMBER_MIX : NEOCLASSICAL_MIX;
+      const pickFrom = (exclude) => {
+        const opts = pool.filter(n => n.id !== exclude);
+        return pick(opts.length ? opts : pool);
+      };
+      const b = pickFrom(flavA.id);
+      const c = pickFrom(b.id);
+      const pack = (flav, letter) => {
+        const built = buildNeoclassicalSunoPrompt({ ...v, bpm: randBetween(flav.bpm[0], flav.bpm[1]), sunoKey: pick(flav.keys) }, flav);
+        return `═══ VARIATION ${letter} — ${flav.label} ═══\nSTYLE:\n${built.styleOfMusic}\n\nPROMPT:\n${built.pasteReady}`;
+      };
+      return `${pack(flavA, 'A')}\n\n${pack(b, 'B')}\n\n${pack(c, 'C')}\n\nStitch A/B/C across the long-form — keep instruments few and realist so the 1–2 hour deep-focus stay hypnotically real, not mushy.`;
+    }
+
+    function pickSonicDna(preferredIds) {
+      const pool = preferredIds?.length
+        ? SUNO_SONIC_DNA.filter(d => preferredIds.includes(d.id))
+        : SUNO_SONIC_DNA;
+      let dna = pick(pool.length ? pool : SUNO_SONIC_DNA);
+      // Never repeat the same DNA back-to-back
+      if (dna.id === _lastSonicDnaId && pool.length > 1) {
+        dna = pick(pool.filter(d => d.id !== _lastSonicDnaId));
+      }
+      _lastSonicDnaId = dna.id;
+      return dna;
+    }
+
+    function dnaForVars(v) {
+      const benefit = (v.benefitAngle || v.listeningPurpose || '').toLowerCase();
+      const mood = (v.mood?.categoryKey || '') + ' ' + (v.mood?.id || '');
+      if (/post-grunge|ambient rock|epic/i.test(v.genre + mood) || v.titleStyle === 'epic') {
+        return pickSonicDna(['grit-cathedral', 'rain-guitar', 'cello-fog', 'neon-noir']);
+      }
+      if (/focus|study|work|productiv|hyper|flow/i.test(benefit + mood)) {
+        return pickSonicDna(['rhodes-focus', 'tape-piano', 'glass-harp', 'kalimba-stars', 'modular-ocean']);
+      }
+      if (/sleep|unwind|overnight|nervous|heal/i.test(benefit + mood)) {
+        return pickSonicDna(['sub-drone', 'cello-fog', 'bamboo-zen', 'glass-harp', 'tape-piano']);
+      }
+      if (/sci-fi|space|neon|cyber|cosmic/i.test(v.genre + mood + (v.scifiMode || ''))) {
+        return pickSonicDna(['neon-noir', 'modular-ocean', 'sub-drone', 'harp-aurora']);
+      }
+      if (/meditat|zen|still/i.test(benefit + mood)) {
+        return pickSonicDna(['bamboo-zen', 'glass-harp', 'harp-aurora', 'sub-drone']);
+      }
+      return pickSonicDna(null);
+    }
+
+    /** Randomize every variable field. opts: moodPool, durationPool, titleStyle, forceEpic, sunoPreset */
+    function randomizeAllFields(opts = {}) {
+      const moodPool = opts.moodPool
+        ? DATA.moods.filter(m => opts.moodPool.includes(m.id) || opts.moodPool.includes(m.categoryKey))
+        : DATA.moods;
+      const mood = opts.moodId
+        ? getMoodById(opts.moodId)
+        : pick(moodPool.length ? moodPool : DATA.moods);
+
+      const durPool = opts.durationPool
+        ? DATA.durations.filter(d => opts.durationPool.includes(d.id))
+        : DATA.durations;
+      const dur = pick(durPool.length ? durPool : DATA.durations);
+
+      setField('mood', mood.id);
+      setField('duration', dur.id);
+
+      const instKey = getInstrumentKey(mood.id);
+      const atmKey = getAtmosphereKey(mood.id);
+      const instPool = DATA.instruments[instKey] || DATA.instruments.healing;
+      const atmPool = DATA.atmospheres[atmKey] || DATA.atmospheres.healing;
+      const epicMood = mood.categoryKey === 'epic' || mood.id === 'epic-rock' || mood.id === 'cinematic';
+
+      // Core creative
+      setField('listeningPurpose', maybe(0.6) ? mood.purpose : pick(DATA.listeningPurposes));
+      setField('genre', maybe(0.7) && allGenres().includes(mood.genre) ? mood.genre : pick(allGenres()));
+      setField('genreSecondary', maybe(0.5) ? pick(allGenres().filter(g => g !== document.getElementById('genre').value)) : '');
+      setField('scifiMode', (mood.id === 'scifi' || mood.categoryKey === 'scifi') ? pick(DATA.scifiModes.filter(s => s !== 'N/A')) : 'N/A');
+      setField('timeOfDay', pick(DATA.timeOfDay));
+      setField('listenerState', pick(DATA.listenerStates));
+      setField('moodWords', epicMood && maybe(0.5) ? epicMoodWords() : pickN(DATA.moodWords, randBetween(2, 4)).join(', '));
+      setField('instruments', epicMood && maybe(0.5) ? epicInstruments() : pickN(instPool, randBetween(3, 4)).join(', '));
+      setField('atmosphere', pick(atmPool));
+      setField('lore', maybe(0.55) ? pick(DATA.loreElements.filter(Boolean)) : '');
+      setField('bpm', randBetween(mood.bpm[0], mood.bpm[1]));
+      setField('energy', pick(getEnergyOptions(mood)));
+      setField('intensityArc', pick(DATA.intensityArcs));
+      setField('rhythmFeel', epicMood ? pick(DATA.rhythmFeels.filter(r => /grunge|pulse|sway|groove/i.test(r)).concat(DATA.rhythmFeels)) : pick(DATA.rhythmFeels));
+      setField('textureDensity', pick(DATA.textureDensities));
+      setField('vocalTexture', pick(DATA.vocalTextures));
+      setField('production', epicMood && maybe(0.6) ? epicProduction() : pick(DATA.productions));
+
+      const seriesRoll = Math.random();
+      if (epicMood && seriesRoll > 0.35) {
+        setField('seriesName', pick(DATA.epic.seriesNames));
+      } else if (mood.id === 'scifi' && seriesRoll > 0.4) {
+        setField('seriesName', pick(DATA.seriesNames));
+      } else if (seriesRoll > 0.75) {
+        setField('seriesName', pick(DATA.cosmicSeries));
+      } else {
+        setField('seriesName', '');
+      }
+
+      const focusish = mood.categoryKey === 'focus' || /focus|study|work|productivity|flow/i.test(mood.purpose || '') || /focus|study|work|productivity|flow/i.test(mood.label || '');
+      const titleStyle = opts.titleStyle || (epicMood
+        ? pick(['yt2026', 'epic', 'epic', 'standard'])
+        : focusish
+          ? pick(['yt2026', 'yt2026', 'standard', 'cosmic'])
+          : pick(['yt2026', 'yt2026', 'standard', 'cosmic', 'epic']));
+      setField('titleStyle', titleStyle);
+      setField('benefitAngle', pickBenefitAngle(mood));
+
+      if (titleStyle === 'cosmic' || maybe(0.4)) {
+        setField('cosmicName', pick(DATA.cosmicNames.concat(DATA.cosmicSeries)));
+      } else {
+        setField('cosmicName', '');
+      }
+
+      setField('youtubeBadge', maybe(0.15) ? '' : pick(DATA.youtubeBadges.filter(Boolean).concat(mood.badge ? [mood.badge] : [])));
+      setField('healingIntent', pick(DATA.healingIntents));
+
+      // Frequency stack
+      const freqIds = DATA.freqModes.map(f => f.id);
+      const freqPick = maybe(0.55) && mood.freqDefault ? mood.freqDefault : pick(freqIds);
+      setField('freqPrimary', freqPick);
+      setField('freqSecondary', freqPick === 'none' ? (maybe(0.3) ? pick(FREQ_SECONDARIES.filter(f => f !== 'none')) : 'none') : pick(FREQ_SECONDARIES));
+      setField('freqMix', pick(DATA.freqMix));
+      setField('binaural', freqPick === 'none' && maybe(0.4) ? 'solfeggio tone only — no brainwave layer' : pick(DATA.binaural));
+
+      // Thumbnail & slug
+      const series = document.getElementById('seriesName').value;
+      let thumbMain;
+      if (titleStyle === 'cosmic') {
+        const cosmic = buildCosmicIdea({ ...getVars(), mood, duration: dur, titleStyle: 'cosmic' });
+        thumbMain = cosmic.thumbMain;
+        setField('thumbSub', cosmic.thumbSub);
+        if (!document.getElementById('cosmicName').value) setField('cosmicName', cosmic.name);
+      } else if (titleStyle === 'yt2026') {
+        const benefit = pickBenefitAngle(mood);
+        setField('benefitAngle', benefit);
+        thumbMain = (document.getElementById('cosmicName').value || pick(DATA.cosmicNames)).toString().toUpperCase().slice(0, 28);
+        setField('thumbSub', pick([
+          `Cinematic Ambient · ${durShortLabel(dur)}`,
+          `${benefit.split('&')[0].trim()} · 2026`,
+          `Deep Focus · ${durShortLabel(dur)}`,
+          `Luxury Ambient · Flow State`,
+        ]));
+      } else if (epicMood || titleStyle === 'epic') {
+        thumbMain = series || pick(DATA.epic.thumbMains);
+        setField('thumbSub', pick(DATA.epic.thumbSubs));
+      } else {
+        thumbMain = series || pick([mood.tag, ...DATA.cosmicNames].filter(Boolean)).toString().toUpperCase().slice(0, 28);
+        setField('thumbSub', pick([
+          `${durShortLabel(dur)} · ${mood.tag || 'For Deep Relaxation'}`,
+          `${durShortLabel(dur)} · ${pick(DATA.cosmicThumbSubs)}`,
+          `${durShortLabel(dur)} · ${mood.label.split('—')[0].trim()}`,
+        ]));
+      }
+      setField('thumbMain', thumbMain);
+      setField('thumbPalette', pick(DATA.thumbPalettes));
+      setField('slug', slugify(thumbMain + '-' + dur.id));
+
+      // Suno panel — always fully randomized (optional preset is overwritten)
+      if (opts.sunoPreset) applySunoPreset(opts.sunoPreset, true);
+      randomizeSunoFields(mood);
+      const useEpic = opts.forceEpic || titleStyle === 'epic' || epicMood || maybe(0.12);
+      setCheck('epicEnabled', useEpic);
+      if (useEpic) {
+        shuffleEpicArcs(null, true);
+        if (maybe(0.5)) setField('genre', document.getElementById('epicGenreStack').value);
+        if (maybe(0.5)) setField('atmosphere', document.getElementById('epicScene').value);
+      } else {
+        ['epicPulse', 'epicOpening', 'epicMiddle', 'epicClosing', 'epicGenreStack', 'epicScene', 'epicVisual', 'epicBadge'].forEach(id => setField(id, 'auto'));
+      }
+
+      syncEpicPanel();
+      updateSegmentStats();
+      if (!opts.silent) saveProject(true);
+    }
+
+    function randomizeSunoFields(mood) {
+      const sleepish = ['sleep', 'nervous', 'healing', 'meditation'].includes(mood.categoryKey);
+      const focusish = mood.categoryKey === 'focus';
+      const epicish = mood.categoryKey === 'epic';
+
+      setCheck('sunoInstrumental', maybe(0.05) ? false : true);
+      setCheck('sunoNoVocals', maybe(0.08) ? false : true);
+      setCheck('sunoNoDrums', focusish ? maybe(0.35) : maybe(0.08) ? false : true);
+      setCheck('sunoNoPercussion', sleepish ? maybe(0.05) ? false : true : maybe(0.1) ? false : true);
+      setCheck('sunoNoHooks', maybe(0.08) ? false : true);
+      setCheck('sunoNoDrops', maybe(0.08) ? false : true);
+      setCheck('sunoSleepSafe', sleepish ? maybe(0.05) ? false : true : maybe(0.15) ? false : true);
+      setCheck('sunoCrossfade', maybe(0.12) ? false : true);
+      setCheck('sunoNoHz', true);
+      setCheck('sunoNoArtists', true);
+      setCheck('sunoFreqHeadroom', document.getElementById('freqPrimary').value !== 'none' ? maybe(0.1) ? false : true : maybe(0.5));
+
+      const structures = ['standard', 'minimal', 'padwash', 'layered'];
+      const styles = ['bracket', 'flowing', 'tagstack'];
+      setField('sunoStructure', epicish ? pick(['standard', 'layered']) : sleepish ? pick(['padwash', 'minimal', 'standard']) : pick(structures));
+      setField('sunoPromptStyle', epicish ? pick(['flowing', 'bracket']) : pick(styles));
+      setField('sunoKey', pick(SUNO_KEYS));
+      setField('sunoExclude', maybe(0.35) ? pick(SUNO_EXCLUDE_POOL) : '');
+      setField('sunoExtraTags', pick(SUNO_TAG_POOLS));
+      setField('sunoSegmentLabel', pick(SEGMENT_LABELS));
+    }
+
+    function applyMoodDefaults(silent) {
+      const mood = getMoodById(document.getElementById('mood').value);
+      const instKey = getInstrumentKey(mood.id);
+      const atmKey = getAtmosphereKey(mood.id);
+      document.getElementById('genre').value = allGenres().includes(mood.genre) ? mood.genre : 'ambient';
+      document.getElementById('listeningPurpose').value = mood.purpose || pick(DATA.listeningPurposes);
+      document.getElementById('bpm').value = randBetween(mood.bpm[0], mood.bpm[1]);
+      document.getElementById('energy').value = mood.energy;
+      document.getElementById('instruments').value = pickN(DATA.instruments[instKey] || DATA.instruments.healing, 3).join(', ');
+      document.getElementById('atmosphere').value = pick(DATA.atmospheres[atmKey] || DATA.atmospheres.healing);
+      document.getElementById('moodWords').value = pickN(DATA.moodWords, 2).join(', ');
+      document.getElementById('freqPrimary').value = mood.freqDefault || 'none';
+      document.getElementById('youtubeBadge').value = mood.badge || '';
+      if (mood.id === 'scifi') {
+        document.getElementById('scifiMode').value = pick(DATA.scifiModes.filter(s => s !== 'N/A'));
+      } else {
+        document.getElementById('scifiMode').value = 'N/A';
+      }
+      const freqId = mood.freqDefault || 'none';
+      document.getElementById('freqSecondary').value = (freqId === 'grounding' || freqId === 'theta' || freqId === 'cortisol') ? 'Theta 4 Hz R / 7 Hz L binaural' : 'none';
+      document.getElementById('thumbMain').value = mood.tag ? mood.tag.toUpperCase() : mood.label.split('—')[0].trim().toUpperCase().slice(0, 24);
+      document.getElementById('intensityArc').value = mood.categoryKey === 'epic' ? 'Slow bloom — gentle rise' : pick(DATA.intensityArcs);
+      document.getElementById('rhythmFeel').value = mood.categoryKey === 'epic' ? 'restrained post-grunge groove' : pick(DATA.rhythmFeels);
+      document.getElementById('textureDensity').value = mood.energy === 'ultra-low' ? 'sparse — lots of space' : pick(DATA.textureDensities);
+      document.getElementById('vocalTexture').value = 'none — purely instrumental';
+      document.getElementById('healingIntent').value = mood.categoryKey === 'nervous' ? 'gentle body softening' : (mood.categoryKey === 'healing' ? 'emotional holding space' : 'none — music only');
+      document.getElementById('listenerState').value = pick(DATA.listenerStates);
+      document.getElementById('timeOfDay').value = mood.categoryKey === 'sleep' ? 'Night / 10pm–2am' : pick(DATA.timeOfDay);
+      if (Math.random() > 0.45) document.getElementById('lore').value = pick(DATA.loreElements.filter(Boolean));
+      syncEpicPanel();
+      updateSegmentStats();
+      if (!silent) saveProject(true);
     }
 
     function isEpicMode(v) {
@@ -1136,47 +2621,34 @@
     }
 
     function applyEpicPreset(amp) {
-      const mood = DATA.moods.find(m => m.id === 'epic-rock');
-      document.getElementById('mood').value = 'epic-rock';
-      document.getElementById('titleStyle').value = 'epic';
-      document.getElementById('epicEnabled').checked = true;
-      document.getElementById('genre').value = 'post-grunge ambient rock';
-      document.getElementById('scifiMode').value = 'N/A';
-      document.getElementById('moodWords').value = epicMoodWords();
-      document.getElementById('instruments').value = epicInstruments();
-      document.getElementById('atmosphere').value = pick(DATA.atmospheres.epic);
-      document.getElementById('bpm').value = amp ? pick([86, 90, 96, 104]) : randBetween(80, 104);
-      document.getElementById('energy').value = pick(['low-mid', 'slow-build dynamic', 'gentle groove']);
-      document.getElementById('production').value = epicProduction();
-      document.getElementById('seriesName').value = Math.random() > 0.35 ? pick(DATA.epic.seriesNames) : '';
-      document.getElementById('freqPrimary').value = Math.random() > 0.55 ? 'none' : pick(['theta', 'grounding', 'alpha']);
-      document.getElementById('freqSecondary').value = 'none';
-      document.getElementById('freqMix').value = 'subtle bed';
-      document.getElementById('binaural').value = 'solfeggio tone only — no brainwave layer';
-      document.getElementById('thumbPalette').value = pick(['rust orange nebula + starlight white', 'midnight blue + rose gold', 'deep indigo + warm gold']);
-      const thumbMain = pick(DATA.epic.thumbMains);
-      document.getElementById('thumbMain').value = thumbMain;
-      const dur = DATA.durations.find(d => d.id === document.getElementById('duration').value) || DATA.durations[1];
-      document.getElementById('thumbSub').value = pick(DATA.epic.thumbSubs);
-      document.getElementById('slug').value = slugify(thumbMain + '-' + dur.id);
-      document.getElementById('lore').value = Math.random() > 0.7 ? 'featuring Lumen the Dream Weaver' : '';
-      shuffleEpicArcs(new Set(), true);
-      applySunoPreset('epic');
-      syncEpicPanel();
+      randomizeAllFields({
+        moodId: 'epic-rock',
+        titleStyle: 'epic',
+        forceEpic: true,
+        durationPool: amp ? ['1hr', '2hr', '3hr'] : ['45min', '1hr', '2hr'],
+        sunoPreset: 'epic',
+        silent: true,
+      });
     }
 
     function getEnergyOptions(mood) {
       const map = {
+        sleep: ['ultra-low', 'low'],
+        nervous: ['ultra-low', 'low'],
+        healing: ['ultra-low', 'low'],
+        meditation: ['ultra-low', 'low'],
+        ritual: ['ultra-low', 'low', 'low-mid'],
+        nature: ['ultra-low', 'low'],
+        focus: ['low', 'low-mid', 'gentle groove'],
+        epic: ['low', 'low-mid', 'gentle groove', 'slow-build dynamic'],
+        scifi: ['ultra-low', 'low'],
         'deep-sleep': ['ultra-low', 'low'],
         cortisol: ['ultra-low', 'low'],
-        healing: ['ultra-low', 'low'],
         fantasy: ['ultra-low', 'low'],
-        scifi: ['ultra-low', 'low'],
-        focus: ['low', 'low-mid'],
         cinematic: ['low', 'low-mid', 'gentle groove', 'slow-build dynamic'],
         'epic-rock': ['low-mid', 'gentle groove', 'slow-build dynamic'],
       };
-      return map[mood.id] || [mood.energy, 'low', 'ultra-low'];
+      return map[mood.categoryKey] || map[mood.id] || [mood.energy, 'low', 'ultra-low'];
     }
 
     function varyBpm(mood, avoid) {
@@ -1235,7 +2707,7 @@
         },
         thumbPalette: () => { document.getElementById('thumbPalette').value = pickDifferent(DATA.thumbPalettes, curPalette); },
         energy: () => { document.getElementById('energy').value = pickDifferent(getEnergyOptions(mood), curEnergy); },
-        lore: () => { document.getElementById('lore').value = Math.random() > 0.55 ? 'featuring Lumen the Dream Weaver' : ''; },
+        lore: () => { document.getElementById('lore').value = Math.random() > 0.55 ? pick(DATA.loreElements.filter(Boolean)) : ''; },
         cosmic: () => {
           document.getElementById('cosmicName').value = '';
           applyCosmicIdea(buildCosmicIdea(getVars()));
@@ -1271,21 +2743,65 @@
           ];
           document.getElementById('sunoExtraTags').value = pickDifferent(pools, document.getElementById('sunoExtraTags').value);
         },
+        sonicDna: () => {
+          const style = document.getElementById('titleStyle').value;
+          if (style === 'cortisol100k') {
+            const flav = pickCortisolFlavor();
+            state._forcedCortisol = flav;
+            document.getElementById('bpm').value = randBetween(flav.bpm[0], flav.bpm[1]);
+            document.getElementById('sunoKey').value = pick(flav.keys.filter(Boolean).concat(['A minor']));
+            document.getElementById('sunoExtraTags').value = flav.tags;
+            document.getElementById('instruments').value = flav.instruments;
+            document.getElementById('moodWords').value = flav.moodWords;
+            document.getElementById('thumbMain').value = flav.hook;
+            document.getElementById('thumbSub').value = `${flav.hzLabel} · NERVOUS SYSTEM RESET`;
+            document.getElementById('freqPrimary').value = 'cortisol';
+            document.getElementById('energy').value = 'ultra-low';
+            return;
+          }
+          if (style === 'darkchamber' || style === 'neoclassical') {
+            const flav = style === 'darkchamber' ? pickDarkChamberFlavor() : pickNeoclassicalFlavor();
+            state._forcedNeo = flav;
+            document.getElementById('bpm').value = randBetween(flav.bpm[0], flav.bpm[1]);
+            document.getElementById('sunoKey').value = pick(flav.keys);
+            document.getElementById('sunoExtraTags').value = flav.tags;
+            document.getElementById('instruments').value = flav.instruments;
+            document.getElementById('moodWords').value = flav.moodWords;
+            document.getElementById('genre').value = 'neo-classical';
+            document.getElementById('energy').value = 'ultra-low';
+            document.getElementById('textureDensity').value = 'sparse — lots of space';
+            return;
+          }
+          const dna = dnaForVars(getVars());
+          document.getElementById('bpm').value = randBetween(dna.bpm[0], dna.bpm[1]);
+          document.getElementById('sunoKey').value = pick(dna.keys.filter(Boolean).concat(['']));
+          document.getElementById('sunoExtraTags').value = dna.tags;
+          document.getElementById('instruments').value = dna.lead.split(' and ')[0].slice(0, 80);
+          document.getElementById('production').value = pick([
+            'honest intimate dry-ish mix',
+            'wide but empty stereo field',
+            'tape-worn imperfect warmth',
+            'cold distant cathedral',
+            'close-mic organic room',
+            dna.style.split(',')[0] + ' mix',
+          ]);
+          state._forcedDna = dna;
+        },
       };
 
       const scopeMap = {
-        all: ['bpm', 'moodWords', 'instruments', 'atmosphere', 'production', 'thumbPalette', 'energy', 'lore', 'cosmic'],
+        all: ['bpm', 'moodWords', 'instruments', 'atmosphere', 'production', 'thumbPalette', 'energy', 'lore', 'cosmic', 'sonicDna'],
         bpm: ['bpm'],
         instruments: ['instruments'],
         atmosphere: ['atmosphere'],
-        suno: ['bpm', 'moodWords', 'instruments', 'production', 'energy', 'sunoExtraTags'],
+        suno: ['sonicDna'],
         sunoExtraTags: ['sunoExtraTags'],
         visuals: ['atmosphere', 'thumbPalette'],
         cosmic: ['cosmic', 'thumbPalette'],
         youtube: ['moodWords', 'thumbSub', 'cosmic'],
         short: [],
         epicArcs: ['epicArcs'],
-        epic: ['epic', 'bpm', 'moodWords', 'instruments', 'atmosphere', 'production', 'thumbPalette', 'energy', 'thumbMain'],
+        epic: ['epic', 'bpm', 'moodWords', 'instruments', 'atmosphere', 'production', 'thumbPalette', 'energy', 'thumbMain', 'sonicDna'],
       };
 
       (scopeMap[scope] || scopeMap.all).forEach(key => apply[key]());
@@ -1300,13 +2816,26 @@
       updateSegmentStats();
       generatePackage();
       saveProject(true);
-      showToast(scope === 'epic' ? '🔥 More epic!' : scope === 'all' ? 'Regenerated!' : 'Updated!');
+      const dnaName = state._forcedDna?.label || state.package?.dna?.label;
+      if (scope === 'suno') showToast(`🧬 New DNA: ${dnaName || 'randomized'}`);
+      else showToast(scope === 'epic' ? '🔥 More epic!' : scope === 'all' ? 'Regenerated!' : 'Updated!');
     }
 
     function initForm() {
       fillGenreSelects();
-      fillSelect('mood', DATA.moods.map(m => ({ v: m.id, l: m.label })));
+      fillMoodSelect();
       fillSelect('duration', DATA.durations.map(d => ({ v: d.id, l: d.label })));
+      fillSelect('listeningPurpose', DATA.listeningPurposes.map(p => ({ v: p, l: p })));
+      fillSelect('benefitAngle', DATA.benefitAngles.map(p => ({ v: p, l: p })));
+      fillSelect('listenerState', DATA.listenerStates.map(s => ({ v: s, l: s })));
+      fillSelect('timeOfDay', DATA.timeOfDay.map(t => ({ v: t, l: t })));
+      fillSelect('intensityArc', DATA.intensityArcs.map(a => ({ v: a, l: a })));
+      fillSelect('rhythmFeel', DATA.rhythmFeels.map(r => ({ v: r, l: r })));
+      fillSelect('textureDensity', DATA.textureDensities.map(t => ({ v: t, l: t })));
+      fillSelect('vocalTexture', DATA.vocalTextures.map(v => ({ v: v, l: v })));
+      fillSelect('healingIntent', DATA.healingIntents.map(h => ({ v: h, l: h })));
+      fillSelect('youtubeBadge', DATA.youtubeBadges.map(b => ({ v: b, l: b || '— none —' })));
+      document.getElementById('lore').innerHTML = DATA.loreElements.map(l => `<option value="${l.replace(/"/g, '&quot;')}">${l || '— none —'}</option>`).join('');
       fillSelect('scifiMode', DATA.scifiModes.map(s => ({ v: s, l: s })));
       fillSelect('energy', DATA.energies.map(e => ({ v: e, l: e })));
       fillSelect('freqPrimary', DATA.freqModes.map(f => ({ v: f.id, l: f.label })));
@@ -1321,7 +2850,19 @@
 
     function copySuno() {
       if (!state.package) generatePackage();
+      const custom = document.getElementById('sunoCustomOnly')?.value;
+      if (custom) {
+        copyText(custom);
+        return;
+      }
       copyBlock('sunoPrompt');
+    }
+
+    function copySunoStyle() {
+      if (!state.package) generatePackage();
+      const style = document.getElementById('sunoStyleOnly')?.value;
+      if (style) copyText(style);
+      else copySuno();
     }
 
     function copyAIImage() {
@@ -1392,7 +2933,7 @@
       });
     }
 
-    function applySunoPreset(name) {
+    function applySunoPreset(name, silent) {
       initSunoDefaults();
       const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
       const tagSets = {
@@ -1423,8 +2964,10 @@
         set('sunoStructure', 'standard');
         set('sunoPromptStyle', 'bracket');
       }
-      saveProject(true);
-      showToast(`Suno preset: ${name}`);
+      if (!silent) {
+        saveProject(true);
+        showToast(`Suno preset: ${name}`);
+      }
     }
 
     function buildGenreString(v) {
@@ -1466,16 +3009,58 @@
     }
 
     function buildSunoFormulaHtml(v) {
+      if (v.titleStyle === 'cortisol100k') {
+        const flav = state._lastCortisol || state.package?.cortisol?.flav || pickCortisolFlavor();
+        return `<table>
+          <tr><th>Mode</th><td>🌿 Cortisol Flush 100k Playbook</td></tr>
+          <tr><th>Thumb hook</th><td><strong>${flav.hook}</strong></td></tr>
+          <tr><th>Title Hz</th><td>${flav.hzLabel} (add in DAW — NOT in Suno)</td></tr>
+          <tr><th>Suno bed</th><td>${flav.label}</td></tr>
+          <tr><th>Instruments</th><td>${flav.instruments}</td></tr>
+          <tr><th>BPM</th><td>${flav.bpm[0]}–${flav.bpm[1]}</td></tr>
+          <tr><th>Style box</th><td>Suno flowing rewrite (intro/middle/outro + mix tags)</td></tr>
+          <tr><th>Workflow</th><td>1) Paste flowing Style → 2) Custom → 3) stitch → 4) DAW Hz → 5) FLUSH thumb</td></tr>
+        </table>`;
+      }
+      if (v.titleStyle === 'darkchamber' || v.titleStyle === 'neoclassical') {
+        const flav = state._lastNeo || state.package?.neo || (v.titleStyle === 'darkchamber' ? pickDarkChamberFlavor() : pickNeoclassicalFlavor());
+        const dark = v.titleStyle === 'darkchamber' || DARK_CHAMBER_MIX.some(d => d.id === flav.id);
+        return `<table>
+          <tr><th>Mode</th><td>${dark ? '🕯️ Dark Chamber Solitude' : '🎹 Neoclassical Mix'} (${dark ? DARK_CHAMBER_MIX.length : NEOCLASSICAL_MIX.length} flavors)</td></tr>
+          <tr><th>Flavor</th><td><strong>${flav.label}</strong></td></tr>
+          <tr><th>Instruments</th><td>${flav.instruments}</td></tr>
+          <tr><th>BPM range</th><td>${flav.bpm[0]}–${flav.bpm[1]} (very low)</td></tr>
+          <tr><th>Mood</th><td>${flav.moodWords}</td></tr>
+          <tr><th>Style box</th><td>${flav.style}</td></tr>
+          <tr><th>How to use</th><td>Copy Style + Prompt → Suno Instrumental ON${dark ? ' · demand realist cello/violin/piano' : ''}</td></tr>
+        </table>`;
+      }
+      if (v.titleStyle === 'yt2026') {
+        const y = buildYt2026SunoPrompt(v);
+        return `<table>
+          <tr><th>Mode</th><td>📈 2026 — Unique Sonic DNA</td></tr>
+          <tr><th>DNA Profile</th><td><strong>${y.dna.label}</strong> (${y.dna.id})</td></tr>
+          <tr><th>Primary voice</th><td>${y.dna.lead}</td></tr>
+          <tr><th>Motion</th><td>${y.dna.motion}</td></tr>
+          <tr><th>Signature weird</th><td>${y.dna.weird}</td></tr>
+          <tr><th>Hard avoid</th><td>${y.dna.avoid}</td></tr>
+          <tr><th>Style box</th><td>${y.styleOfMusic}</td></tr>
+          <tr><th>Benefit</th><td>${v.benefitAngle || 'Deep Focus & Flow'}</td></tr>
+          <tr><th>How to use</th><td>Paste Style + Prompt into Suno · Instrumental ON · Generate · if still similar click ↻ New Sonic DNA</td></tr>
+        </table>`;
+      }
+      const bundle = resolveSunoBundle(v);
       const guards = buildSunoGuards(v).trim() || '—';
       return `<table>
+        <tr><th>Sonic DNA</th><td><strong>${bundle.dna.label}</strong></td></tr>
+        <tr><th>Primary voice</th><td>${bundle.dna.lead}</td></tr>
+        <tr><th>Purpose</th><td>${v.mood.label} — ${v.listeningPurpose || v.mood.purpose || ''}</td></tr>
         <tr><th>Genre blend</th><td>${buildGenreString(v)}</td></tr>
-        <tr><th>Mood</th><td>${v.moodWords.join(', ') || 'serene'}</td></tr>
+        <tr><th>Mood words</th><td>${v.moodWords.join(', ') || 'serene'}</td></tr>
         <tr><th>Instruments</th><td>${v.instruments.join(', ')}</td></tr>
         <tr><th>Structure</th><td>${v.sunoStructure}</td></tr>
-        <tr><th>Style</th><td>${v.sunoPromptStyle}</td></tr>
         <tr><th>Key</th><td>${v.sunoKey || 'Auto'}</td></tr>
         <tr><th>Suno rules</th><td>${guards}</td></tr>
-        <tr><th>Production</th><td>${v.production}</td></tr>
         <tr><th>Tempo/Energy</th><td>${v.bpm} BPM, ${v.energy}</td></tr>
       </table>`;
     }
@@ -1495,6 +3080,15 @@
         genre: document.getElementById('genre').value,
         genreSecondary: document.getElementById('genreSecondary').value,
         scifiMode: document.getElementById('scifiMode').value,
+        listeningPurpose: document.getElementById('listeningPurpose').value,
+        listenerState: document.getElementById('listenerState').value,
+        timeOfDay: document.getElementById('timeOfDay').value,
+        intensityArc: document.getElementById('intensityArc').value,
+        rhythmFeel: document.getElementById('rhythmFeel').value,
+        textureDensity: document.getElementById('textureDensity').value,
+        vocalTexture: document.getElementById('vocalTexture').value,
+        healingIntent: document.getElementById('healingIntent').value,
+        youtubeBadge: document.getElementById('youtubeBadge').value,
         moodWords: document.getElementById('moodWords').value.split(',').map(s=>s.trim()).filter(Boolean),
         instruments: document.getElementById('instruments').value.split(',').map(s=>s.trim()).filter(Boolean),
         atmosphere: document.getElementById('atmosphere').value,
@@ -1503,6 +3097,7 @@
         energy: document.getElementById('energy').value,
         production: document.getElementById('production').value,
         seriesName: document.getElementById('seriesName').value,
+        benefitAngle: document.getElementById('benefitAngle')?.value || pick(DATA.benefitAngles),
         freq: freqObj,
         freqSecondary: document.getElementById('freqSecondary').value,
         freqMix: document.getElementById('freqMix').value,
@@ -1618,86 +3213,308 @@ Style: calm, premium, trustworthy. No shocked faces, no arrows, no clickbait. Ma
     }
 
     function randomizeAll() {
-      const mood = pick(DATA.moods);
-      document.getElementById('mood').value = mood.id;
-      document.getElementById('duration').value = pick(DATA.durations).id;
-      document.getElementById('genre').value = mood.id === 'scifi' ? pick(['sci-fi ambient','space music','cyberpunk ambient']) : (allGenres().includes(mood.genre) ? mood.genre : pick(allGenres()));
-      document.getElementById('genreSecondary').value = Math.random() > 0.45 ? pick(allGenres().filter(g => g !== document.getElementById('genre').value)) : '';
-      document.getElementById('scifiMode').value = mood.id === 'scifi' ? pick(DATA.scifiModes.filter(s=>s!=='N/A')) : 'N/A';
-      document.getElementById('moodWords').value = pickN(DATA.moodWords, 2).join(', ');
-      const instKey = getInstrumentKey(mood.id);
-      document.getElementById('instruments').value = pickN(DATA.instruments[instKey] || DATA.instruments.healing, 3).join(', ');
-      const atmKey = getAtmosphereKey(mood.id);
-      document.getElementById('atmosphere').value = pick(DATA.atmospheres[atmKey] || DATA.atmospheres.healing);
-      document.getElementById('lore').value = Math.random() > 0.5 ? 'featuring Lumen the Dream Weaver' : '';
-      document.getElementById('bpm').value = randBetween(mood.bpm[0], mood.bpm[1]);
-      document.getElementById('energy').value = mood.energy;
-      document.getElementById('production').value = pick(DATA.productions);
-      document.getElementById('seriesName').value = mood.id === 'scifi' && Math.random() > 0.3 ? pick(DATA.seriesNames) : '';
-      const freqPick = mood.id === 'cortisol' ? 'grounding' : mood.id === 'deep-sleep' ? 'delta' : mood.id === 'focus' ? 'alpha' : mood.id === 'scifi' ? 'none' : pick(['grounding','theta','cortisol','none']);
-      document.getElementById('freqPrimary').value = freqPick;
-      document.getElementById('freqSecondary').value = freqPick === 'grounding' || freqPick === 'theta' ? 'Theta 4 Hz R / 7 Hz L binaural' : 'none';
-      document.getElementById('freqMix').value = pick(DATA.freqMix);
-      document.getElementById('binaural').value = freqPick === 'none' ? 'solfeggio tone only — no brainwave layer' : pick(DATA.binaural);
-      const series = document.getElementById('seriesName').value;
-      const dur = DATA.durations.find(d => d.id === document.getElementById('duration').value);
-      document.getElementById('thumbMain').value = series || (mood.id === 'epic-rock' || mood.id === 'cinematic' ? pick(DATA.epic.thumbMains) : mood.id === 'cortisol' ? 'LOW CORTISOL' : mood.id === 'scifi' ? series || 'DEEP SPACE' : mood.label.split('/')[0].trim().toUpperCase().slice(0,20));
-      document.getElementById('thumbSub').value = (mood.id === 'epic-rock' || mood.id === 'cinematic') ? pick(DATA.epic.thumbSubs) : `${dur.label.replace('Single Track ~6–8 min','~8 Min')} · ${mood.id === 'scifi' ? 'Space Music · Focus' : mood.id === 'cortisol' ? 'Theta Waves · 174 Hz' : 'For Deep Relaxation'}`;
-      document.getElementById('thumbPalette').value = pick(DATA.thumbPalettes);
-      document.getElementById('slug').value = slugify(document.getElementById('thumbMain').value + '-' + dur.id);
-      updateSegmentStats();
+      randomizeAllFields({ silent: true });
+      showToast('🎲 All settings randomized!');
+    }
+
+    function moodsInCategory(...keys) {
+      return DATA.moods.filter(m => keys.includes(m.categoryKey) || keys.includes(m.id));
     }
 
     function randomizePartial(type) {
-      if (type === 'sci-fi') {
-        document.getElementById('mood').value = 'scifi';
-        document.getElementById('genre').value = pick(['sci-fi ambient','space music','cyberpunk ambient','modular synth']);
-        document.getElementById('genreSecondary').value = Math.random() > 0.5 ? pick(['downtempo','ambient electronic','atmospheric']) : '';
-        document.getElementById('scifiMode').value = pick(DATA.scifiModes.filter(s=>s!=='N/A'));
-        document.getElementById('instruments').value = pickN(DATA.instruments.scifi, 3).join(', ');
-        document.getElementById('atmosphere').value = pick(DATA.atmospheres.scifi);
-        document.getElementById('seriesName').value = pick(DATA.seriesNames);
-        document.getElementById('bpm').value = randBetween(60, 85);
-        document.getElementById('freqPrimary').value = 'none';
+      if (type === 'mood') {
+        randomizeAllFields({ silent: true });
+        showToast('🎲 Random mood + full settings');
+        return;
+      }
+      if (type === 'sleep') {
+        randomizeAllFields({ moodPool: ['sleep'], durationPool: ['2hr','3hr','4hr','8hr','1hr','45min'], sunoPreset: 'sleep', silent: true });
+        showToast('🌙 Sleep package randomized');
+      } else if (type === 'focus') {
+        randomizeAllFields({ moodPool: ['focus'], durationPool: ['45min','1hr','2hr','30min'], sunoPreset: 'focus', silent: true });
+        showToast('🎯 Focus package randomized');
+      } else if (type === 'meditation') {
+        randomizeAllFields({ moodPool: ['meditation'], durationPool: ['30min','45min','1hr','2hr'], sunoPreset: 'ambient', silent: true });
+        showToast('🧘 Meditation package randomized');
+      } else if (type === 'sci-fi') {
+        randomizeAllFields({ moodId: 'scifi', sunoPreset: 'scifi', silent: true });
+        showToast('🚀 Sci-fi package randomized');
       } else if (type === 'cosmic') {
-        document.getElementById('titleStyle').value = 'cosmic';
-        const moodPick = pick(['deep-sleep','healing','scifi','fantasy','cinematic']);
-        document.getElementById('mood').value = moodPick;
-        document.getElementById('duration').value = pick(['2hr','3hr','1hr','45min']);
-        document.getElementById('genre').value = pick(['ambient','sci-fi ambient','space music','dark ambient','nature soundscape','drone ambient','epic ambient']);
-        document.getElementById('genreSecondary').value = Math.random() > 0.5 ? pick(['atmospheric','soundscape','meditation music']) : '';
-        document.getElementById('scifiMode').value = moodPick === 'scifi' ? pick(DATA.scifiModes.filter(s=>s!=='N/A')) : 'N/A';
-        document.getElementById('moodWords').value = pickN(['ethereal','serene','cosmic','weightless','still','dreamy','vast','otherworldly'], 2).join(', ');
-        const instKey = moodPick === 'scifi' ? 'scifi' : moodPick === 'fantasy' ? 'cinematic' : 'healing';
-        document.getElementById('instruments').value = pickN(DATA.instruments[instKey], 3).join(', ');
-        document.getElementById('bpm').value = randBetween(50, 72);
-        document.getElementById('energy').value = pick(['ultra-low','low']);
-        document.getElementById('production').value = pick(['vast space reverb','wide cinematic reverb','spa-quality wide mix','immersive binaural-ready stereo field']);
-        document.getElementById('seriesName').value = Math.random() > 0.7 ? pick(DATA.cosmicSeries) : '';
-        document.getElementById('freqPrimary').value = pick(['none','theta','grounding','delta']);
-        document.getElementById('freqSecondary').value = 'none';
-        document.getElementById('freqMix').value = 'barely audible under music';
-        document.getElementById('binaural').value = 'solfeggio tone only — no brainwave layer';
-        document.getElementById('thumbPalette').value = pick(DATA.thumbPalettes);
-        const cosmic = buildCosmicIdea(getVars());
-        document.getElementById('cosmicName').value = cosmic.name;
-        document.getElementById('atmosphere').value = cosmic.scene.split(',')[0];
-        document.getElementById('lore').value = Math.random() > 0.6 ? 'featuring Lumen the Dream Weaver' : '';
-        document.getElementById('thumbMain').value = cosmic.thumbMain;
-        document.getElementById('thumbSub').value = cosmic.thumbSub;
-        document.getElementById('slug').value = slugify(cosmic.name + '-' + document.getElementById('duration').value);
+        randomizeAllFields({
+          titleStyle: 'cosmic',
+          moodPool: ['deep-sleep','healing','scifi','fantasy','cinematic','meditation','ocean-drift','cortisol','evening-unwind','nature'],
+          durationPool: ['2hr','3hr','1hr','45min','4hr'],
+          sunoPreset: 'ambient',
+          silent: true,
+        });
+        showToast('🌌 Cosmic package randomized');
       } else if (type === 'healing') {
-        document.getElementById('mood').value = pick(['cortisol','healing','deep-sleep']);
-        document.getElementById('instruments').value = pickN(DATA.instruments.healing, 3).join(', ');
-        document.getElementById('atmosphere').value = pick(DATA.atmospheres.healing);
-        document.getElementById('freqPrimary').value = 'grounding';
-        document.getElementById('freqSecondary').value = 'Theta 4 Hz R / 7 Hz L binaural';
+        randomizeAllFields({ moodPool: ['healing', 'nervous'], sunoPreset: 'sleep', silent: true });
+        showToast('💫 Healing package randomized');
       } else if (type === 'epic') {
-        document.getElementById('titleStyle').value = 'standard';
-        if (!document.getElementById('duration').value || document.getElementById('duration').value === '8min') {
-          document.getElementById('duration').value = pick(['45min', '1hr', '2hr']);
-        }
-        applyEpicPreset(false);
+        randomizeAllFields({ moodPool: ['epic'], titleStyle: 'epic', forceEpic: true, durationPool: ['45min','1hr','2hr','3hr'], sunoPreset: 'epic', silent: true });
+        showToast('🔥 Epic package randomized');
+      } else if (type === 'cortisol100k') {
+        const flav = pickCortisolFlavor();
+        randomizeAllFields({
+          titleStyle: 'cortisol100k',
+          moodId: 'cortisol',
+          durationPool: ['1hr', '2hr', '3hr', '8hr'],
+          sunoPreset: 'sleep',
+          silent: true,
+        });
+        setField('titleStyle', 'cortisol100k');
+        setField('mood', 'cortisol');
+        applyMoodDefaults(true);
+        setField('genre', 'ambient');
+        setField('genreSecondary', flav.nature ? 'nature soundscape' : '');
+        setField('benefitAngle', 'Nervous System Reset');
+        setField('listeningPurpose', 'Cortisol flush / parasympathetic nervous system calm');
+        setField('listenerState', pick(['wired and overstimulated', 'anxious / racing thoughts', 'body tense / shallow breath', 'post-work decompression']));
+        setField('moodWords', flav.moodWords);
+        setField('instruments', flav.instruments);
+        setField('bpm', randBetween(flav.bpm[0], flav.bpm[1]));
+        setField('energy', 'ultra-low');
+        setField('intensityArc', 'Flat calm — no peaks');
+        setField('rhythmFeel', 'breath-paced pulse');
+        setField('textureDensity', 'sparse — lots of space');
+        setField('vocalTexture', 'none — purely instrumental');
+        setField('production', 'spa-quality wide mix, soft edges, sleep-safe dynamics');
+        setField('atmosphere', flav.nature
+          ? pick(['soft rain outside window, warm indoor stillness', 'morning garden mist, gentle birds far away', 'lotus water garden, quiet teal light'])
+          : pick(['soft teal and amber energy field, calm body', 'parasympathetic quiet room, dim warm lamp', 'weightless calm mist, no urgency']));
+        setField('freqPrimary', flav.hzLabel.includes('417') ? 'grounding' : flav.hzLabel.includes('528') && !flav.hzLabel.includes('174') ? 'solfeggio-stack' : 'cortisol');
+        setField('freqSecondary', 'Theta 4 Hz R / 7 Hz L binaural');
+        setField('freqMix', 'subtle bed');
+        setField('binaural', 'binaural — headphones recommended');
+        setField('healingIntent', 'fear/stress release (experiential)');
+        setField('youtubeBadge', 'Nervous System Reset');
+        const cortNames = ['Cortisol Veil', 'Soft Exhale', 'Nervous Quiet', 'Flush Meridian', 'Parasympathetic Drift', 'Still Hormone Dawn'];
+        const name = pick(cortNames.concat((DATA.cosmicNames || []).slice(0, 8)));
+        setField('cosmicName', name);
+        setField('thumbMain', flav.hook);
+        setField('thumbSub', `${flav.hzLabel} · NERVOUS SYSTEM RESET`);
+        setField('thumbPalette', 'teal + soft orange + violet energy (or Lumen indigo + warm gold)');
+        setField('slug', slugify(flav.hook + '-' + flav.hzLabel + '-' + document.getElementById('duration').value));
+        setField('sunoKey', pick(flav.keys.filter(Boolean).concat(['C major', 'A minor'])));
+        setField('sunoExtraTags', flav.tags);
+        setField('sunoPromptStyle', 'flowing');
+        setField('sunoStructure', 'padwash');
+        setField('sunoExclude', 'no drums, no vocals, no cinematic impacts, no sine beep generators, no labeled frequency tones in the music');
+        setCheck('sunoInstrumental', true);
+        setCheck('sunoNoVocals', true);
+        setCheck('sunoNoDrums', true);
+        setCheck('sunoNoPercussion', true);
+        setCheck('sunoNoHooks', true);
+        setCheck('sunoNoDrops', true);
+        setCheck('sunoSleepSafe', true);
+        setCheck('sunoCrossfade', true);
+        setCheck('sunoNoHz', true);
+        setCheck('sunoNoArtists', true);
+        setCheck('sunoFreqHeadroom', true);
+        setCheck('epicEnabled', false);
+        state._forcedCortisol = flav;
+        generatePackage();
+        goStep(2);
+        showToast(`🌿 ${flav.hook} — Copy Suno, then DAW Hz`);
+        return;
+      } else if (type === 'darkchamber') {
+        const flav = pickDarkChamberFlavor();
+        randomizeAllFields({
+          titleStyle: 'darkchamber',
+          moodPool: ['focus', 'creative-flow', 'evening-unwind', 'meditation', 'healing'],
+          durationPool: ['1hr', '2hr', '3hr', '45min'],
+          sunoPreset: 'ambient',
+          silent: true,
+        });
+        setField('titleStyle', 'darkchamber');
+        setField('genre', 'neo-classical');
+        setField('genreSecondary', pick(['', 'dark ambient', 'cinematic']));
+        setField('benefitAngle', pick([
+          'Deep Focus & Mental Clarity',
+          'Deep Focus & Flow',
+          'Hyperfocus & Deep Work',
+          'Calm Productivity',
+          'Meditation & Still Focus',
+        ]));
+        setField('listeningPurpose', 'Deep focus / solitude of the thinking mind');
+        setField('listenerState', pick(['seeking deep focus', 'mentally exhausted', 'anxious / racing thoughts', 'creatively blocked']));
+        setField('moodWords', flav.moodWords);
+        setField('instruments', flav.instruments);
+        setField('bpm', randBetween(flav.bpm[0], flav.bpm[1]));
+        setField('energy', 'ultra-low');
+        setField('intensityArc', pick(['Flat calm — no peaks', 'Plateau drift — steady hypnotic', 'Fade to silence — sleep descent']));
+        setField('rhythmFeel', pick(['pulseless / free time', 'rubato drift', 'breath-paced pulse']));
+        setField('textureDensity', 'sparse — lots of space');
+        setField('vocalTexture', 'none — purely instrumental');
+        setField('production', pick([
+          'intimate close-mic stone chamber, dry-warm, realist acoustic',
+          'small dark hall, natural air, hyper-real strings',
+          'close cello body resonance, honest quiet dynamics',
+          'library midnight chamber, restrained reverb',
+        ]));
+        setField('atmosphere', pick([
+          'empty stone chamber at midnight, single candle, dust in still air',
+          'dark library stacks, warm lamp island, rain far away',
+          'cold window overlooking black trees, quiet room with wooden floor',
+          'thinking desk at 2am, notebook open, world muted',
+        ]));
+        const darkNames = ['Solitude Meridian', 'Thinking Ash', 'Quiet Gravity', 'Chamber Ember', 'Low Meridian', 'Still Architecture', 'Dark Ledger', 'Velvet Null'];
+        const name = pick(darkNames.concat(DATA.cosmicNames || []));
+        setField('cosmicName', name);
+        setField('thumbMain', name.toUpperCase().slice(0, 28));
+        setField('thumbSub', pick([
+          'Dark Neoclassical · Deep Focus',
+          `${flav.label}`,
+          'Cello · Violin · Piano',
+          `${durShortLabel(getVars().duration)} · Solitude`,
+        ]));
+        setField('youtubeBadge', pick(['Deep Focus', 'Deep Work', 'CALM MODE: ON', '']));
+        setField('slug', slugify(name + '-dark-chamber-' + document.getElementById('duration').value));
+        setField('sunoKey', pick(flav.keys));
+        setField('sunoExtraTags', flav.tags);
+        setField('sunoPromptStyle', 'flowing');
+        setField('sunoStructure', 'minimal');
+        setField('sunoExclude', 'no synth pads, no orchestra, no drums, no choir, no cinematic trailer impacts, no plastic string libraries');
+        setCheck('sunoInstrumental', true);
+        setCheck('sunoNoVocals', true);
+        setCheck('sunoNoDrums', true);
+        setCheck('sunoNoPercussion', true);
+        setCheck('sunoNoHooks', true);
+        setCheck('sunoNoDrops', true);
+        setCheck('sunoSleepSafe', true);
+        setCheck('sunoCrossfade', true);
+        setCheck('sunoNoHz', true);
+        setCheck('sunoNoArtists', true);
+        setCheck('epicEnabled', false);
+        state._forcedNeo = flav;
+        generatePackage();
+        goStep(2);
+        showToast(`🕯️ ${flav.label} — Copy Suno Prompt`);
+        return;
+      } else if (type === 'neoclassical') {
+        const flav = pickNeoclassicalFlavor();
+        randomizeAllFields({
+          titleStyle: 'neoclassical',
+          moodPool: ['focus', 'meditation', 'healing', 'evening-unwind', 'creative-flow', 'deep-sleep'],
+          durationPool: ['45min', '1hr', '2hr', '3hr'],
+          sunoPreset: 'ambient',
+          silent: true,
+        });
+        setField('titleStyle', 'neoclassical');
+        setField('genre', 'neo-classical');
+        setField('genreSecondary', pick(['', 'ambient', 'cinematic', 'minimal piano']));
+        setField('benefitAngle', pick([
+          'Meditation & Still Focus',
+          'Deep Focus & Mental Clarity',
+          'Calm Productivity',
+          'Deep Unwind & Stillness',
+          'Luxury Calm & Deep Relaxation',
+          'Deep Focus & Flow',
+        ]));
+        setField('moodWords', flav.moodWords);
+        setField('instruments', flav.instruments);
+        setField('bpm', randBetween(flav.bpm[0], flav.bpm[1]));
+        setField('energy', pick(['ultra-low', 'low', 'low']));
+        setField('intensityArc', pick(['Flat calm — no peaks', 'Slow bloom — gentle rise', 'Plateau drift — steady hypnotic']));
+        setField('rhythmFeel', pick(['pulseless / free time', 'rubato drift', 'breath-paced pulse']));
+        setField('textureDensity', pick(['sparse — lots of space', 'layered but transparent']));
+        setField('vocalTexture', 'none — purely instrumental');
+        setField('production', pick([
+          'intimate close-mic chamber, natural room',
+          'soft hall reverb, honest dynamics',
+          'dry-warm piano focus, quiet air',
+          'small-hall neo-classical intimacy',
+        ]));
+        setField('atmosphere', pick([
+          'candlelit chamber, soft wooden floor, quiet rain outside',
+          'moonlit study, open notebook, warm lamp',
+          'foggy morning conservatory, glass and dust motes',
+          'autumn window, soft curtain, distant city hush',
+          'empty small concert hall after rehearsal',
+        ]));
+        const name = pick(DATA.cosmicNames);
+        setField('cosmicName', name);
+        setField('thumbMain', name.toUpperCase().slice(0, 28));
+        setField('thumbSub', pick([
+          `Neo-Classical · ${durShortLabel(getVars().duration)}`,
+          `${flav.label}`,
+          'Soft Piano · Chamber Calm',
+          'Neo-Classical Ambient · 2026',
+        ]));
+        setField('youtubeBadge', pick(['Deep Focus', 'Meditation', 'CALM MODE: ON', 'Serene Mode', '']));
+        setField('slug', slugify(name + '-neoclassical-' + document.getElementById('duration').value));
+        setField('sunoKey', pick(flav.keys));
+        setField('sunoExtraTags', flav.tags);
+        setField('sunoPromptStyle', 'flowing');
+        setField('sunoStructure', 'minimal');
+        setCheck('sunoInstrumental', true);
+        setCheck('sunoNoVocals', true);
+        setCheck('sunoNoDrums', true);
+        setCheck('sunoNoPercussion', true);
+        setCheck('sunoNoHooks', true);
+        setCheck('sunoNoDrops', true);
+        setCheck('sunoSleepSafe', true);
+        setCheck('sunoCrossfade', true);
+        setCheck('sunoNoHz', true);
+        setCheck('sunoNoArtists', true);
+        setCheck('epicEnabled', false);
+        state._forcedNeo = flav;
+        generatePackage();
+        goStep(2);
+        showToast(`🎹 ${flav.label} — Copy Suno Prompt`);
+        return;
+      } else if (type === 'yt2026') {
+        const sunoPreset = pick(['focus', 'ambient', 'ambient', 'epic']);
+        randomizeAllFields({
+          titleStyle: 'yt2026',
+          moodPool: ['focus', 'epic', 'cinematic', 'scifi', 'meditation', 'evening-unwind', 'deep-sleep', 'healing'],
+          durationPool: ['1hr', '2hr', '3hr', '45min'],
+          sunoPreset,
+          silent: true,
+        });
+        setField('titleStyle', 'yt2026');
+        setField('benefitAngle', pick(DATA.benefitAngles.filter(a =>
+          /Focus|Flow|Hyperfocus|Deep Work|Productivity|Clarity|Calm|Unwind|Sleep|Meditation|Cinematic/i.test(a)
+        )));
+        const name = pick(DATA.cosmicNames);
+        setField('cosmicName', name);
+        setField('thumbMain', name.toUpperCase().slice(0, 28));
+        setField('thumbSub', pick([
+          `Cinematic Ambient · ${durShortLabel(getVars().duration)}`,
+          `${(document.getElementById('benefitAngle').value || 'Deep Focus').split('&')[0].trim()} · 2026`,
+          'Deep Focus · Flow State',
+          'Luxury Ambient · 2026',
+        ]));
+        setField('youtubeBadge', pick(['Deep Focus', 'Flow State', 'Deep Work', 'Hyperfocus', 'Luxury Ambient', 'Cinematic Drift', '2026']));
+        setField('slug', slugify(name + '-' + document.getElementById('duration').value));
+        // Force music-prompt settings for Suno
+        setField('genre', sunoPreset === 'epic'
+          ? (allGenres().includes('cinematic') ? 'cinematic' : 'ambient')
+          : pick(['ambient', 'cinematic', 'sci-fi ambient', 'dark ambient'].filter(g => allGenres().includes(g)).concat(['ambient'])));
+        setField('sunoPromptStyle', 'flowing');
+        setField('sunoStructure', pick(['layered', 'standard', 'padwash']));
+        setField('sunoExtraTags', 'cinematic ambient, deep focus, flow state, luxury ambient, instrumental, slow-build, atmospheric');
+        setCheck('sunoInstrumental', true);
+        setCheck('sunoNoVocals', true);
+        setCheck('sunoNoDrums', true);
+        setCheck('sunoNoPercussion', true);
+        setCheck('sunoNoHooks', true);
+        setCheck('sunoNoDrops', true);
+        setCheck('sunoSleepSafe', true);
+        setCheck('sunoCrossfade', true);
+        setCheck('sunoNoHz', true);
+        setCheck('sunoNoArtists', true);
+        // Force a fresh Sonic DNA before packaging
+        const forced = dnaForVars(getVars());
+        state._forcedDna = forced;
+        document.getElementById('bpm').value = randBetween(forced.bpm[0], forced.bpm[1]);
+        document.getElementById('sunoKey').value = pick(forced.keys);
+        document.getElementById('sunoExtraTags').value = forced.tags;
+        generatePackage();
+        goStep(2);
+        showToast(`📈 DNA: ${state.package?.dna?.label || forced.label} — Copy Suno Prompt`);
+        return;
       } else {
         randomizeAll();
         return;
@@ -1715,7 +3532,54 @@ Style: calm, premium, trustworthy. No shocked faces, no arrows, no clickbait. Ma
         <div class="stat"><div class="stat-val">~8</div><div class="stat-label">Min / segment</div></div>`;
     }
 
-    function buildEpicSunoPrompt(v) {
+    function buildYt2026SunoPrompt(v, dnaForced) {
+      const dna = dnaForced || dnaForVars(v);
+      const benefit = v.benefitAngle || pickBenefitAngle(v.mood);
+      const name = poeticNameForTitles(v, null);
+      const bpm = v.bpm || randBetween(dna.bpm[0], dna.bpm[1]);
+      const key = v.sunoKey || pick(dna.keys);
+      const keyBit = key ? `Key: ${key}. ` : '';
+      const purposeBit = /sleep|unwind|overnight/i.test(benefit)
+        ? 'long-form overnight calm listening'
+        : /focus|work|productiv|flow|hyper|study/i.test(benefit)
+          ? 'deep focus / flow-state background listening'
+          : 'premium long-form ambient listening';
+
+      // STYLE = Suno flowing rewrite format (not comma spam)
+      const styleOfMusic = toSunoFlowStyle(
+        `${dna.style.replace(/\.$/, '')}; PRIMARY VOICE ${dna.lead}; SUPPORT ${dna.body}; MOTION ${dna.motion}; SIGNATURE ${dna.weird}; AVOID ${dna.avoid}; intro establishes the primary voice from near-silence, middle section settles into slow evolution, final section thins for seamless crossfade, Close intimate mix, instrumental${key ? ', ' + key : ''}`,
+        bpm,
+      );
+
+      const custom = `[Instrumental] [${dna.label}] [${v.sunoSegmentLabel || '~8 min segment'}]
+
+UNIQUE SONIC IDENTITY — make this sound DIFFERENT from generic pad ambient:
+PRIMARY VOICE: ${dna.lead}.
+SUPPORT: ${dna.body}.
+MOTION: ${dna.motion}.
+SIGNATURE DETAIL: ${dna.weird}.
+HARD AVOID: ${dna.avoid}, no identical warm-pad wallpaper sound.
+
+Concept "${name}" for ${purposeBit} (${benefit}).
+Tempo ${bpm} BPM. ${keyBit}Production feel: ${v.production || 'honest intimate mix, not overcompressed'}.
+Atmosphere hint only (do not turn into cinematic trailer): ${((v.atmosphere || '').split(',')[0] || 'quiet night room').trim()}.
+
+Structure: open sparse → settle into the primary voice for most of the segment → thin ending for crossfade.
+Instrumental only. No vocals. No lyrical content.
+
+Tags: ${dna.tags}`;
+
+      return {
+        dna,
+        styleOfMusic,
+        custom,
+        full: `═══ SONIC DNA: ${dna.label} ═══\nThis generation is forced into a UNIQUE sound profile so it does NOT match your last track.\n\n═══ SUNO — STYLE OF MUSIC (flowing rewrite format) ═══\n${styleOfMusic}\n\n═══ SUNO — CUSTOM / LYRICS (Instrumental ON) ═══\n${custom}\n\nTIP: In Suno, also click Create a few times — or change one word in PRIMARY VOICE — if two outputs still feel similar.`,
+        pasteReady: custom,
+      };
+    }
+
+    function buildEpicSunoPrompt(v, dnaForced) {
+      const dna = dnaForced || pickSonicDna(['grit-cathedral', 'rain-guitar', 'cello-fog', 'neon-noir']);
       const E = DATA.epic;
       const inst = v.instruments.length ? v.instruments : pickN(DATA.instruments.epic, 3);
       const i1 = inst[0] || 'warm analog pad wash';
@@ -1727,12 +3591,59 @@ Style: calm, premium, trustworthy. No shocked faces, no arrows, no clickbait. Ma
         .replace(/\{i1\}/g, i1).replace(/\{i2\}/g, i2).replace(/\{i3\}/g, i3);
       const closing = resolveEpicField(v.epicClosing, E.closings);
       const prod = v.production || epicProduction();
-      const headroom = v.sunoFreqHeadroom && v.freq.stack ? ', centered low-mid clarity' : '';
-      const guards = buildSunoGuards(v);
-      const tags = pickN(E.genreTags.concat((v.sunoExtraTags || '').split(',').map(s => s.trim()).filter(Boolean)), 10).join(', ');
+      const bpm = v.bpm || randBetween(dna.bpm[0], dna.bpm[1]);
+      const key = v.sunoKey || pick(dna.keys);
       const genreLabel = v.epicGenreStack && v.epicGenreStack !== 'auto' ? v.epicGenreStack : buildGenreString(v);
 
-      return `Cinematic ${genreLabel} at ${v.bpm} BPM with ${pulse}; ${opening}, ${middle}, ${closing}, ${prod}${headroom}, intimate cinematic mix, ${guards}slow-build, ${tags}`;
+      return `[Instrumental] [${dna.label}] [Epic Ambient]
+
+UNIQUE SONIC IDENTITY:
+PRIMARY VOICE: ${dna.lead}.
+SUPPORT: ${dna.body}.
+MOTION: ${dna.motion}.
+SIGNATURE: ${dna.weird}.
+AVOID: ${dna.avoid}.
+
+Cinematic ${genreLabel} at ${bpm} BPM${key ? ' in ' + key : ''} with ${pulse}; ${opening}; ${middle}; ${closing}; ${prod}; instrumental, ${dna.tags}`;
+    }
+
+    function buildGenericSunoPrompt(v, dnaForced) {
+      const dna = dnaForced || dnaForVars(v);
+      const moods = v.moodWords.slice(0, 2).join(', ') || 'serene';
+      const bpm = v.bpm || randBetween(dna.bpm[0], dna.bpm[1]);
+      const key = v.sunoKey || pick(dna.keys);
+      const seg = v.sunoSegmentLabel || '~8 min segment';
+
+      const styleOfMusic = toSunoFlowStyle(
+        `${dna.style.replace(/\.$/, '')}; PRIMARY ${dna.lead}; SUPPORT ${dna.body}; MOTION ${dna.motion}; DETAIL ${dna.weird}; AVOID ${dna.avoid}; intro starts sparse from near-silence, middle section evolves slowly, final section thins for seamless crossfade, Close intimate mix${key ? ', ' + key : ''}, ${moods} mood, instrumental, ambient, soft, slow`,
+        bpm,
+      );
+      const custom = `[Instrumental] [${dna.label}] [${seg}]
+
+UNIQUE SONIC IDENTITY — do not generate generic warm-pad ambient:
+PRIMARY: ${dna.lead}.
+SUPPORT: ${dna.body}.
+MOTION: ${dna.motion}.
+DETAIL: ${dna.weird}.
+AVOID: ${dna.avoid}.
+
+${moods} mood. ${bpm} BPM.${key ? ' Key ' + key + '.' : ''} ${v.production || ''}.
+Atmosphere: ${(v.atmosphere || '').split(',')[0] || 'quiet space'}.
+${buildSunoGuards(v)}
+
+Tags: ${dna.tags}`;
+
+      if (v.sunoPromptStyle === 'flowing') {
+        return {
+          dna,
+          styleOfMusic,
+          custom: styleOfMusic,
+          full: null,
+          pasteReady: styleOfMusic,
+        };
+      }
+
+      return { dna, styleOfMusic, custom, full: null, pasteReady: custom };
     }
 
     function buildEpicFormulaHtml(v) {
@@ -1759,62 +3670,124 @@ Style: calm, premium, trustworthy. No shocked faces, no arrows, no clickbait. Ma
       </table>`;
     }
 
-    function buildSunoPrompt(v) {
-      if (isEpicMode(v)) return buildEpicSunoPrompt(v);
+    function buildSunoPrompt(v, dnaForced) {
+      const dna = dnaForced || dnaForVars(v);
 
-      const tag = v.mood.tag || 'Ambient';
-      const inst = v.instruments.slice(0, 3).join(' + ');
-      const moods = v.moodWords.slice(0, 2).join(', ') || 'serene, ethereal';
-      const genreBlend = buildGenreString(v);
-      const guards = buildSunoGuards(v);
-      const headroom = v.sunoFreqHeadroom && v.freq.stack ? 'Center low-mid clear for frequency layering. ' : '';
-      const keyBit = v.sunoKey ? `${v.sunoKey}, ` : '';
-      const atm = v.atmosphere.split(',')[0];
-      const seg = v.sunoSegmentLabel || '~8 min segment';
-      const structure = buildSunoStructureBlock(v, atm);
-      const vocalNote = v.sunoInstrumental ? 'instrumental only, ' : '';
+      if (v.titleStyle === 'yt2026') {
+        return buildYt2026SunoPrompt(v, dna).full;
+      }
+      if (isEpicMode(v)) return buildEpicSunoPrompt(v, dna);
 
+      const built = buildGenericSunoPrompt(v, dna);
       if (v.sunoPromptStyle === 'flowing') {
-        return `Cinematic ${genreBlend} at ${v.bpm} BPM, ${vocalNote}${v.production}, ${v.energy} energy. ${keyBit}${headroom}${guards}${structure}`;
+        return built.custom;
       }
-
       if (v.sunoPromptStyle === 'tagstack') {
-        const tagList = genreBlend.split(', ').concat(['instrumental', 'slow-build', 'atmospheric']).filter((t, i, a) => a.indexOf(t) === i).join(', ');
-        return `[Instrumental] [${tag}] [${seg}]
-
-${moods.charAt(0).toUpperCase() + moods.slice(1)} ${v.genre}, ${inst}, ${vocalNote}${v.production}, ${v.bpm} BPM, ${v.energy} energy. ${keyBit}${headroom}${guards}${structure}
-
-Tags: ${tagList}`;
+        return `${built.custom}\n\nTags: ${dna.tags}`;
       }
+      return `═══ SONIC DNA: ${dna.label} ═══\n\n═══ STYLE BOX ═══\n${built.styleOfMusic}\n\n═══ PROMPT ═══\n${built.custom}`;
+    }
 
-      return `[Instrumental] [${tag}] [${seg}]
-
-${moods.charAt(0).toUpperCase() + moods.slice(1)} ${genreBlend}, ${inst}, ${vocalNote}${v.production}, ${v.bpm} BPM, ${v.energy} energy. ${keyBit}${headroom}${guards}${structure}`;
+    function resolveSunoBundle(v) {
+      if (v.titleStyle === 'cortisol100k') {
+        const flav = state._forcedCortisol || pickCortisolFlavor();
+        state._forcedCortisol = null;
+        const c = buildCortisol100kPackage(v, flav);
+        state._lastCortisol = c.flav;
+        return {
+          dna: c.dna,
+          styleOfMusic: c.styleOfMusic,
+          pasteReady: c.pasteReady,
+          full: c.full,
+          display: c.full,
+          cortisol: c,
+          titlesOverride: c.titles,
+          descriptionOverride: c.description,
+        };
+      }
+      if (v.titleStyle === 'neoclassical' || v.titleStyle === 'darkchamber') {
+        const flav = state._forcedNeo
+          || (v.titleStyle === 'darkchamber' ? pickDarkChamberFlavor() : pickNeoclassicalFlavor());
+        state._forcedNeo = null;
+        state._lastNeo = flav;
+        const n = buildNeoclassicalSunoPrompt(v, flav);
+        return { dna: n.dna, styleOfMusic: n.styleOfMusic, pasteReady: n.pasteReady, full: n.full, display: n.full, neo: n.flav };
+      }
+      const dna = state._forcedDna || dnaForVars(v);
+      state._forcedDna = null; // consume once so next gen can pick fresh
+      if (v.titleStyle === 'yt2026') {
+        const y = buildYt2026SunoPrompt(v, dna);
+        return { dna, styleOfMusic: y.styleOfMusic, pasteReady: y.pasteReady, full: y.full, display: y.full };
+      }
+      if (isEpicMode(v)) {
+        const epic = buildEpicSunoPrompt(v, dna);
+        return {
+          dna,
+          styleOfMusic: dna.style,
+          pasteReady: epic,
+          full: `═══ SONIC DNA: ${dna.label} ═══\n\n${epic}`,
+          display: `═══ SONIC DNA: ${dna.label} ═══\nThis forces a DIFFERENT sound than generic pad ambient.\n\n${epic}`,
+        };
+      }
+      const g = buildGenericSunoPrompt(v, dna);
+      const full = `═══ SONIC DNA: ${dna.label} ═══\n\n═══ STYLE BOX ═══\n${g.styleOfMusic}\n\n═══ PROMPT ═══\n${g.custom}`;
+      return { dna, styleOfMusic: g.styleOfMusic, pasteReady: g.custom, full, display: full };
     }
 
     function buildVariations(v) {
-      const inst = v.instruments;
-      const pool = DATA.instruments[getInstrumentKey(v.mood.id)] || DATA.instruments.healing;
-      const altInst = pick(pool.filter(i => !inst.includes(i)).concat(pool));
-      const atm = v.atmosphere.split(',')[0];
-
-      if (isEpicMode(v)) {
-        const arcs = DATA.epic.variationArcs;
-        const fill = s => s
-          .replace(/\{bpm\}/g, v.bpm)
-          .replace(/\{i0\}/g, inst[0] || 'primary texture')
-          .replace(/\{i1\}/g, inst[1] || 'cello drone')
-          .replace(/\{i2\}/g, inst[2] || 'analog pad wash')
-          .replace(/\{alt\}/g, altInst)
-          .replace(/\{atm\}/g, atm);
-        return `${fill(pick(arcs.a))}\n\n${fill(pick(arcs.b))}\n\n${fill(pick(arcs.c))}`;
+      if (v.titleStyle === 'cortisol100k') {
+        const a = state._lastCortisol || pickCortisolFlavor();
+        const b = pickCortisolFlavor(a.id);
+        const c = pickCortisolFlavor(b.id);
+        const pack = (flav, letter) => {
+          const built = buildCortisol100kPackage({ ...v, bpm: randBetween(flav.bpm[0], flav.bpm[1]) }, flav);
+          return `═══ VARIATION ${letter} — ${flav.label} (${flav.hook}) ═══\nSTYLE:\n${built.styleOfMusic}\n\nPROMPT:\n${built.pasteReady}`;
+        };
+        return `${pack(a, 'A')}\n\n${pack(b, 'B')}\n\n${pack(c, 'C')}\n\nStitch A/B/C into 1–3–8 hour master, THEN add ${a.hzLabel} pure tones in DAW (−30 dB). Same title Hz claim across the full upload.`;
       }
+      if (v.titleStyle === 'neoclassical' || v.titleStyle === 'darkchamber') {
+        const flavA = state._lastNeo || state.package?.neo || (v.titleStyle === 'darkchamber' ? pickDarkChamberFlavor() : pickNeoclassicalFlavor());
+        return buildNeoclassicalVariations(v, flavA);
+      }
+      const dnaA = dnaForVars(v);
+      const dnaB = pickSonicDna(SUNO_SONIC_DNA.map(d => d.id).filter(id => id !== dnaA.id));
+      const dnaC = pickSonicDna(SUNO_SONIC_DNA.map(d => d.id).filter(id => id !== dnaA.id && id !== dnaB.id));
+      const bpm = v.bpm;
 
-      return `Variation A — Texture shift: Same ${v.bpm} BPM ${buildGenreString(v)}. Replace ${inst[0] || 'primary texture'} with ${altInst}. Same production and energy. ${buildSunoGuards(v)}
+      return `═══ VARIATION A — same DNA family, texture tweak (${dnaA.label}) ═══
+STYLE: ${dnaA.style}
+PROMPT:
+[Instrumental] [${dnaA.label} · Var A]
+PRIMARY: ${dnaA.lead} — slightly quieter and more space between phrases.
+SUPPORT: ${dnaA.body}
+MOTION: ${dnaA.motion}
+DETAIL: ${dnaA.weird}
+AVOID: ${dnaA.avoid}
+${bpm} BPM. Same key feel. Soft ending for crossfade.
 
-Variation B — Pad-only drift: Strip field recordings. Pure synth pad layers — long attack/release, no transients. Same BPM, key, production.
+═══ VARIATION B — DIFFERENT DNA (${dnaB.label}) — sounds like a different track ═══
+STYLE: ${dnaB.style}
+PROMPT:
+[Instrumental] [${dnaB.label}]
+PRIMARY: ${dnaB.lead}.
+SUPPORT: ${dnaB.body}.
+MOTION: ${dnaB.motion}.
+DETAIL: ${dnaB.weird}.
+AVOID: ${dnaB.avoid}.
+${randBetween(dnaB.bpm[0], dnaB.bpm[1])} BPM. DO NOT sound like Variation A.
 
-Variation C — Atmosphere emphasis: Lead with ${atm}; pads sit 3 dB lower. Most immersive segment for mid-video placement.`;
+═══ VARIATION C — DIFFERENT DNA AGAIN (${dnaC.label}) ═══
+STYLE: ${dnaC.style}
+PROMPT:
+[Instrumental] [${dnaC.label}]
+PRIMARY: ${dnaC.lead}.
+SUPPORT: ${dnaC.body}.
+MOTION: ${dnaC.motion}.
+DETAIL: ${dnaC.weird}.
+AVOID: ${dnaC.avoid}.
+${randBetween(dnaC.bpm[0], dnaC.bpm[1])} BPM. Completely different palette from A and B.
+
+Use A/B/C across your long-form stitch so the 1–2 hour video does not feel like one loop of the same pad.`;
     }
 
     function buildFreqPlan(v) {
@@ -1881,6 +3854,22 @@ Export: WAV 48 kHz 24-bit`;
 
     function buildThumbPrompt(v, cosmic) {
       if (v.titleStyle === 'cosmic' && cosmic) return buildCosmicThumbPrompt(v, cosmic);
+      const benefit = v.benefitAngle || pickBenefitAngle(v.mood);
+      const name = poeticNameForTitles(v, cosmic);
+      if (v.titleStyle === 'yt2026' || (!isEpicMode(v) && v.titleStyle === 'standard')) {
+        return `YouTube thumbnail 1280×720 — 2026 high-CTR cinematic ambient aesthetic (Luxury Prime Lab / premium channel quality).
+
+BACKGROUND (no text in image — generate base art separately):
+Full-bleed cinematic landscape: deep indigo night, warm gold god-rays, subtle nebula or rain-slick horizon. Mood: ${v.atmosphere}. Palette ${v.thumbPalette}. High contrast, dark upper-left for text readability, serene luxury scale. No people, no faces, no logos, no watermarks.
+
+TEXT LAYOUT (add in Canva — minimal words):
+- Main: "${(v.thumbMain || name).toString().toUpperCase()}" — large elegant serif (Playfair-like), soft cream / white, faint warm-gold outer glow
+- Sub: "Cinematic Ambient" or "${benefit.split('&')[0].trim()}" — smaller clean sans, muted cream
+- Optional tiny year mark: "2026" — bottom or under sub (A/B test with/without)
+- Watermark: "Lumen AI Music" — small, semi-transparent bottom-right
+
+Style: premium, high-contrast, no clutter, no arrows, no shocked faces. Brand = human-curated luxury sanctuary — beat generic AI channels on polish.`;
+      }
       if (isEpicMode(v)) {
         const scene = v.epicScene && v.epicScene !== 'auto' ? v.epicScene : v.atmosphere;
         const badgeLine = v.epicBadge && v.epicBadge !== 'auto' && v.epicBadge !== 'None'
@@ -1908,8 +3897,78 @@ Bottom right: subtle watermark "Lumen AI Music" — semi-transparent white sans-
 No shocked faces, no arrows, no clickbait. Calm, premium, trustworthy.`;
     }
 
+    function pickBenefitAngle(mood) {
+      const label = `${mood.label || ''} ${mood.purpose || ''} ${mood.categoryKey || ''}`.toLowerCase();
+      if (/sleep|dream|overnight|insomnia/.test(label)) return pick(['Deep Sleep & Overnight Calm', 'Deep Unwind & Stillness', 'Luxury Calm & Deep Relaxation']);
+      if (/nervous|cortisol|stress|anxiety|heal/.test(label)) return pick(['Nervous System Reset', 'Deep Unwind & Stillness', 'Luxury Calm & Deep Relaxation']);
+      if (/meditat|zen|still/.test(label)) return pick(['Meditation & Still Focus', 'Calm Productivity', 'Deep Unwind & Stillness']);
+      if (/focus|study|work|productiv|flow|hyper/.test(label)) return pick(['Deep Focus & Flow', 'Flow State & High Productivity', 'Hyperfocus & Deep Work', 'Study Flow & Concentration', 'Deep Focus & Mental Clarity']);
+      if (/cinematic|epic|grunge|fantasy|scifi|space|cosmic/.test(label)) return pick(['Cinematic Drift & Escape', 'Deep Focus & Flow', 'Calm Productivity', 'Deep Focus & Mental Clarity']);
+      return pick(DATA.benefitAngles);
+    }
+
+    function poeticNameForTitles(v, cosmic) {
+      if (v.cosmicName && v.cosmicName.trim()) return v.cosmicName.trim();
+      if (v.thumbMain && v.thumbMain.trim() && !/^GRAVITY|^DEEP |^FOCUS |^LUMEN AI/i.test(v.thumbMain)) {
+        return v.thumbMain.trim().replace(/\b\w/g, c => c.toUpperCase()).replace(/\s+/g, ' ');
+      }
+      if (cosmic?.name) return cosmic.name;
+      if (v.seriesName) return v.seriesName;
+      return pick(DATA.cosmicNames);
+    }
+
+    function yt2026CoreKeyword(v) {
+      if (isEpicMode(v) || /post-grunge|ambient rock/i.test(v.genre)) return 'Cinematic Post-Grunge Ambient';
+      if (v.mood?.categoryKey === 'focus' || /focus|study|productiv|flow|deep work/i.test(v.listeningPurpose || '')) return pick(['Cinematic Ambient', 'Deep Focus Music', 'Luxury Cinematic Ambient']);
+      if (/sleep|overnight/i.test(v.listeningPurpose || '') || v.mood?.categoryKey === 'sleep') return pick(['Luxury Cinematic Ambient', 'Serene Cosmic Ambient', 'Cinematic Ambient']);
+      if (v.mood?.id === 'scifi' || /sci-fi|space|cosmic/i.test(v.genre)) return 'Serene Cosmic Ambient';
+      return pick(DATA.yt2026CoreKeywords);
+    }
+
+    function buildYt2026Titles(v, cosmic) {
+      const name = poeticNameForTitles(v, cosmic);
+      const benefit = v.benefitAngle || pickBenefitAngle(v.mood);
+      const core = yt2026CoreKeyword(v);
+      const durShort = durShortLabel(v.duration);
+      const year = '2026';
+      return [
+        `${name} | ${core} for ${benefit} ${year} • ${durShort}`,
+        `${name} | ${core} Music for ${benefit} ${year}`,
+        `Deep Focus Music ${year} | ${name} — ${core} for ${benefit} • ${durShort}`,
+      ];
+    }
+
     function buildTitles(v, cosmic) {
       const durShort = durShortLabel(v.duration);
+      if (v.titleStyle === 'cortisol100k') {
+        const flav = state._lastCortisol || state.package?.cortisol?.flav || pickCortisolFlavor();
+        const name = poeticNameForTitles(v, cosmic);
+        return [
+          `${flav.hzLabel} 🌿 Cortisol Flush • Activate Parasympathetic Nervous System & Calm Your Mind`,
+          `${flav.hzLabel} • Nervous System Reset 🧬 Release Anxiety & Inner Tension | ${durShort} Meditation Music`,
+          `LOWER YOUR CORTISOL LEVELS | Solfeggio Frequency ${flav.hzLabel.replace(/\s+/g, '')} · ${name}`,
+        ];
+      }
+      if (v.titleStyle === 'darkchamber') {
+        const name = poeticNameForTitles(v, cosmic);
+        const flav = state._lastNeo || state.package?.neo;
+        return [
+          `${name} | Dark Neoclassical Cello for Deep Focus & Solitude 2026 • ${durShort}`,
+          `Solitude of the Thinking Mind — ${name} | Low Cello, Violin & Piano · ${durShort}`,
+          `${name} | Dark Chamber Music for Deep Thinkers — ${flav ? flav.label : 'Cello Focus'} • ${durShort}`,
+        ];
+      }
+      if (v.titleStyle === 'neoclassical') {
+        const name = poeticNameForTitles(v, cosmic);
+        const flav = state._lastNeo || state.package?.neo;
+        const flavorBit = flav ? flav.label : 'Soft Piano';
+        return [
+          `${name} | Neo-Classical Piano for Deep Focus & Calm 2026 • ${durShort}`,
+          `${name} | ${flavorBit} — Neo-Classical Ambient Music ${durShort}`,
+          `Neo-Classical Music 2026 | ${name} for Still Focus & Emotional Calm • ${durShort}`,
+        ];
+      }
+      if (v.titleStyle === 'yt2026') return buildYt2026Titles(v, cosmic);
       if (v.titleStyle === 'cosmic' && cosmic) return cosmic.titles.slice(0, 3);
       if (v.seriesName) {
         return [
@@ -1927,15 +3986,19 @@ No shocked faces, no arrows, no clickbait. Calm, premium, trustworthy.`;
       }
       if (isEpicMode(v)) {
         const main = v.thumbMain || v.seriesName || 'GRAVITY DRIFT';
+        const name = poeticNameForTitles(v, cosmic);
         return [
+          `${name} | Cinematic Post-Grunge Ambient for Deep Focus & Flow 2026 • ${durShort}`,
           `${main} | ${durShort} Cinematic Post-Grunge Ambient Rock · Lumen AI Music`,
-          `${main} — ${v.bpm} BPM Slow-Build · ${v.atmosphere.split(',')[0]} (${durShort})`,
           `Epic Ambient Rock for Focus & Drift · ${main} · ${durShort} [Cinematic Mode]`,
         ];
       }
+      // Default Lumen Standard — upgrade toward 2026 search winners while staying poetic
+      const name = poeticNameForTitles(v, cosmic);
+      const benefit = v.benefitAngle || pickBenefitAngle(v.mood);
       return [
+        `${name} | Cinematic Ambient for ${benefit} 2026 • ${durShort}`,
         `${v.mood.label} | ${durShort} · Lumen AI Music`,
-        `${v.moodWords[0] || 'Ethereal'} ${v.genre} — ${v.atmosphere.split(',')[0]} (${durShort})`,
         `Hand-Curated ${v.genre} for ${v.mood.label.split('/')[0].trim()} · ${durShort}`,
       ];
     }
@@ -1943,32 +4006,39 @@ No shocked faces, no arrows, no clickbait. Calm, premium, trustworthy.`;
     function buildDescription(v) {
       const url = `https://www.lumenaimusic.com/music/${v.slug}?utm_source=youtube&utm_medium=video&utm_campaign=${v.slug}`;
       const shop = `https://www.lumenaimusic.com/shop?utm_source=youtube&utm_medium=video&utm_campaign=${v.slug}`;
+      const benefit = v.benefitAngle || pickBenefitAngle(v.mood);
+      const name = poeticNameForTitles(v, null);
       let behind = '';
       if (v.freq.stack?.behind) {
         behind = '\n\nBehind the frequencies:\n' + v.freq.stack.behind.map(b => '• ' + b).join('\n');
         if (v.binaural.includes('binaural')) behind += '\n\n🎧 Headphones recommended for the full binaural effect.';
       }
       const timestamps = v.duration.minutes >= 45 ? `\n\nTimestamps:\n0:00:00 — Begin\n${v.duration.minutes>=60?'1:00:00 — Deepening calm\n':''}${v.duration.minutes>=120?'2:00:00 — Mid-journey stillness\n':''}` : '';
+      const poeticOpen =
+        v.titleStyle === 'yt2026' || v.titleStyle === 'standard'
+          ? `${name} — a human-curated cinematic ambient sanctuary for ${benefit.toLowerCase()}. Soft god-rays of sound: restrained, luminous, built for long-form listening.\n\n`
+          : '';
       const sciFiHook = v.mood.id === 'scifi'
         ? 'Experience serene and otherworldly soundscapes designed for deep study, relaxation, and immersion in atmospheric space music.\n\n'
         : '';
       const epicHook = isEpicMode(v)
         ? `Drift into cinematic post-grunge ambient rock at ${v.bpm} BPM — slow-build, heroic, and crossfade-ready. ${v.moodWords.join(', ')} textures over ${v.atmosphere.split(',')[0]}.\n\n`
         : '';
-      const moodHook = v.mood.id === 'cortisol'
+      const moodHook = poeticOpen || (v.mood.id === 'cortisol'
         ? 'Lower your cortisol and restore inner balance with this hand-curated healing soundscape.\n\n'
-        : epicHook || `Immerse yourself in a ${v.moodWords.join(' & ') || 'serene'} ${v.genre} journey.\n\n`;
+        : epicHook || `Immerse yourself in a ${v.moodWords.join(' & ') || 'serene'} ${v.genre} journey.\n\n`);
+      const keywordBlock = `\nKeywords: cinematic ambient, deep focus music, flow state, deep work, ${benefit.toLowerCase()}, luxury ambient, ambient music 2026, ${v.genre}, ${v.mood.label.toLowerCase()}, Lumen AI Music\n`;
       return `${sciFiHook}${moodHook}Every layer was thoughtfully crafted: AI-generated segments composed in Suno, seamlessly stitched and mastered by hand${v.freq.stack ? ', with healing frequency tones added in post-production' : ''} for one continuous experience.
 
 ${v.lore ? v.lore + '\n\n' : ''}${behind}${timestamps}
-
+${keywordBlock}
 🌙 Stream ad-free: ${url}
 
 🛍️ Shop sleep essentials: ${shop}
 
 Subscribe for new soundscapes every week.
 
-#LumenAIMusic #AmbientMusic #${v.genre.replace(/\s+/g,'')} ${isEpicMode(v)?'#PostGrunge #AmbientRock #Cinematic ':''}${v.mood.id==='scifi'?'#SciFiMusic #SpaceMusic #FocusMusic ':''}${v.mood.id==='cortisol'?'#LowerCortisol #174Hz #ThetaWaves ':''}#MeditationMusic #HealingMusic #SleepMusic
+#LumenAIMusic #AmbientMusic #CinematicAmbient #DeepFocus #FlowState #${v.genre.replace(/\s+/g,'')} ${isEpicMode(v)?'#PostGrunge #AmbientRock #Cinematic ':''}${v.mood.id==='scifi'?'#SciFiMusic #SpaceMusic #FocusMusic ':''}${v.mood.id==='cortisol'?'#LowerCortisol #174Hz #ThetaWaves ':''}#MeditationMusic #HealingMusic #SleepMusic #ProductivityMusic #DeepWork
 
 All music and audio are original compositions created through AI-assisted composition and human curation. They may not be copied, reused, remixed, re-uploaded, or distributed without permission.
 
@@ -1976,10 +4046,17 @@ For relaxation and wellness only. Not medical advice. Consult a healthcare profe
     }
 
     function buildTags(v) {
-      const base = ['lumen ai music','ambient music','meditation music','relaxing music','soundscape',v.genre,v.mood.label.toLowerCase(),`${v.duration.minutes} min`];
+      const benefit = (v.benefitAngle || pickBenefitAngle(v.mood)).toLowerCase();
+      const base = [
+        'lumen ai music','ambient music','cinematic ambient','deep focus music','flow state',
+        'deep work','productivity music','meditation music','relaxing music','soundscape',
+        'luxury ambient','ambient music 2026','focus music 2026', v.genre, v.mood.label.toLowerCase(),
+        benefit, `${v.duration.minutes} min`,
+      ];
       if (v.mood.id === 'scifi') base.push('sci fi music','space music','cosmos music','atmospheric sci fi','focus music','study music','cyberpunk','science fiction','futuristic music');
       if (v.mood.id === 'cortisol') base.push('low cortisol','174 hz','396 hz','theta waves','healing frequency','solfeggio','nervous system reset','binaural beats');
-      return base.join(', ');
+      if (isEpicMode(v)) base.push('post grunge','ambient rock','cinematic ambient rock','epic ambient');
+      return [...new Set(base)].join(', ');
     }
 
     function getShortScene(v) {
@@ -2084,12 +4161,13 @@ RULES:
       });
       const v = getVars();
       const cosmic = buildCosmicIdea(v);
-      const suno = buildSunoPrompt(v);
+      const sunoBundle = resolveSunoBundle(v);
+      const suno = sunoBundle.display;
       const variations = buildVariations(v);
       const freq = buildFreqPlan(v);
       const stitch = buildStitchPlan(v);
       const visual = buildVisualPrompt(v, cosmic);
-      const thumb = buildThumbPrompt(v, cosmic);
+      let thumb = buildThumbPrompt(v, cosmic);
       const thumbBase = buildThumbBasePrompt(v, cosmic);
       const canvaText = buildCanvaOverlayText(v, cosmic);
       const aiImageBlock = buildAIImageBlock(visual, thumbBase);
@@ -2098,18 +4176,36 @@ RULES:
       const shortConcept = buildShortConcept(v, cosmic);
       const shortAIPrompt = buildShortAIPrompt(v, cosmic);
       const shortCaption = buildShortCaption(v, cosmic);
-      const titles = buildTitles(v, cosmic);
-      const description = buildDescription(v);
-      const tags = buildTags(v);
+      let titles = buildTitles(v, cosmic);
+      let description = buildDescription(v);
+      let tags = buildTags(v);
+      if (sunoBundle.titlesOverride) titles = sunoBundle.titlesOverride;
+      if (sunoBundle.descriptionOverride) description = sunoBundle.descriptionOverride;
+      if (sunoBundle.cortisol?.thumb) thumb = sunoBundle.cortisol.thumb;
+      if (v.titleStyle === 'cortisol100k') {
+        tags = 'cortisol flush, nervous system reset, 174 hz, 528 hz, solfeggio, meditation music, healing frequency, parasympathetic, anxiety relief, ambient music, lumen ai music, binaural beats, stress relief';
+      }
       const pinned = `Full ad-free stream → https://www.lumenaimusic.com/music/${v.slug}`;
 
-      state.package = { v, cosmic, suno, variations, freq, stitch, visual, thumb, thumbBase, canvaText, aiImageBlock, cosmicConcept, shortConcept, shortAIPrompt, shortCaption, titles, description, tags, pinned };
+      state.package = { v, cosmic, suno, variations, freq, stitch, visual, thumb, thumbBase, canvaText, aiImageBlock, cosmicConcept, shortConcept, shortAIPrompt, shortCaption, titles, description, tags, pinned, dna: sunoBundle.dna, neo: sunoBundle.neo || null, cortisol: sunoBundle.cortisol || null };
 
       document.getElementById('outSuno').textContent = suno;
-      document.getElementById('sunoPrompt').value = suno;
-      document.getElementById('outFormula').innerHTML = isEpicMode(v) ? buildEpicFormulaHtml(v) : buildSunoFormulaHtml(v);
+      document.getElementById('sunoPrompt').value = sunoBundle.pasteReady || suno;
+      const styleOnly = document.getElementById('sunoStyleOnly');
+      const customOnly = document.getElementById('sunoCustomOnly');
+      if (styleOnly) styleOnly.value = sunoBundle.styleOfMusic || '';
+      if (customOnly) customOnly.value = sunoBundle.pasteReady || '';
+      document.getElementById('outFormula').innerHTML =
+        (v.titleStyle === 'cortisol100k' || v.titleStyle === 'yt2026' || v.titleStyle === 'neoclassical' || v.titleStyle === 'darkchamber' || !isEpicMode(v))
+          ? buildSunoFormulaHtml(v)
+          : buildEpicFormulaHtml(v);
       const epicBadge = document.getElementById('sunoFormulaBadge');
-      if (epicBadge) epicBadge.style.display = isEpicMode(v) ? 'inline' : 'none';
+      if (epicBadge) {
+        epicBadge.style.display = 'inline';
+        epicBadge.textContent = v.titleStyle === 'cortisol100k'
+          ? `🌿 ${sunoBundle.cortisol?.flav?.hook || 'CORTISOL FLUSH'}`
+          : (sunoBundle.dna ? `DNA: ${sunoBundle.dna.label}` : (v.titleStyle === 'yt2026' ? '📈 2026' : '🔥 Epic'));
+      }
       document.getElementById('outVariations').textContent = variations;
       document.getElementById('outFreq').textContent = freq;
       document.getElementById('outAIImage').textContent = aiImageBlock;
@@ -2138,8 +4234,77 @@ RULES:
       const full = `# Lumen AI Music Content Package\n\n## Variables\n${JSON.stringify(v, null, 2)}\n\n## Cosmic Ambience Concept\n${cosmicConcept}\n\n### 5 Alt Cosmic Titles\n${cosmicAlts}\n\n## Suno Prompt\n${suno}\n\n## Variations\n${variations}\n\n## Frequency Plan\n${freq}\n\n## Stitch Plan\n${stitch}\n\n## AI Image Prompt — Video Background (16:9)\n${visual}\n\n## AI Image Prompt — Thumbnail Base\n${thumbBase}\n\n## Canva Text Overlay\n${canvaText}\n\n## Thumbnail (full Canva spec)\n${thumb}\n\n## 30-Second YouTube Short\n${shortConcept}\n\n### Short AI Expansion Prompt\n${shortAIPrompt}\n\n### Short Caption\n${shortCaption}\n\n## Titles\n${titles.join('\n')}\n\n## Description\n${description}\n\n## Tags\n${tags}`;
       document.getElementById('fullPackage').value = full;
 
-      const aiPrompt = `You are an expert YouTube content strategist for Lumen AI Music. Using these filled variables, generate the complete content package (Suno prompt, variations, frequency plan, stitch plan, visual prompts, thumbnail, cosmic ambience titles in Astral Ambience style with poetic names like "${cosmic.name}", 30-second YouTube Short, 3 titles, full description, tags, extra notes):\n\n${JSON.stringify({ mood: v.mood.label, duration: v.duration.label, genre: v.genre, atmosphere: v.atmosphere, instruments: v.instruments, bpm: v.bpm, energy: v.energy, production: v.production, frequency: v.freq.label, thumbnail: v.thumbMain, cosmicName: cosmic.name, titleStyle: v.titleStyle, slug: v.slug }, null, 2)}\n\nTitle formula for cosmic style: [Poetic Name] | [Music Type] [Location Phrase] - [Ending] [Badge]. Examples: "Velvet Meridian | Deep Meditation Music Beneath Eternal Stars - Healing Night Soundscape [CALM MODE: ON]". Think outside the box — original Lumen names, not copies. Follow all Lumen master prompt rules. No artist names in Suno. No Hz in Suno prompt.`;
-      document.getElementById('masterPromptForAI').value = aiPrompt;
+      const aiPrompt = `You are the YouTube growth + creative strategist for LUMEN AI MUSIC — a premium, human-curated ambient channel (tagline: Sound, Woven in Light). Brand palette: deep indigo #0F1C2E + warm gold #C9A227 + cream. Fonts: Playfair Display (poetic names) + Inter (UI/sublines).
+
+GOAL: Beat 2026 top ambient/focus competitors (Luxury Prime Lab, Focus Music Flow, Luxe Chillout) while staying poetic and premium — never generic AI-slop.
+
+FILLED VARIABLES:
+${JSON.stringify({
+  mood: v.mood.label,
+  duration: v.duration.label,
+  genre: v.genre,
+  atmosphere: v.atmosphere,
+  instruments: v.instruments,
+  bpm: v.bpm,
+  energy: v.energy,
+  production: v.production,
+  listeningPurpose: v.listeningPurpose,
+  benefitAngle: v.benefitAngle,
+  frequency: v.freq.label,
+  thumbnail: v.thumbMain,
+  cosmicName: cosmic.name,
+  titleStyle: v.titleStyle,
+  slug: v.slug,
+}, null, 2)}
+
+═══════════════════════════════════════
+2026 YOUTUBE TITLE FORMULA (primary)
+═══════════════════════════════════════
+[Poetic Name] | Cinematic Ambient for [Benefit] 2026 • [Duration]
+
+Winning ingredients to include where natural:
+• Year "2026" (freshness signal)
+• Core keyword: "Cinematic Ambient" (or "Luxury Cinematic Ambient" / "Cinematic Post-Grunge Ambient")
+• Benefit keywords: Deep Focus, Flow State, Hyperfocus, Deep Work, High Productivity, Luxury Calm, Mental Clarity
+• Keep the POETIC TRACK NAME first — brand differentiator vs. keyword-stuffed channels
+
+Strong examples:
+• Gravity Drift | Cinematic Post-Grunge Ambient for Deep Focus & Flow 2026 • 2 Hours
+• Velvet Meridian | Luxury Cinematic Ambient for Hyperfocus & Deep Work
+• Lumen Drift | Serene Cosmic Ambient Music for Calm Productivity 2026
+• Velvet Horizon | Cinematic Ambient for Flow State & Mental Clarity
+
+Also generate 2 A/B variants: one WITH "2026", one WITHOUT; one productivity-angled, one purely poetic.
+
+═══════════════════════════════════════
+THUMBNAIL (high CTR 8–12% target)
+═══════════════════════════════════════
+• Full-bleed cinematic scene — ethereal landscape, gold god-rays, moody night / cosmic / rain-slick. Deep indigo + warm gold. High contrast.
+• Text: LARGE elegant serif for poetic name only. Tiny sans for "Cinematic Ambient" or benefit. Optional "2026". Minimal words.
+• NO clutter, arrows, faces, shock faces, badge clusters.
+• Consistent Lumen branding (semi-transparent watermark).
+
+═══════════════════════════════════════
+PACKAGE OUTPUT (production-ready)
+═══════════════════════════════════════
+1) Suno prompt (instrumental only, no artist names, no Hz numbers)
+2) 3 mix variations + frequency / stitch plan
+3) 16:9 video BG image prompt + 1280×720 thumbnail base (no text in images)
+4) Canva text overlay lines
+5) Cosmic / poetic name options (original — not copies of Astral)
+6) 30-second YouTube Short concept (hook + shot list) to drive long-form
+7) 3 YouTube titles using the 2026 formula above
+8) Description: poetic opener → benefit keywords → timestamps → ad-free site UTM link → hashtags (#CinematicAmbient #DeepFocus #FlowState #DeepWork)
+9) Tag cluster optimized for focus/productivity + sleep/cinematic ambient
+10) Playlist recommendation (Deep Focus & Flow / Cinematic Drift / Luxury Calm Productivity / Deep Sleep Sanctuaries)
+11) First-3-seconds visual hook note
+
+RULES: Premium human-curated positioning. Long-form 1–2+ hours preferred when duration allows. Think outside the box for poetic names. No artist names in Suno. No Hz in Suno prompt.`;
+      if (v.titleStyle === 'cortisol100k' && sunoBundle.cortisol) {
+        document.getElementById('masterPromptForAI').value = buildCortisolMasterPrompt(v, sunoBundle.cortisol);
+      } else {
+        document.getElementById('masterPromptForAI').value = aiPrompt;
+      }
 
       document.getElementById('outStitch').textContent = stitch;
       document.getElementById('outFfmpeg').textContent = `# Normalize (run per segment first)\nffmpeg -i segment.wav -af loudnorm=I=-18:TP=-1.5:LRA=11 segment_norm.wav\n\n# After manual crossfade export as master.wav — optional trim silence\nffmpeg -i master.wav -af "afade=t=in:st=0:d=2,afade=t=out:st=${v.duration.minutes*60-2}:d=2" master_faded.wav`;
@@ -2292,7 +4457,7 @@ Generated: ${new Date().toLocaleString()}`;
         form: {},
         package: state.package,
       };
-      ['mood','duration','genre','genreSecondary','scifiMode','moodWords','instruments','atmosphere','lore','bpm','energy','production','seriesName','titleStyle','cosmicName','freqPrimary','freqSecondary','freqMix','binaural','thumbMain','thumbSub','thumbPalette','slug','epicPulse','epicOpening','epicMiddle','epicClosing','epicGenreStack','epicScene','epicVisual','epicBadge','sunoStructure','sunoPromptStyle','sunoKey','sunoExclude','sunoExtraTags','sunoSegmentLabel'].forEach(id => {
+      ['mood','duration','genre','genreSecondary','scifiMode','listeningPurpose','listenerState','timeOfDay','intensityArc','rhythmFeel','textureDensity','vocalTexture','healingIntent','youtubeBadge','moodWords','instruments','atmosphere','lore','bpm','energy','production','seriesName','titleStyle','benefitAngle','cosmicName','freqPrimary','freqSecondary','freqMix','binaural','thumbMain','thumbSub','thumbPalette','slug','epicPulse','epicOpening','epicMiddle','epicClosing','epicGenreStack','epicScene','epicVisual','epicBadge','sunoStructure','sunoPromptStyle','sunoKey','sunoExclude','sunoExtraTags','sunoSegmentLabel'].forEach(id => {
         data.form[id] = document.getElementById(id).value;
       });
       data.form.epicEnabled = document.getElementById('epicEnabled').checked;

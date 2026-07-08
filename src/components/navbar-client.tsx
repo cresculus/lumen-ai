@@ -1,12 +1,15 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { CartNavLink } from "@/components/cart-nav-link";
-import { User } from "lucide-react";
+import { LayoutDashboard, User } from "lucide-react";
 
 export function NavbarClient() {
   const { data: session } = useSession();
+  const isAdmin = session?.user?.role === "ADMIN";
+  const dashHref = isAdmin ? "/admin" : "/account";
+  const dashLabel = isAdmin ? "Dashboard" : "Library";
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-lumen-indigo/90 backdrop-blur-xl">
@@ -37,12 +40,12 @@ export function NavbarClient() {
               {label}
             </Link>
           ))}
-          {session?.user?.role === "ADMIN" && (
+          {session?.user && (
             <Link
-              href="/admin"
+              href={dashHref}
               className="rounded-lg px-3 py-2 text-lumen-gold-light hover:bg-lumen-gold/10"
             >
-              Dashboard
+              {dashLabel}
             </Link>
           )}
         </nav>
@@ -50,13 +53,18 @@ export function NavbarClient() {
           <CartNavLink />
           {session?.user ? (
             <Link
-              href="/account"
-              className="inline-flex items-center gap-2 rounded-full bg-lumen-gold/15 px-3 py-1.5 text-sm text-lumen-cream hover:bg-lumen-gold/25"
+              href={dashHref}
+              className="inline-flex items-center gap-2 rounded-full bg-lumen-gold px-3 py-1.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
             >
-              <User className="h-4 w-4" />
+              {isAdmin ? (
+                <LayoutDashboard className="h-4 w-4" />
+              ) : (
+                <User className="h-4 w-4" />
+              )}
               <span className="hidden sm:inline">
-                {session.user.name?.split(" ")[0] || "Account"}
+                {session.user.name?.split(" ")[0] || "Demo"} · {dashLabel}
               </span>
+              <span className="sm:hidden">{dashLabel}</span>
             </Link>
           ) : (
             <Link

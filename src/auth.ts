@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+﻿import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
@@ -27,16 +27,47 @@ declare module "@auth/core/types" {
 
 const demoUsers = {
   admin: {
+    id: "demo-admin",
     email: "admin@lumenaimusic.com",
     name: "Demo Admin",
     role: "ADMIN" as Role,
   },
   customer: {
+    id: "demo-guest",
     email: "guest@lumenaimusic.com",
     name: "Demo Guest",
     role: "CUSTOMER" as Role,
   },
 };
+
+async function resolveDemoUser(account: "admin" | "customer") {
+  const demo = demoUsers[account];
+  try {
+    const user = await prisma.user.upsert({
+      where: { email: demo.email },
+      update: { name: demo.name, role: demo.role },
+      create: {
+        email: demo.email,
+        name: demo.name,
+        role: demo.role,
+      },
+    });
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    };
+  } catch (error) {
+    console.warn("[auth] Demo user DB upsert failed — using offline demo session", error);
+    return {
+      id: demo.id,
+      email: demo.email,
+      name: demo.name,
+      role: demo.role,
+    };
+  }
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
@@ -59,27 +90,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         if (!isMockAuthEnabled()) return null;
-        const account = credentials?.account as keyof typeof demoUsers;
-        const demo =
-          account === "admin" ? demoUsers.admin : account === "customer" ? demoUsers.customer : null;
-        if (!demo) return null;
-
-        const user = await prisma.user.upsert({
-          where: { email: demo.email },
-          update: { name: demo.name, role: demo.role },
-          create: {
-            email: demo.email,
-            name: demo.name,
-            role: demo.role,
-          },
-        });
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        };
+        const account = credentials?.account;
+        if (account !== "admin" && account !== "customer") return null;
+        return resolveDemoUser(account);
       },
     }),
   ],

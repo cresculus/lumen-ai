@@ -2,24 +2,24 @@
 import { DashboardShell } from "@/components/dashboard/sidebar";
 import { redirect } from "next/navigation";
 
-export default async function AdminLayout({
+export default async function AccountLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const session = await auth();
-
   if (!session?.user) redirect("/login");
-  if (session.user.role !== "ADMIN") redirect("/account");
+
+  const isAdmin = session.user.role === "ADMIN";
 
   return (
     <DashboardShell
-      variant="admin"
+      variant={isAdmin ? "admin" : "user"}
       email={session.user.email || undefined}
       name={session.user.name || undefined}
-      statusLabel="Admin · Creator"
+      statusLabel={isAdmin ? "Admin · Creator" : "Library"}
     >
-      <div className="min-h-0 flex-1 px-4 py-6 md:px-8 md:py-8">{children}</div>
+      {children}
     </DashboardShell>
   );
 }

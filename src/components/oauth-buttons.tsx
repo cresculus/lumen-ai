@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
 import { signIn, signOut } from "next-auth/react";
+import { useState } from "react";
 import { Shield, User } from "lucide-react";
 
 type Provider = "google" | "github";
@@ -11,6 +12,23 @@ const oauthProviders: { id: Provider; label: string }[] = [
 ];
 
 export function OAuthButtons({ callbackUrl = "/account" }: { callbackUrl?: string }) {
+  const [loading, setLoading] = useState<"customer" | "admin" | null>(null);
+
+  async function demoSignIn(account: "customer" | "admin") {
+    setLoading(account);
+    try {
+      await signIn("demo", {
+        account,
+        callbackUrl: account === "admin" ? "/admin" : "/account",
+        redirect: true,
+      });
+    } catch (error) {
+      console.error(error);
+      setLoading(null);
+      alert("Demo sign-in failed. Check that ENABLE_MOCK_AUTH is not false.");
+    }
+  }
+
   return (
     <div className="space-y-4">
       <div className="space-y-3">
@@ -38,26 +56,26 @@ export function OAuthButtons({ callbackUrl = "/account" }: { callbackUrl?: strin
       <div className="grid gap-3 sm:grid-cols-2">
         <button
           type="button"
-          onClick={() =>
-            signIn("demo", { account: "customer", callbackUrl })
-          }
-          className="flex items-center justify-center gap-2 rounded-xl border border-lumen-gold/30 bg-lumen-gold/10 px-4 py-3 text-sm font-medium text-lumen-cream transition hover:bg-lumen-gold/20"
+          disabled={loading !== null}
+          onClick={() => demoSignIn("customer")}
+          className="flex items-center justify-center gap-2 rounded-xl border border-lumen-gold/30 bg-lumen-gold/10 px-4 py-3 text-sm font-medium text-lumen-cream transition hover:bg-lumen-gold/20 disabled:opacity-60"
         >
           <User className="h-4 w-4" />
-          Demo guest
+          {loading === "customer" ? "Opening library…" : "Demo guest"}
         </button>
         <button
           type="button"
-          onClick={() => signIn("demo", { account: "admin", callbackUrl: "/admin" })}
-          className="flex items-center justify-center gap-2 rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm font-medium text-amber-100 transition hover:bg-amber-500/20"
+          disabled={loading !== null}
+          onClick={() => demoSignIn("admin")}
+          className="flex items-center justify-center gap-2 rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm font-medium text-amber-100 transition hover:bg-amber-500/20 disabled:opacity-60"
         >
           <Shield className="h-4 w-4" />
-          Demo admin
+          {loading === "admin" ? "Opening dashboard…" : "Demo admin"}
         </button>
       </div>
 
       <p className="text-center text-xs text-slate-500">
-        Demo mode uses mock data when the database is empty.
+        Demo guest opens your Library dashboard. Demo admin opens /admin.
       </p>
     </div>
   );

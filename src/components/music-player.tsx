@@ -173,83 +173,91 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
       {children}
       <audio ref={audioRef} preload="metadata" />
       {currentTrack && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-[#0F1C2E]/95 backdrop-blur-xl">
-          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-3">
-            {access === "preview" && (
-              <p className="text-center text-xs text-lumen-gold-light/90">
-                60-second preview ·{" "}
-                <a href="/pricing" className="underline hover:text-lumen-cream">
-                  Subscribe for full lossless playback
-                </a>
-              </p>
-            )}
-            <div className="flex items-center gap-4">
-              <div className="hidden h-12 w-12 shrink-0 rounded-lg bg-gradient-to-br from-lumen-gold/40 to-indigo-500/20 sm:block" />
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-white">
-                  {currentTrack.title}
-                </p>
-                <p className="truncate text-xs text-slate-400">
-                  {currentTrack.tags?.join(" · ") || "Lumen AI Music"}
-                </p>
+        <div data-playbar="true" className="fixed bottom-0 left-0 right-0 z-50 overflow-hidden border-t border-white/10 bg-[#121820]/95 text-white backdrop-blur-xl md:min-h-[84px]">
+          {access === "preview" && (
+            <p className="border-b border-white/5 px-4 py-1.5 text-center text-[11px] text-lumen-gold-light/90">
+              60-second preview ·{" "}
+              <a href="/pricing" className="underline hover:text-lumen-cream">
+                Subscribe for full lossless playback
+              </a>
+            </p>
+          )}
+          <div className="flex w-full flex-row items-center justify-between gap-2 px-3 py-3 md:px-5">
+            <div className="relative mr-auto min-w-[8rem] flex-1 shrink-0">
+              <div className="flex h-full items-center gap-3">
+                <div className="h-12 w-9 shrink-0 overflow-hidden rounded-md bg-gradient-to-br from-lumen-gold/40 to-indigo-500/30 sm:h-12 sm:w-12" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium leading-5 text-white">
+                    {currentTrack.title}
+                  </p>
+                  <p className="truncate text-xs leading-4 text-white/45">
+                    {currentTrack.tags?.slice(0, 3).join(" · ") || "Lumen AI Music"}
+                  </p>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={playNext}
-                  className="rounded-full p-2 text-slate-300 hover:bg-white/10 hover:text-white"
-                  aria-label="Previous"
-                >
-                  <SkipBack className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  disabled={loading}
-                  onClick={togglePlay}
-                  className="rounded-full bg-lumen-gold p-3 text-lumen-midnight hover:bg-lumen-gold-light disabled:opacity-50"
-                  aria-label={isPlaying ? "Pause" : "Play"}
-                >
-                  {isPlaying ? (
-                    <Pause className="h-5 w-5" />
-                  ) : (
-                    <Play className="h-5 w-5 translate-x-0.5" />
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={playNext}
-                  className="rounded-full p-2 text-slate-300 hover:bg-white/10 hover:text-white"
-                  aria-label="Next"
-                >
-                  <SkipForward className="h-4 w-4" />
-                </button>
+            </div>
+
+            <div className="relative mx-auto max-w-[min(50rem,100vw-20rem)] flex-1 basis-48">
+              <div className="mx-auto flex flex-col items-center justify-center gap-1">
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={playNext}
+                    className="rounded-full p-2 text-white/70 hover:bg-white/10 hover:text-white"
+                    aria-label="Previous"
+                  >
+                    <SkipBack className="h-5 w-5" />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={togglePlay}
+                    className="rounded-full bg-white p-2.5 text-lumen-midnight shadow-lg hover:bg-lumen-cream disabled:opacity-50"
+                    aria-label={isPlaying ? "Pause" : "Play"}
+                  >
+                    {isPlaying ? (
+                      <Pause className="h-5 w-5" />
+                    ) : (
+                      <Play className="h-5 w-5 translate-x-0.5" />
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={playNext}
+                    className="rounded-full p-2 text-white/70 hover:bg-white/10 hover:text-white"
+                    aria-label="Next"
+                  >
+                    <SkipForward className="h-5 w-5" />
+                  </button>
+                </div>
+                <div className="hidden w-full items-center gap-2 md:flex">
+                  <span className="min-w-8 text-right text-xs tabular-nums text-white/40">
+                    {formatDuration(currentTime)}
+                  </span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={duration || 100}
+                    value={currentTime}
+                    onChange={(e) => seek(Number(e.target.value))}
+                    className="h-1 flex-1 cursor-pointer accent-white"
+                    aria-label="Playback progress"
+                  />
+                  <span className="min-w-8 text-left text-xs tabular-nums text-white/40">
+                    {formatDuration(duration)}
+                  </span>
+                </div>
               </div>
-              <div className="hidden flex-1 items-center gap-2 md:flex">
-                <span className="text-xs tabular-nums text-slate-400">
-                  {formatDuration(currentTime)}
-                </span>
-                <input
-                  type="range"
-                  min={0}
-                  max={duration || 100}
-                  value={currentTime}
-                  onChange={(e) => seek(Number(e.target.value))}
-                  className="h-1 flex-1 cursor-pointer accent-lumen-gold"
-                />
-                <span className="text-xs tabular-nums text-slate-400">
-                  {formatDuration(duration)}
-                </span>
-              </div>
+            </div>
+
+            <div className="relative ml-auto flex min-w-[6rem] flex-1 shrink-0 items-center justify-end gap-1">
               <button
                 type="button"
                 onClick={() => setMuted((m) => !m)}
-                className="rounded-full p-2 text-slate-300 hover:text-white"
+                className="rounded-full p-2 text-white/60 hover:text-white max-md:hidden"
+                aria-label="Volume"
               >
-                {muted ? (
-                  <VolumeX className="h-4 w-4" />
-                ) : (
-                  <Volume2 className="h-4 w-4" />
-                )}
+                {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
               </button>
             </div>
           </div>

@@ -68,3 +68,24 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: 9999px;
   background: #c9a227;
 }
+
+/* App shell (account / admin) — denser dark UI */
+.suno-shell {
+  --background: #0a0f18;
+  background: #0a0f18;
+}
+
+body:has([data-playbar="true"]) main,
+body:has([data-playbar="true"]) .dashboard-content {
+  padding-bottom: calc(var(--player-height) + 1rem);
+}
+
+body:has(.dash-mobile-nav) [data-playbar="true"] {
+  bottom: 60px;
+}
+
+@media (min-width: 768px) {
+  body:has(.dash-mobile-nav) [data-playbar="true"] {
+    bottom: 0;
+  }
+}

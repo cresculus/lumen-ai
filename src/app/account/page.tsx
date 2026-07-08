@@ -1,34 +1,50 @@
-import { auth } from "@/auth";
+﻿import { auth } from "@/auth";
 import { AccountDashboard } from "@/components/account-dashboard";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 
-export const metadata = { title: "Account" };
+export const metadata = { title: "Library" };
 
 export default async function AccountPage() {
   const session = await auth();
   if (!session?.user) redirect("/login");
 
-  const [downloads, orders, subscription] = await Promise.all([
-    prisma.download.findMany({
-      where: { userId: session.user.id },
-      include: { digitalProduct: true },
-      orderBy: { createdAt: "desc" },
-    }),
-    prisma.order.findMany({
-      where: { userId: session.user.id },
-      include: { items: true },
-      orderBy: { createdAt: "desc" },
-    }),
-    prisma.subscription.findUnique({
-      where: { userId: session.user.id },
-    }),
-  ]);
+  const userId = session.user.id;
+  const isOfflineDemo = userId === "demo-guest" || userId === "demo-admin";
+
+  let downloads: Parameters<typeof AccountDashboard>[0]["downloads"] = [];
+  let orders: Parameters<typeof AccountDashboard>[0]["orders"] = [];
+  let subscription: Parameters<typeof AccountDashboard>[0]["subscription"] = null;
+
+  if (!isOfflineDemo) {
+    try {
+      const [d, o, s] = await Promise.all([
+        prisma.download.findMany({
+          where: { userId },
+          include: { digitalProduct: true },
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.order.findMany({
+          where: { userId },
+          include: { items: true },
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.subscription.findUnique({
+          where: { userId },
+        }),
+      ]);
+      downloads = d;
+      orders = o;
+      subscription = s;
+    } catch (error) {
+      console.warn("[account] Failed to load library data", error);
+    }
+  }
 
   return (
     <AccountDashboard
       email={session.user.email || ""}
-      userId={session.user.id}
+      userId={userId}
       subscription={subscription}
       downloads={downloads}
       orders={orders}

@@ -1,5 +1,4 @@
-import { NavbarClient } from "@/components/navbar-client";
-import { Footer } from "@/components/footer";
+﻿import { StorefrontChrome } from "@/components/storefront-chrome";
 import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
@@ -43,9 +42,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Providers>
-          <NavbarClient />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <StorefrontChrome>{children}</StorefrontChrome>
         </Providers>
       </body>
     </html>
