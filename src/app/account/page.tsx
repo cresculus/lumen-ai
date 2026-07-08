@@ -1,4 +1,4 @@
-﻿import { auth } from "@/auth";
+import { auth } from "@/auth";
 import { AccountDashboard } from "@/components/account-dashboard";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";

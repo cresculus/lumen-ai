@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { getAdminStats } from "@/lib/admin-stats";
 import { formatPrice } from "@/lib/utils";
 import {

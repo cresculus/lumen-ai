@@ -1,6 +1,8 @@
-﻿import { auth } from "@/auth";
+import { auth } from "@/auth";
 import { DashboardShell } from "@/components/dashboard/sidebar";
 import { redirect } from "next/navigation";
+
+export const metadata = { title: "Library" };
 
 export default async function AccountLayout({
   children,

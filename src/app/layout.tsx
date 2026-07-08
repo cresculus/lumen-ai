@@ -1,4 +1,3 @@
-﻿import { StorefrontChrome } from "@/components/storefront-chrome";
 import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
@@ -40,10 +39,8 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <Providers>
-          <StorefrontChrome>{children}</StorefrontChrome>
-        </Providers>
+      <body className="min-h-full flex flex-col bg-[#0a0f18]">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
