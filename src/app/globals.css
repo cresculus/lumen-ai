@@ -1,25 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #070b16;
-  --foreground: #e8edf8;
-  --card: #0f1629;
-  --accent: #8b5cf6;
+  --background: #0f1c2e;
+  --foreground: #f8f4ed;
+  --card: #0a1525;
+  --accent: #c9a227;
+  --accent-dim: #8a7340;
+  --rose-gold: #b76e79;
   --player-height: 5.5rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-lumen-gold: #c9a227;
+  --color-lumen-gold-light: #e8d48a;
+  --color-lumen-cream: #f8f4ed;
+  --color-lumen-rose: #b76e79;
+  --color-lumen-indigo: #0f1c2e;
+  --color-lumen-midnight: #0a1525;
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-playfair);
 }
 
 body {
-  background: radial-gradient(ellipse 120% 80% at 50% -20%, #1a2240 0%, #070b16 50%);
+  background: radial-gradient(
+    ellipse 120% 80% at 50% -20%,
+    #1a2840 0%,
+    #0f1c2e 45%,
+    #0a1525 100%
+  );
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
   min-height: 100vh;
+}
+
+.font-display {
+  font-family: var(--font-playfair), Georgia, "Times New Roman", serif;
 }
 
 a {
@@ -49,5 +66,5 @@ input[type="range"]::-webkit-slider-thumb {
   height: 12px;
   width: 12px;
   border-radius: 9999px;
-  background: #a78bfa;
+  background: #c9a227;
 }

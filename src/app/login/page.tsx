@@ -6,10 +6,12 @@ export const metadata = { title: "Sign in" };
 export default function LoginPage() {
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col justify-center px-4 py-16">
-      <p className="text-sm uppercase tracking-[0.2em] text-violet-300">Welcome</p>
-      <h1 className="mt-2 text-3xl font-semibold text-white">Sign in to Lumen AI</h1>
+      <p className="text-sm uppercase tracking-[0.2em] text-lumen-gold-light">Welcome</p>
+      <h1 className="font-display mt-2 text-3xl font-semibold text-lumen-cream">
+        Sign in to Lumen AI Music
+      </h1>
       <p className="mt-3 text-slate-400">
-        Access your music library, cart, and admin dashboard. Use demo sign-in to
+        Return to your sound library, cart, and sanctuary. Use demo sign-in to
         explore without OAuth setup.
       </p>
 
@@ -19,7 +21,7 @@ export default function LoginPage() {
 
       <p className="mt-6 text-center text-sm text-slate-500">
         New here?{" "}
-        <Link href="/music" className="text-violet-300 hover:text-violet-200">
+        <Link href="/music" className="text-lumen-gold-light hover:text-lumen-gold-light">
           Browse music first →
         </Link>
       </p>

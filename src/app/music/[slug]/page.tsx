@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props) {
   if (!track) return { title: "Track not found" };
   return {
     title: track.title,
-    description: track.description || "Lumen AI music",
+    description: track.description || "Lumen AI Music — hand-curated ambient",
   };
 }
 
@@ -37,7 +37,7 @@ export default async function MusicDetailPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
       <div className="grid gap-10 lg:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-violet-600/40 via-indigo-500/20 to-slate-900">
+        <div className="relative aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-lumen-gold/30 via-lumen-midnight/40 to-slate-900">
           <div className="absolute inset-0 flex items-center justify-center">
             <PlayTrackButton
               track={{
@@ -51,18 +51,21 @@ export default async function MusicDetailPage({ params }: Props) {
           </div>
         </div>
         <div className="flex flex-col justify-center">
-          <p className="text-sm uppercase tracking-wider text-violet-300">
+          <p className="text-sm uppercase tracking-wider text-lumen-gold-light">
             {track.tags.join(" · ") || "ambient"}
           </p>
-          <h1 className="mt-2 text-4xl font-semibold text-white md:text-5xl">
+          <h1 className="font-display mt-2 text-4xl font-semibold text-lumen-cream md:text-5xl">
             {track.title}
           </h1>
+          <p className="mt-2 text-sm text-slate-500">
+            Human-curated · finished with care
+          </p>
           <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-400">
             {track.duration && <span>{formatDuration(track.duration)}</span>}
             {track.bpm && <span>{track.bpm} BPM</span>}
-            <span className="text-violet-300">Lossless stream</span>
+            <span className="text-lumen-gold-light">Lossless stream</span>
           </div>
-          <p className="mt-6 text-3xl text-violet-200">{formatPrice(track.price)}</p>
+          <p className="mt-6 text-3xl text-lumen-gold-light">{formatPrice(track.price)}</p>
           {track.description && (
             <p className="mt-4 leading-relaxed text-slate-300">{track.description}</p>
           )}

@@ -24,7 +24,7 @@ function DownloadButton({ productId, title }: { productId: string; title: string
       type="button"
       onClick={handleDownload}
       disabled={loading}
-      className="rounded-lg bg-violet-500/20 px-3 py-1.5 text-sm text-violet-100 hover:bg-violet-500/30"
+      className="rounded-lg bg-lumen-gold/20 px-3 py-1.5 text-sm text-lumen-cream hover:bg-lumen-gold/30"
     >
       {loading ? "Preparing..." : `Download ${title}`}
     </button>

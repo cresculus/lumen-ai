@@ -87,7 +87,7 @@ export default function AdminShopPage() {
         <button
           type="submit"
           disabled={loading}
-          className="rounded-full bg-violet-500 px-6 py-2.5 text-sm text-white"
+          className="rounded-full bg-lumen-gold px-6 py-2.5 text-sm text-white"
         >
           {loading ? "Saving..." : "Add product"}
         </button>

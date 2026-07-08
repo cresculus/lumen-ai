@@ -2,32 +2,34 @@ import { NavbarClient } from "@/components/navbar-client";
 import { Footer } from "@/components/footer";
 import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Lumen AI — Sleep & Focus Music + Wellness Shop",
-    template: "%s | Lumen AI",
+    default: "Lumen AI Music — Sound, Woven in Light",
+    template: "%s | Lumen AI Music",
   },
   description:
-    "AI-generated sleep and focus music, plus curated wellness products. From YouTube to your calm.",
+    "Hand-curated ambient soundscapes for deep rest, focus, and cinematic drift. Human-finished AI composition — ad-free streaming at lumenaimusic.com.",
   openGraph: {
-    title: "Lumen AI",
-    description: "Sleep, focus, and calm — music and wellness products.",
+    title: "Lumen AI Music",
+    description:
+      "Sound, woven in light. Premium ambient for deep sleep, focus, and quiet restoration.",
     type: "website",
+    siteName: "Lumen AI Music",
   },
 };
 
@@ -37,7 +39,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Providers>

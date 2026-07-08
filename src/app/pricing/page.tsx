@@ -1,7 +1,11 @@
 import { auth } from "@/auth";
 import { PricingCards } from "@/components/pricing-cards";
 
-export const metadata = { title: "Pricing" };
+export const metadata = {
+  title: "Pricing",
+  description:
+    "Uninterrupted drift — subscribe for ad-free streaming or own individual soundscapes forever.",
+};
 
 export default async function PricingPage() {
   const session = await auth();
@@ -9,15 +13,15 @@ export default async function PricingPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-16">
       <div className="mx-auto max-w-2xl text-center">
-        <p className="text-sm uppercase tracking-[0.2em] text-violet-300">
-          Simple pricing
+        <p className="text-sm uppercase tracking-[0.25em] text-lumen-gold-light">
+          Uninterrupted drift
         </p>
-        <h1 className="mt-3 text-4xl font-semibold text-white">
-          Sleep & focus music your way
+        <h1 className="font-display mt-3 text-4xl font-semibold text-lumen-cream">
+          Choose your sanctuary
         </h1>
         <p className="mt-4 text-slate-400">
-          Preview any track free. Subscribe for unlimited high-quality streaming,
-          or buy individual tracks to own forever.
+          Preview any soundscape free. Subscribe for the full catalog in highest
+          quality, or own individual weavings forever.
         </p>
       </div>
       <div className="mt-12">

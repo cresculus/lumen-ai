@@ -1,0 +1,2368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumen AI Music — Content Studio</title>
+  <style>
+    :root {
+      --bg: #0f1c2e;
+      --surface: #0a1525;
+      --surface2: #121a2a;
+      --border: #2a3548;
+      --text: #f8f4ed;
+      --muted: #9ca3b8;
+      --accent: #c9a227;
+      --accent-dim: #8a7340;
+      --success: #4ade80;
+      --info: #60a5fa;
+      --radius: 12px;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+      --mono: "Cascadia Code", "Consolas", monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    .app { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 280px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1rem;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    .logo-sub { font-size: 0.75rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .step-nav { list-style: none; }
+    .step-nav li {
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.15s;
+    }
+    .step-nav li:hover { background: var(--surface2); color: var(--text); }
+    .step-nav li.active { background: var(--surface2); color: var(--accent); border: 1px solid var(--border); }
+    .step-nav li.done { color: var(--success); }
+    .step-num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; flex-shrink: 0;
+    }
+    .step-nav li.active .step-num { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    .step-nav li.done .step-num { background: var(--success); color: var(--bg); border-color: var(--success); }
+    .main { flex: 1; padding: 2rem; max-width: 960px; overflow-y: auto; }
+    .panel { display: none; animation: fade 0.25s ease; }
+    .panel.active { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    h1 { font-size: 1.75rem; font-weight: 600; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.15rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: var(--accent); }
+    h3 { font-size: 0.95rem; font-weight: 600; margin: 1rem 0 0.5rem; }
+    p.lead { color: var(--muted); margin-bottom: 1.5rem; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 768px) {
+      .app { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; position: relative; }
+      .grid { grid-template-columns: 1fr; }
+    }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.35rem; }
+    input, select, textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 0.6rem 0.75rem;
+      font-family: inherit;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    textarea { min-height: 120px; resize: vertical; font-family: var(--mono); font-size: 0.8rem; }
+    textarea.tall { min-height: 220px; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+    button, .btn {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    button:hover { opacity: 0.9; }
+    button.secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent-dim); }
+    button.success { background: #166534; color: var(--success); border: 1px solid var(--success); }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .card-title { font-weight: 600; font-size: 0.95rem; }
+    .badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: var(--surface2);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .badge.gold { color: var(--accent); border-color: var(--accent-dim); }
+    .output-block {
+      background: #0d0f18;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 400px;
+      overflow-y: auto;
+      line-height: 1.55;
+    }
+    .checklist { list-style: none; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist input[type="checkbox"] { margin-top: 0.2rem; accent-color: var(--accent); width: 18px; height: 18px; }
+    .checklist .tool-link { color: var(--info); font-size: 0.8rem; }
+    .stat-row { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0; }
+    .stat {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      min-width: 120px;
+    }
+    .stat-val { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 0.75rem; color: var(--muted); }
+    .progress-bar {
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 3px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+      border-radius: 3px;
+      transition: width 0.3s;
+    }
+    .alert {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      border: 1px solid;
+    }
+    .alert.warn { background: #1c1910; border-color: var(--accent-dim); color: var(--accent); }
+    .alert.info { background: #0f1729; border-color: #1e3a5f; color: var(--info); }
+    .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+    .tool-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.15s;
+    }
+    .tool-card:hover { border-color: var(--accent); }
+    .tool-card strong { display: block; font-size: 0.9rem; margin-bottom: 0.25rem; }
+    .tool-card.local-primary { border-color: var(--accent); background: #1a1810; }
+    .tool-card.local-primary strong { color: var(--accent); }
+    .tool-card span { font-size: 0.75rem; color: var(--muted); }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--surface2);
+    }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+    .status-pill.online .status-dot { background: var(--success); box-shadow: 0 0 6px var(--success); }
+    .status-pill.offline .status-dot { background: #f87171; }
+    .status-pill.checking .status-dot { background: var(--accent); animation: pulse 1s infinite; }
+    @keyframes pulse { 50% { opacity: 0.4; } }
+    .path-block {
+      font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+      background: var(--surface2); padding: 0.5rem 0.75rem; border-radius: 6px;
+      margin-top: 0.5rem; word-break: break-all;
+    }
+    .segment-tracker { max-height: 300px; overflow-y: auto; }
+    .segment-row {
+      display: grid;
+      grid-template-columns: 40px 1fr 80px;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+    .copied-toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--success);
+      color: var(--bg);
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.25s;
+      z-index: 100;
+      pointer-events: none;
+    }
+    .copied-toast.show { opacity: 1; transform: none; }
+    .full-width { grid-column: 1 / -1; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin: 0.5rem 0; }
+    th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid var(--border); }
+    .btn-row.quick-copy { flex-wrap: wrap; gap: 0.5rem; }
+    .btn-row.quick-copy .secondary { min-width: 7rem; }
+    .btn-row.regen-controls { flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+    .btn-row.regen-controls .ghost { font-size: 0.75rem; padding: 0.35rem 0.6rem; }
+    .regen-hint { font-size: 0.75rem; color: var(--muted); margin: -0.25rem 0 0.75rem; }
+    button.epic-btn {
+      background: linear-gradient(135deg, #c45c26 0%, #8b3a1a 100%);
+      border: 1px solid #e8a04c;
+      color: #fff8f0;
+      font-weight: 600;
+    }
+    button.epic-btn:hover { filter: brightness(1.1); }
+    .epic-vars-panel {
+      margin-top: 1rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid #c45c26;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(196, 92, 38, 0.12) 0%, var(--surface) 55%);
+    }
+    .epic-vars-panel h2 { color: #e8a04c; margin: 0 0 0.35rem; font-size: 1rem; }
+    .epic-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      margin: 0.5rem 0 0.75rem;
+      cursor: pointer;
+    }
+    .epic-toggle input { width: auto; accent-color: #e8a04c; }
+    .epic-grid { margin-top: 0.5rem; }
+    .suno-vars-panel {
+      margin-top: 1rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid #3b82f6;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, var(--surface) 55%);
+    }
+    .suno-vars-panel h2 { color: #93c5fd; margin: 0 0 0.35rem; font-size: 1rem; }
+    .suno-check-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+      gap: 0.35rem 0.75rem;
+      margin: 0.5rem 0 0.75rem;
+      font-size: 0.8rem;
+    }
+    .suno-check-grid label { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; margin: 0; }
+    .suno-check-grid input { width: auto; accent-color: #3b82f6; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">Lumen AI Music</div>
+      <div class="logo-sub">Content Studio v2</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <ul class="step-nav" id="stepNav"></ul>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+        <button class="secondary" style="width:100%;margin-bottom:0.5rem" onclick="saveProject()">Save Project</button>
+        <button class="ghost" style="width:100%" onclick="loadProject()">Load Project</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <!-- STEP 0: Welcome -->
+      <section class="panel active" data-step="0">
+        <h1>Content Studio</h1>
+        <p class="lead">Walk through the full Lumen AI Music production pipeline — from random prompt to YouTube upload.</p>
+        <div class="alert warn">
+          <strong>Suno limit:</strong> ~4–8 min per generation. Long videos require multiple segments + DAW stitch + frequency layers in post.
+        </div>
+        <div class="alert info">
+          <strong>Your stack:</strong> Suno (music) + AI image prompts (background + thumb) + Canva (text) + Premiere/FFmpeg (video).
+        </div>
+        <div class="card">
+          <div class="card-title">Your tools</div>
+          <div class="tool-grid" style="margin-top:0.75rem">
+            <a class="tool-card" href="https://suno.com" target="_blank"><strong>Suno</strong><span>Music segments</span></a>
+            <div class="tool-card local-primary"><strong>AI Image Prompt</strong><span>Copy from Content Package</span></div>
+            <a class="tool-card" href="https://www.canva.com" target="_blank"><strong>Canva</strong><span>Thumbnail text overlay</span></a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Pipeline overview</div>
+          <ol style="margin:0.75rem 0 0 1.25rem;font-size:0.875rem;color:var(--muted)">
+            <li>Configure or randomize variables</li>
+            <li>Generate master prompt + full content package</li>
+            <li>Generate music in Suno (track segments)</li>
+            <li>Stitch in DAW + add frequency layers</li>
+            <li>Copy <strong>AI Image Prompt</strong> → generate video background (16:9)</li>
+            <li>Add thumbnail text in Canva + render video</li>
+            <li>Copy YouTube metadata + upload</li>
+            <li>Create 30-sec Short (AI woman enjoying track) for promo</li>
+            <li>Export everything</li>
+          </ol>
+        </div>
+        <div class="btn-row">
+          <button onclick="goStep(1)">Start New Video →</button>
+          <button class="secondary" onclick="randomizePartial('cosmic');goStep(1)">🌌 Random Cosmic Idea</button>
+          <button class="epic-btn" onclick="randomizePartial('epic');goStep(1)">🔥 Epic Post-Grunge</button>
+          <button class="secondary" onclick="randomizeAll();goStep(1)">🎲 Random Idea</button>
+        </div>
+      </section>
+
+      <!-- STEP 1: Variables -->
+      <section class="panel" data-step="1">
+        <h1>1. Configure Variables</h1>
+        <p class="lead">Fill variables, tune <strong>Suno best practices</strong>, or hit Randomize. Use <strong>🔥 Epic Post-Grunge</strong> for cinematic arcs.</p>
+        <div class="btn-row">
+          <button class="ghost" onclick="randomizeAll()">🎲 Randomize All</button>
+          <button class="secondary" onclick="randomizePartial('mood')">Random Mood</button>
+          <button class="secondary" onclick="randomizePartial('sci-fi')">Random Sci-Fi</button>
+          <button class="secondary" onclick="randomizePartial('healing')">Random Healing</button>
+          <button class="secondary" onclick="randomizePartial('cosmic')">🌌 Random Cosmic Idea</button>
+          <button class="secondary" onclick="randomizePartial('epic')">🔥 Epic Post-Grunge</button>
+        </div>
+        <div class="grid" id="varForm">
+          <div>
+            <label>Primary Mood / Purpose</label>
+            <select id="mood"></select>
+            <label>Target Duration</label>
+            <select id="duration"></select>
+            <label>Primary Genre</label>
+            <select id="genre"></select>
+            <label>Secondary Genre (blend)</label>
+            <select id="genreSecondary">
+              <option value="">— none —</option>
+            </select>
+            <label>Sci-Fi Sub-Mode (if applicable)</label>
+            <select id="scifiMode"></select>
+            <label>Mood Words (comma-separated)</label>
+            <input id="moodWords" placeholder="serene, ethereal" />
+            <label>Key Instruments (comma-separated)</label>
+            <input id="instruments" placeholder="bowed glass harmonics, soft synth choir" />
+          </div>
+          <div>
+            <label>Atmosphere / Keywords</label>
+            <input id="atmosphere" placeholder="misty forest, soft rain" />
+            <label>Lore Element (optional)</label>
+            <input id="lore" placeholder="featuring Lumen the Dream Weaver" />
+            <label>BPM</label>
+            <input id="bpm" type="number" value="52" />
+            <label>Energy Level</label>
+            <select id="energy"></select>
+            <label>Production / Mix Tone</label>
+            <input id="production" placeholder="wide cinematic reverb, tape-saturated warmth" />
+            <label>Series Name (optional, e.g. O N Y X)</label>
+            <input id="seriesName" placeholder="O N Y X" />
+            <label>Title Style</label>
+            <select id="titleStyle">
+              <option value="standard">Lumen Standard</option>
+              <option value="cosmic">Cosmic Ambience (Astral-style)</option>
+              <option value="epic">Cinematic Epic (Post-Grunge)</option>
+            </select>
+            <label>Cosmic Track Name</label>
+            <input id="cosmicName" placeholder="Velvet Meridian, Glass Orchard, Lumen: The Listener" />
+          </div>
+          <div class="full-width suno-vars-panel" id="sunoVarsPanel">
+            <h2>🎵 Suno Best Practices</h2>
+            <p class="regen-hint" style="margin:0 0 0.5rem">Controls baked into every Suno prompt — exclusions, structure, genre tags. No artist names. No Hz in Suno.</p>
+            <div class="btn-row" style="margin-bottom:0.5rem">
+              <button type="button" class="secondary" onclick="applySunoPreset('ambient')">Ambient Safe</button>
+              <button type="button" class="secondary" onclick="applySunoPreset('sleep')">Sleep / Healing</button>
+              <button type="button" class="secondary" onclick="applySunoPreset('epic')">Epic Rock</button>
+              <button type="button" class="secondary" onclick="applySunoPreset('scifi')">Sci-Fi</button>
+              <button type="button" class="secondary" onclick="applySunoPreset('focus')">Focus Lo-Fi</button>
+            </div>
+            <div class="suno-check-grid">
+              <label><input type="checkbox" id="sunoInstrumental" checked /> Instrumental only</label>
+              <label><input type="checkbox" id="sunoNoVocals" checked /> No vocals / no singing</label>
+              <label><input type="checkbox" id="sunoNoDrums" checked /> No drums</label>
+              <label><input type="checkbox" id="sunoNoPercussion" checked /> No percussion hits</label>
+              <label><input type="checkbox" id="sunoNoHooks" checked /> No hooks / choruses</label>
+              <label><input type="checkbox" id="sunoNoDrops" checked /> No drops / EDM builds</label>
+              <label><input type="checkbox" id="sunoSleepSafe" checked /> Sleep-safe dynamics</label>
+              <label><input type="checkbox" id="sunoCrossfade" checked /> Crossfade-ready segments</label>
+              <label><input type="checkbox" id="sunoNoHz" checked /> No Hz frequencies in prompt</label>
+              <label><input type="checkbox" id="sunoNoArtists" checked /> No artist / song names</label>
+              <label><input type="checkbox" id="sunoFreqHeadroom" checked /> Low-mid clear (for DAW Hz)</label>
+            </div>
+            <div class="grid epic-grid">
+              <div>
+                <label>Prompt Structure</label>
+                <select id="sunoStructure">
+                  <option value="standard">Standard arc (open → body → close)</option>
+                  <option value="minimal">Minimal drift (single evolving texture)</option>
+                  <option value="padwash">Pad wash (fade in/out only)</option>
+                  <option value="layered">Layered build (3 texture layers)</option>
+                </select>
+                <label>Prompt Style</label>
+                <select id="sunoPromptStyle">
+                  <option value="bracket">Bracket tags + structure [Instrumental]</option>
+                  <option value="flowing">Flowing prose (epic / cinematic)</option>
+                  <option value="tagstack">Tag stack (genre tags at end)</option>
+                </select>
+                <label>Musical Key (optional)</label>
+                <select id="sunoKey">
+                  <option value="">Auto / omit</option>
+                  <option value="C major">C major</option>
+                  <option value="A minor">A minor</option>
+                  <option value="D minor">D minor</option>
+                  <option value="E minor">E minor</option>
+                  <option value="G major">G major</option>
+                  <option value="F major">F major</option>
+                  <option value="B minor">B minor</option>
+                </select>
+              </div>
+              <div>
+                <label>Extra Genre Tags (comma-separated)</label>
+                <input id="sunoExtraTags" placeholder="drone, atmospheric, slow-build, instrumental" />
+                <label>Custom Exclusions</label>
+                <input id="sunoExclude" placeholder="no guitar solos, no choir, no sudden stops" />
+                <label>Suno Segment Label</label>
+                <input id="sunoSegmentLabel" value="~8 min segment" placeholder="~8 min segment" />
+              </div>
+            </div>
+          </div>
+          <div class="full-width epic-vars-panel" id="epicVarsPanel" style="display:none">
+            <h2>🔥 Epic / Post-Grunge Variables</h2>
+            <p class="regen-hint" style="margin:0 0 0.5rem">Cinematic flowing Suno arc — pulse, opening, middle, closing, scene &amp; badge.</p>
+            <label class="epic-toggle">
+              <input type="checkbox" id="epicEnabled" onchange="syncEpicPanel();saveProject(true)" />
+              Enable Epic prompt style
+            </label>
+            <div class="btn-row" style="margin-bottom:0.75rem">
+              <button type="button" class="epic-btn" onclick="shuffleEpicArcs()">🔥 Shuffle Epic Arc</button>
+              <button type="button" class="ghost" onclick="randomizePartial('epic')">Load Epic Preset</button>
+            </div>
+            <div class="grid epic-grid">
+              <div>
+                <label>Epic Pulse</label>
+                <select id="epicPulse"></select>
+                <label>Opening Arc</label>
+                <select id="epicOpening"></select>
+                <label>Middle Arc</label>
+                <select id="epicMiddle"></select>
+                <label>Closing Arc</label>
+                <select id="epicClosing"></select>
+              </div>
+              <div>
+                <label>Epic Genre Stack</label>
+                <select id="epicGenreStack"></select>
+                <label>Epic Visual Scene</label>
+                <select id="epicScene"></select>
+                <label>Epic Visual Style</label>
+                <select id="epicVisual"></select>
+                <label>Thumbnail Badge</label>
+                <select id="epicBadge"></select>
+              </div>
+            </div>
+          </div>
+          <div class="full-width">
+            <h2>Frequency Stack</h2>
+          </div>
+          <div>
+            <label>Primary Frequency Mode</label>
+            <select id="freqPrimary"></select>
+            <label>Secondary Frequency</label>
+            <input id="freqSecondary" placeholder="Theta 4 Hz R / 7 Hz L | none" />
+            <label>Frequency Mix Level</label>
+            <select id="freqMix"></select>
+            <label>Binaural / Monaural</label>
+            <select id="binaural"></select>
+          </div>
+          <div>
+            <label>Thumbnail Main Text</label>
+            <input id="thumbMain" placeholder="LOW CORTISOL" />
+            <label>Thumbnail Subtext</label>
+            <input id="thumbSub" placeholder="3 Hours · Theta Waves" />
+            <label>Color Palette</label>
+            <input id="thumbPalette" placeholder="deep indigo + warm gold" />
+            <label>Video Slug (for UTM links)</label>
+            <input id="slug" placeholder="low-cortisol-healing-174hz" />
+          </div>
+        </div>
+        <div class="stat-row" id="segmentStats"></div>
+        <div class="btn-row">
+          <button class="secondary" onclick="goStep(0)">← Back</button>
+          <button onclick="generatePackage();goStep(2)">Generate Package →</button>
+        </div>
+      </section>
+
+      <!-- STEP 2: Master Prompt Output -->
+      <section class="panel" data-step="2">
+        <h1>2. Content Package</h1>
+        <p class="lead">Full output from the master prompt — copy each section to Suno, your image AI, and YouTube.</p>
+        <p class="regen-hint">Regenerate keeps mood, duration &amp; genre — shuffles BPM, instruments, prompts &amp; more. <strong>🔥 More Epic</strong> = maximum cinematic post-grunge energy.</p>
+        <div class="btn-row quick-copy">
+          <button onclick="regeneratePackage('all')">↻ Regenerate All</button>
+          <button class="epic-btn" onclick="regeneratePackage('epic')">🔥 More Epic</button>
+          <button class="secondary" onclick="copySuno()">Copy Suno</button>
+          <button class="secondary" onclick="copyAIImage()">Copy AI Image</button>
+          <button class="secondary" onclick="copyYoutube()">Copy YouTube</button>
+          <button class="secondary" onclick="copyCosmic()">Copy Cosmic</button>
+          <button class="secondary" onclick="copyShort()">Copy Short</button>
+          <button class="ghost" onclick="copyBlock('fullPackage')">Copy All</button>
+        </div>
+        <div class="btn-row regen-controls">
+          <button class="ghost" onclick="regeneratePackage('suno')">↻ New Suno</button>
+          <button class="ghost" onclick="regeneratePackage('sunoExtraTags')">↻ Suno Tags</button>
+          <button class="ghost" onclick="regeneratePackage('bpm')">↻ New BPM</button>
+          <button class="ghost" onclick="regeneratePackage('instruments')">↻ New Instruments</button>
+          <button class="ghost" onclick="regeneratePackage('atmosphere')">↻ New Atmosphere</button>
+          <button class="ghost" onclick="regeneratePackage('visuals')">↻ New Visuals</button>
+          <button class="ghost" onclick="regeneratePackage('cosmic')">↻ New Cosmic</button>
+          <button class="ghost" onclick="regeneratePackage('youtube')">↻ New YouTube</button>
+          <button class="ghost" onclick="regeneratePackage('short')">↻ New Short</button>
+          <button class="ghost" onclick="regeneratePackage('epicArcs')">↻ Epic Arc</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Suno Prompt (Core ~8 min)</span><div><span class="badge gold">Suno</span> <button class="secondary" onclick="copySuno()">Copy Suno</button></div></div>
+          <div class="output-block" id="outSuno"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Suno Formula Breakdown</span><span class="badge gold" id="sunoFormulaBadge" style="display:none">🔥 Epic</span></div>
+          <div id="outFormula"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Variation Prompts A / B / C</span></div>
+          <div class="output-block" id="outVariations"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Frequency Layer Plan (DAW)</span></div>
+          <div class="output-block" id="outFreq"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">AI Image Prompt</span><div><span class="badge gold">Image AI</span> <button class="secondary" onclick="copyAIImage()">Copy AI Image</button></div></div>
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem">Paste into ChatGPT, DALL·E, Midjourney, Leonardo, or Cursor image gen. Use <strong>16:9</strong> for video BG, <strong>1280×720</strong> for thumbnail base art. Add text in Canva.</p>
+          <div class="output-block" id="outAIImage"></div>
+          <div class="card-header" style="margin-top:1rem"><span class="card-title">Video Background (16:9)</span><button class="secondary" onclick="copyAIImageBg()">Copy BG</button></div>
+          <div class="output-block" id="outAiBg"></div>
+          <div class="card-header" style="margin-top:1rem"><span class="card-title">Thumbnail Base Art</span><button class="secondary" onclick="copyAIImageThumb()">Copy Thumb</button></div>
+          <div class="output-block" id="outAiThumb"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Cosmic Ambience Concepts</span>
+            <span class="badge gold">Astral-style · Lumen twist</span>
+            <button class="secondary" onclick="regeneratePackage('cosmic')">↻ New Ideas</button>
+            <button class="secondary" onclick="copyCosmic()">Copy Cosmic</button>
+          </div>
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem">Poetic single-word names · <em>Name | Music Type Location - Ending [Badge]</em> · landscape thumbnails like top ambient channels — but uniquely Lumen.</p>
+          <div class="output-block" id="outCosmic" style="max-height:320px"></div>
+          <div class="card-header" style="margin-top:1rem"><span class="card-title">Cosmic Thumbnail (Canva)</span><button class="secondary" onclick="copyCosmicThumb()">Copy Thumbnail</button></div>
+          <div class="output-block" id="outCosmicThumb"></div>
+          <div class="card-header" style="margin-top:1rem"><span class="card-title">5 More Title Ideas (shuffle)</span><button class="secondary" onclick="copyText(document.getElementById('outCosmicAlts').textContent)">Copy</button></div>
+          <div class="output-block" id="outCosmicAlts"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">YouTube Titles + Description + Tags</span><div><span class="badge">YouTube</span> <button class="secondary" onclick="copyYoutube()">Copy YouTube</button></div></div>
+          <div class="output-block" id="outYoutube"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">30-Second YouTube Short</span>
+            <span class="badge gold">9:16 Promo</span>
+            <button class="secondary" onclick="copyShort()">Copy Short</button>
+            <button class="ghost" onclick="copyShortConcept()">Copy Concept</button>
+          </div>
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem">Concept + shot list for a vertical Short. Paste the AI prompt into ChatGPT/Claude to expand.</p>
+          <div class="output-block" id="outShortConcept" style="max-height:280px"></div>
+        </div>
+        <textarea class="tall full-width" id="fullPackage" style="display:none"></textarea>
+        <textarea class="tall full-width" id="masterPromptForAI" style="display:none"></textarea>
+        <textarea class="tall full-width" id="shortAIPrompt" style="display:none"></textarea>
+        <textarea class="tall full-width" id="sunoPrompt" style="display:none"></textarea>
+
+        <div class="btn-row">
+          <button class="secondary" onclick="goStep(1)">← Variables</button>
+          <button onclick="goStep(3)">Suno Production →</button>
+        </div>
+      </section>
+
+      <!-- STEP 3: Suno -->
+      <section class="panel" data-step="3">
+        <h1>3. Suno Music Generation</h1>
+        <p class="lead">Generate each segment in Suno. Track progress below.</p>
+        <div class="alert info">
+          Open <a href="https://suno.com" target="_blank" style="color:var(--info)">suno.com</a> → Create → paste prompt → download WAV/MP3. Repeat for each segment + variations.
+          <br><strong>Best practice:</strong> instrumental only · no artist names · no Hz in prompt · use exclusions from Variables → Suno panel.
+        </div>
+        <div class="stat-row" id="sunoStats"></div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Segment Tracker</span></div>
+          <div class="segment-tracker" id="segmentTracker"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Quick actions</div>
+          <div class="btn-row">
+            <button class="secondary" onclick="copySuno()">Copy Suno</button>
+            <button class="secondary" onclick="markAllSegments(false)">Reset Checks</button>
+            <button class="secondary" onclick="markAllSegments(true)">Mark All Done</button>
+          </div>
+        </div>
+        <ul class="checklist" id="sunoChecklist"></ul>
+        <div class="btn-row">
+          <button class="secondary" onclick="goStep(2)">← Package</button>
+          <button onclick="goStep(4)">DAW Stitch →</button>
+        </div>
+      </section>
+
+      <!-- STEP 4: DAW -->
+      <section class="panel" data-step="4">
+        <h1>4. DAW Stitch + Frequency Layers</h1>
+        <p class="lead">Crossfade segments, normalize, then add Hz tones and binaural beds.</p>
+        <div class="tool-grid">
+          <a class="tool-card" href="https://www.reaper.fm" target="_blank"><strong>Reaper</strong><span>Free trial, JSFX tones</span></a>
+          <a class="tool-card" href="https://www.audacityteam.org" target="_blank"><strong>Audacity</strong><span>Free, tone generator</span></a>
+          <a class="tool-card" href="https://gnaural.sourceforge.net" target="_blank"><strong>Gnaural</strong><span>Binaural generator</span></a>
+          <a class="tool-card" href="https://mynoise.net" target="_blank"><strong>myNoise</strong><span>Custom binaural</span></a>
+        </div>
+        <div class="card">
+          <div class="card-title">Multi-Segment Plan</div>
+          <div class="output-block" id="outStitch"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">FFmpeg quick render (after master WAV exists)</div>
+          <div class="output-block" id="outFfmpeg"></div>
+          <button class="secondary" style="margin-top:0.5rem" onclick="copyText(document.getElementById('outFfmpeg').textContent)">Copy FFmpeg Command</button>
+        </div>
+        <ul class="checklist" id="dawChecklist"></ul>
+        <div class="btn-row">
+          <button class="secondary" onclick="goStep(3)">← Suno</button>
+          <button onclick="goStep(5)">AI Images →</button>
+        </div>
+      </section>
+
+      <!-- STEP 5: AI Image Prompts -->
+      <section class="panel" data-step="5">
+        <h1>5. AI Image Prompts</h1>
+        <p class="lead">Generate your video background and thumbnail art with any image AI — prompts are ready below.</p>
+        <div class="tool-grid">
+          <a class="tool-card" href="https://chatgpt.com" target="_blank"><strong>ChatGPT</strong><span>DALL·E images</span></a>
+          <a class="tool-card" href="https://www.midjourney.com" target="_blank"><strong>Midjourney</strong><span>Cinematic landscapes</span></a>
+          <a class="tool-card" href="https://leonardo.ai" target="_blank"><strong>Leonardo.ai</strong><span>Free tier</span></a>
+          <a class="tool-card" href="https://www.canva.com" target="_blank"><strong>Canva</strong><span>Text + watermark</span></a>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Video Background (16:9)</span><button class="secondary" onclick="copyAIImageBg()">Copy BG Prompt</button></div>
+          <div class="output-block" id="outAiBgStep"></div>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem">Save as <span id="bgFilename">background.jpg</span> · 1920×1080 or 1344×768</p>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Thumbnail Base Art</span><button class="secondary" onclick="copyAIImageThumb()">Copy Thumb Prompt</button></div>
+          <div class="output-block" id="outAiThumbStep"></div>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem">Generate wide, add text in Canva · 1280×720</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Canva text overlay</div>
+          <div class="output-block" id="outCanvaText"></div>
+        </div>
+        <ul class="checklist" id="imageChecklist"></ul>
+        <div class="btn-row">
+          <button class="secondary" onclick="goStep(4)">← DAW</button>
+          <button onclick="goStep(6)">Video Render →</button>
+        </div>
+      </section>
+
+      <!-- STEP 6: Video -->
+      <section class="panel" data-step="6">
+        <h1>6. Video Assembly</h1>
+        <p class="lead">Combine master audio + background image into MP4 for YouTube.</p>
+        <div class="card">
+          <div class="card-title">Option A — FFmpeg (recommended)</div>
+          <div class="output-block" id="outVideoFfmpeg"></div>
+          <button class="secondary" style="margin-top:0.5rem" onclick="copyText(document.getElementById('outVideoFfmpeg').textContent)">Copy Command</button>
+        </div>
+        <div class="card">
+          <div class="card-title">Option B — Adobe Premiere Pro</div>
+          <p style="font-size:0.85rem;color:var(--muted)">Import background image + master WAV → match timeline to audio length → export 1080p H.264.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Option C — DaVinci Resolve (free)</div>
+          <p style="font-size:0.85rem;color:var(--muted)">Import master WAV + background PNG/JPG → set timeline to audio length → export 1080p H.264.</p>
+        </div>
+        <ul class="checklist" id="videoChecklist"></ul>
+        <div class="btn-row">
+          <button class="secondary" onclick="goStep(5)">← AI Images</button>
+          <button onclick="goStep(7)">YouTube Upload →</button>
+        </div>
+      </section>
+
+      <!-- STEP 7: YouTube -->
+      <section class="panel" data-step="7">
+        <h1>7. YouTube Upload</h1>
+        <p class="lead">Copy metadata and upload to Lumen AI Music channel.</p>
+        <div class="tool-grid">
+          <a class="tool-card" href="https://studio.youtube.com" target="_blank"><strong>YouTube Studio</strong><span>Upload + metadata</span></a>
+          <a class="tool-card" href="https://www.lumenaimusic.com/admin" target="_blank"><strong>Lumen Admin</strong><span>Add track + UTM link</span></a>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Title (pick one)</span><button class="secondary" onclick="copyYoutube()">Copy YouTube</button></div>
+          <div class="output-block" id="outTitles"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Description</span><button class="secondary" onclick="copyText(state.package?.description||'')">Copy</button></div>
+          <div class="output-block" id="outDesc" style="max-height:350px"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Tags</span><button class="secondary" onclick="copyText(state.package?.tags||'')">Copy</button></div>
+          <div class="output-block" id="outTags"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Pinned Comment</div>
+          <div class="output-block" id="outPinned"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">YouTube Short (30 sec)</span>
+            <button class="secondary" onclick="copyText(state.package?.shortCaption||'')">Copy Caption</button>
+          </div>
+          <div class="output-block" id="outShortCaption"></div>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem">Upload as Short in YouTube Studio · link full video in description · use 30s audio clip from master WAV</p>
+        </div>
+        <ul class="checklist" id="uploadChecklist"></ul>
+        <div class="btn-row">
+          <button class="secondary" onclick="goStep(6)">← Video</button>
+          <button onclick="goStep(8)">Export →</button>
+        </div>
+      </section>
+
+      <!-- STEP 8: Export -->
+      <section class="panel" data-step="8">
+        <h1>8. Export & Finish</h1>
+        <p class="lead">Download your full content package and mark the project complete.</p>
+        <div class="btn-row">
+          <button onclick="exportMarkdown()">⬇ Download .md</button>
+          <button onclick="exportJSON()">⬇ Download .json</button>
+          <button class="secondary" onclick="copyBlock('fullPackage')">Copy All</button>
+        </div>
+        <div class="card">
+          <div class="card-title">Project Summary</div>
+          <div class="output-block" id="outSummary"></div>
+        </div>
+        <div class="btn-row">
+          <button class="success" onclick="markComplete()">✓ Mark Project Complete</button>
+          <button class="ghost" onclick="goStep(0)">Start New Project</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="copied-toast" id="toast">Copied!</div>
+
+  <script>
+    const DATA = {
+      moods: [
+        { id: 'deep-sleep', label: 'Deep Sleep', genre: 'ambient', bpm: [45,58], energy: 'ultra-low', tag: 'Sleep' },
+        { id: 'healing', label: 'Healing & Restoration', genre: 'ambient', bpm: [50,65], energy: 'low', tag: 'Healing' },
+        { id: 'focus', label: 'Focus & Study', genre: 'lo-fi', bpm: [70,90], energy: 'low-mid', tag: 'Focus' },
+        { id: 'cortisol', label: 'Low Cortisol / Nervous System Reset', genre: 'ambient', bpm: [50,65], energy: 'low', tag: 'Healing' },
+        { id: 'cinematic', label: 'Cinematic Epic', genre: 'post-grunge ambient rock', bpm: [80, 104], energy: 'low-mid', tag: 'Cinematic' },
+        { id: 'epic-rock', label: 'Cinematic Post-Grunge Epic', genre: 'post-grunge ambient rock', bpm: [80, 104], energy: 'low-mid', tag: 'Epic' },
+        { id: 'fantasy', label: 'Fantasy Dreamscape', genre: 'dark ambient', bpm: [55,75], energy: 'low', tag: 'Fantasy' },
+        { id: 'scifi', label: 'Sci-Fi Space / Atmospheric Sci-Fi', genre: 'sci-fi ambient', bpm: [60,85], energy: 'ultra-low', tag: 'Sci-Fi' },
+      ],
+      durations: [
+        { id: '8min', label: 'Single Track ~6–8 min', minutes: 8, segments: 1 },
+        { id: '45min', label: '45 Min', minutes: 45, segments: 6 },
+        { id: '1hr', label: '1 Hour', minutes: 60, segments: 8 },
+        { id: '2hr', label: '2 Hours', minutes: 120, segments: 15 },
+        { id: '3hr', label: '3 Hours', minutes: 180, segments: 23 },
+      ],
+      genres: ['ambient','post-grunge ambient rock','ambient rock','alternative rock ambient','new age','lo-fi','neo-classical','cinematic','dark ambient','nature soundscape','sci-fi ambient','space music','retro-futuristic synth'],
+      genreGroups: {
+        'Ambient & Meditation': [
+          'ambient', 'dark ambient', 'meditation music', 'healing ambient', 'drone ambient', 'atmospheric',
+          'soundscape', 'new age', 'spa music', 'nature soundscape', 'sleep music', 'calm ambient',
+        ],
+        'Rock & Cinematic': [
+          'post-grunge ambient rock', 'ambient rock', 'alternative rock ambient', 'cinematic', 'cinematic orchestral',
+          'post-rock', 'shoegaze', 'slowcore', 'instrumental rock', 'atmospheric rock',
+        ],
+        'Electronic & Synth': [
+          'sci-fi ambient', 'space music', 'retro-futuristic synth', 'synthwave', 'downtempo', 'chillwave',
+          'idm ambient', 'modular synth', 'cyberpunk ambient', 'vaporwave ambient', 'ambient electronic',
+        ],
+        'Focus & Lo-Fi': [
+          'lo-fi', 'lo-fi hip hop', 'study beats', 'jazzhop', 'neo-classical', 'minimal piano', 'focus music', 'chillhop',
+        ],
+        'World & Organic': [
+          'acoustic ambient', 'celtic ambient', 'tribal ambient', 'organic ambient', 'folk ambient', 'world fusion ambient',
+        ],
+        'Fantasy & Epic': [
+          'fantasy ambient', 'dark fantasy', 'epic ambient', 'orchestral ambient', 'cinematic fantasy', 'dungeon ambient',
+        ],
+      },
+      scifiModes: ['Serene Space','Neon-Noir Focus','Dark Dystopian','Cosmic Meditation','Interstellar Sleep','N/A'],
+      energies: ['ultra-low','low','low-mid','gentle groove','slow-build dynamic'],
+      moodWords: ['ethereal','serene','melancholic','dreamy','nostalgic','dark cinematic','spiritual','reflective','womb-like','still','weightless','otherworldly','cosmic','futuristic','vast','neon-noir','interstellar','heroic','grit-soft','cathedral','sweeping','restrained'],
+      instruments: {
+        healing: ['bowed glass harmonics','soft synth choir pads','field recording rain','warm analog synth pads','cello drone','reversed piano fragments'],
+        nature: ['field recording rain/wind','acoustic fingerstyle guitar','soft synth choir pads','sub-harmonic drone'],
+        scifi: ['evolving synth textures','pulsing synth bass drone','distant choir pad','metallic shimmer textures','FM synth bells','modular synth wash','arpeggiated analog synth'],
+        focus: ['Rhodes piano','soft vinyl crackle','muted pad layers','solo cello drone','sparse piano notes'],
+        cinematic: ['soft string ostinatos','evolving synth textures','brass swells (muted)','analog synth pad'],
+        epic: [
+          'warm analog pad wash','distant brushed-guitar haze','sparse piano motifs','low cello drones',
+          'grit-soft guitar texture','muted post-grunge guitar swells','tape-worn Rhodes chords',
+          'sub-harmonic bass drone','orchestral string beds (restrained)','distant room drum brush ghosts',
+          'cathedral choir pad (wordless)','slow tremolo electric haze','modular synth bloom',
+        ],
+      },
+      productions: [
+        'wide cinematic reverb','tape-saturated warmth','worn cassette hiss, cathedral-wide reverb',
+        'intimate cinematic mix, analog tape saturation','arena-scale reverb tail, grit-soft low end',
+        'lo-fi warmth','spa-quality wide mix','vast space reverb','retro-futuristic analog warmth',
+        'live-room acoustics','immersive binaural-ready stereo field','narrow dynamic range',
+        'cathedral-wide reverb, centered low-mid clarity','heroic pad stack, breath-controlled dynamics',
+      ],
+      atmospheres: {
+        healing: ['soft dawn mist, warm safe light, gentle rain','moonlit clearing, velvet stillness','misty forest, distant wind chimes'],
+        nature: ['misty forest, soft rain, moonlit clearing','ocean horizon at dusk, gentle waves','mountain lake reflection, morning fog'],
+        scifi: ['lone platform above cloud sea, ringed planet on horizon','neon city rain reflected in wet asphalt','cryo-chamber blue glow, orbital twilight','deep space dock, nebula viewport','alien sunrise over silent wasteland'],
+        focus: ['quiet study room, warm lamp glow','rain on window, city lights bokeh','minimal desk, candlelight'],
+        sleep: ['starlit bedroom, soft blanket warmth','underwater dreamscape, slow light pulses','floating among clouds, weightless dark'],
+        epic: [
+          'rain-soaked highway at blue hour, distant headlights, vast lonely sky',
+          'cliff edge overlook, storm clouds parting, golden god-rays through mist',
+          'abandoned cathedral interior, candle flicker, dust motes in volumetric light',
+          'industrial waterfront at dusk, rust and neon reflections on wet concrete',
+          'mountain pass in pre-dawn fog, headlights cutting through cold air',
+          'empty arena after the show, single spotlight, heroic silence',
+          'desert highway mirage at sunset, heat shimmer, infinite horizon',
+          'forest firefly clearing after rainfall, earthy warmth, cinematic stillness',
+        ],
+      },
+      epic: {
+        pulses: [
+          'a steady, swaying pulse',
+          'a slow heroic heartbeat pulse',
+          'a weighted cinematic sway',
+          'a restrained post-grunge groove',
+          'a patient, tidal rhythmic pull',
+          'a muted alternative-rock pulse beneath the wash',
+        ],
+        openings: [
+          'opening drifts from silence into warm analog pad wash and distant brushed-guitar haze',
+          'opening bleeds from black silence through worn tape hiss into vast cathedral pad bloom',
+          'opening unfolds from near-nothing into layered analog warmth and faint guitar halo',
+          'opening crawls out of silence on a single sustained pad, then distant grit-soft guitar emerges',
+          'opening rises from void through intimate room tone into sweeping pad architecture',
+        ],
+        middles: [
+          'middle settles into sparse piano motifs, low cello drones, and slow-evolving grit-soft texture',
+          'middle anchors on {i1}, {i2}, and {i3} woven through patient post-grunge ambient drift',
+          'middle breathes through {i1} and {i2} over {i3}, textures evolving like slow tide',
+          'middle deepens with {i1}, {i2}, {i3} — narrow dynamics, heroic restraint, no percussion hits',
+          'middle opens into {i1} and {i2} carried by {i3}, cinematic grit held soft at the edges',
+        ],
+        closings: [
+          'closing lifts gently then thins to a sustained heroic pad and breath-controlled fade',
+          'closing swells into muted brass halo then dissolves to sustained drone and near-silence',
+          'closing ascends once, then exhales into long pad sustain for seamless crossfade',
+          'closing blooms softly then recedes to tape-worn warmth and whisper-quiet fade',
+          'closing reaches a restrained peak then thins to heroic pad tail and crossfade-ready silence',
+        ],
+        genreTags: [
+          'alternative rock', 'post-grunge', 'atmospheric', 'drone', 'ambient', 'dynamic', 'soft',
+          'cinematic', 'slow-build', 'instrumental', 'ambient rock', 'crossfade-ready', 'epic',
+        ],
+        moodWords: ['cinematic', 'heroic', 'melancholic', 'vast', 'intimate', 'grit-soft', 'cathedral', 'nostalgic', 'sweeping', 'restrained', 'post-grunge', 'atmospheric'],
+        thumbMains: ['GRAVITY DRIFT', 'IRON HORIZON', 'ASH VEIL', 'RUST CATHEDRAL', 'MIDNIGHT ARCH', 'EMBER TIDE', 'VOID MERIDIAN', 'STEEL DUSK', 'HALO FRACTURE', 'DRIFT STATE'],
+        thumbSubs: ['90 BPM · Ambient Post-Grunge', '80–104 BPM · Cinematic Mode', 'Slow-Build · Epic Ambient Rock', 'Post-Grunge Drift · Instrumental', 'Cathedral Ambient · [Cinematic Mode]'],
+        genreStacks: ['post-grunge ambient rock', 'ambient rock', 'alternative rock ambient', 'cinematic post-grunge', 'post-grunge drone rock'],
+        epicBadges: ['Cinematic Mode', 'Slow Build', 'Epic Drift', 'Post-Grunge Mode', 'Heroic Calm', 'Cathedral Mode'],
+        seriesNames: ['GRAVITY DRIFT', 'IRON MERIDIAN', 'ASH ARCHIVE', 'RUST HORIZON', 'STEEL DUSK', 'EMBER VAULT'],
+        visualModifiers: [
+          'epic cinematic scale, anamorphic lens flare, volumetric god-rays',
+          'moody post-grunge atmosphere, rain-slick reflections, heroic solitude',
+          'cathedral-wide composition, dramatic cloud architecture, golden hour rim light',
+          'industrial romanticism, rust and neon, vast empty horizon',
+        ],
+        variationArcs: {
+          a: [
+            'Variation A — Texture shift: Same {bpm} BPM post-grunge ambient rock. Swap {i0} for {alt}. Keep pulse, production, crossfade arc.',
+            'Variation A — Grit swap: Same heroic pulse at {bpm} BPM. Lead with {alt} instead of {i0}. Cathedral reverb intact.',
+          ],
+          b: [
+            'Variation B — Pad cathedral: Strip percussive ghosts. Pure analog pad + {i1} drone layers. Long attack/release. Same BPM and fade logic.',
+            'Variation B — Drone ascent: Minimal piano. Stack {i1} and {i2} as sustained drones. Most hypnotic mid-playlist segment.',
+          ],
+          c: [
+            'Variation C — Atmosphere emphasis: Foreground {atm}; guitars/pads sit 3 dB lower. Peak immersive segment for mid-video.',
+            'Variation C — Heroic lift: Subtle brass/swell under {atm}. One restrained crest at 5:30, then settle. Best emotional peak segment.',
+          ],
+        },
+      },
+      seriesNames: ['O N Y X','A P E X','F R O S T F A L L','N E B U L A','V O I D','E C H O'],
+      freqModes: [
+        { id: 'none', label: 'None — music only', stack: null },
+        { id: 'cortisol', label: 'Low Cortisol / Body Repair — 174 Hz + optional 285 Hz', stack: { primary: '174 Hz sine (+ optional 285 Hz)', secondary: 'Theta 4 Hz R / 7 Hz L binaural', behind: ['174 Hz — harmony, easing tension in body','285 Hz — tissue repair association (optional, subtle)','Theta 4/7 — deep relaxation, meditation'] } },
+        { id: 'fear', label: 'Fear & Stress Release — 396 Hz + 417 Hz', stack: { primary: '396 Hz + 417 Hz sine', secondary: 'none', behind: ['396 Hz — releasing fear and emotional blockages','417 Hz — facilitating change and undoing situations'] } },
+        { id: 'heart', label: 'Heart–Brain Coherence — 528 Hz', stack: { primary: '528 Hz warm harmonic bed', secondary: 'none', behind: ['528 Hz — associated with love, DNA repair folklore, emotional balance'] } },
+        { id: 'delta', label: 'Deep Sleep / Delta — 0.5–4 Hz binaural', stack: { primary: '174 Hz sine foundation', secondary: 'Delta 1–2 Hz binaural', behind: ['174 Hz — bodily harmony','Delta 1–2 Hz — deep sleep entrainment'] } },
+        { id: 'theta', label: 'Meditation / Theta — 4–8 Hz binaural', stack: { primary: '396 Hz undertone', secondary: 'Theta 4 Hz R / 7 Hz L binaural', behind: ['396 Hz — fear/stress release','Theta 4/7 — deep relaxation, subconscious calm'] } },
+        { id: 'alpha', label: 'Relaxed Focus / Alpha — 8–12 Hz', stack: { primary: 'none', secondary: 'Alpha 10 Hz monaural', behind: ['Alpha 10 Hz — relaxed focus, flow state'] } },
+        { id: 'grounding', label: 'Root Grounding — 174 Hz + 396 Hz stack', stack: { primary: '174 Hz + 396 Hz sine', secondary: 'Theta 4 Hz R / 7 Hz L binaural', behind: ['174 Hz — harmony, tension ease','396 Hz — fear/stress release','Theta 4/7 — deep relaxation, quiet mind'] } },
+      ],
+      freqMix: ['barely audible under music','subtle bed','tone-forward — listener hears clear tone'],
+      binaural: ['binaural (headphones required)','monaural (speakers OK)','isochronic','solfeggio tone only — no brainwave layer'],
+      thumbPalettes: ['deep indigo + warm gold','neon cyan + deep purple + black void','rust orange nebula + starlight white','soft sage + cream + mist white','midnight blue + rose gold'],
+      shortHooks: {
+        'deep-sleep': ['POV: your brain finally shuts off at 2am','This is what falling asleep feels like','When the world goes quiet'],
+        cortisol: ['Your nervous system needed this','Lower cortisol. Breathe.','When stress won\'t let go'],
+        healing: ['Let your body remember how to rest','Healing starts when you stop trying','Soft music. Soft landing.'],
+        focus: ['Lock in without burning out','Study mode: activated','Deep focus. Zero chaos.'],
+        scifi: ['Drift through the cosmos','Your mind leaves the planet','Deep space. Deep calm.'],
+        cinematic: ['A moment suspended in time','Breathe into the scene','Where the story pauses'],
+        'epic-rock': ['When the world feels too heavy — press play','This is your slow-build anthem','POV: cinematic drift at 90 BPM','Heroic calm. No vocals. All feeling.'],
+        fantasy: ['Fall into the dreamscape','Another world. Same peace.','The realm between sleep and waking'],
+      },
+      cosmicNames: [
+        'Velvet Meridian','Glass Orchard','Ember Drift','Tide Memory','Moonlit Archive','Quiet Horizon',
+        'Fading Lantern','Dust Cathedral','Cloud Monastery','Pale Observatory','Sleeping Compass','Coral Hour',
+        'Starlit Hollow','Iron Blossom','Neon Monastery','Soft Relay','Hollow Tide','Prism Shelter',
+        'Solace','Reverie','Vesper','Liminal','Gossamer','Threshold','Mirage','Undertow','Pilgrim','Hush',
+        'Driftwood','Archipelago','Wane','Lilt','Shelter','Ember','Prism','Hollow','Velvet','Solitude',
+      ],
+      cosmicSeries: [
+        'Lumen: The Cartographer','Lumen: Salt Archive','Lumen: Dream Relay','Lumen: The Listener',
+        'Lumen: Hydro Vault','Lumen: Soft Horizon','Lumen: The Wandering Mind',
+      ],
+      cosmicMusicTypes: [
+        'Deep Meditation Music','Calm Ambient Music','Peaceful Ambient Music','Meditative Ambient Music',
+        'Slow-Moving Ambient Music','Healing Ambient Soundscape','Serene Relaxation Music',
+        'Deep Relaxation Music','Ethereal Ambient Music','Soothing Night Music',
+      ],
+      cosmicLocations: [
+        'Beneath Eternal Stars','Beyond the Edge of the Known World','Where the Night Gently Opens',
+        'Inside the Last Gentle Hour','Across Silent Sands Beneath Ancient Stars','When the World Is Asleep',
+        'In the Glow of the Emerald Moon','At the Edge of the Listening Dark','Where Thoughts Dissolve Into Light',
+        'Beneath Dancing Auroras','Through the Veil of Morning Mist','Inside a Forgotten Orbital Garden',
+        'Where Gravity Feels Like a Lullaby','Beyond the Quiet Meridian','Beneath a Starry Winter Sky',
+        'In the Space Between Heartbeats','Where Time Moves Like Water','Above the Silent Valley Fog',
+        'At the Shore of a Distant Nebula','Inside the Soft Architecture of Dreams',
+      ],
+      cosmicEndings: [
+        'Healing Night Soundscape','Calming Meditative Soundscape','Relaxing Meditation Soundscape',
+        'Deep Relaxation Music','Soothing Night Music','Peaceful Relaxation Soundscape',
+        'Stress Relief Soundscape','Serene Meditation Music','Calm Stress Relief Soundscape',
+      ],
+      cosmicBadges: [
+        'CALM MODE: ON','Sleep Mode','HEALING SLEEP MODE','INFINITE CALM','Dreamstate: ACTIVATED',
+        'Lumen Calm: ∞','Stress Relief: ON','Deep Focus Mode','Serene Mode','CALM YOUR MIND',
+        'Extreme Calm Mode','Nervous System: RESTORED','Astral Comfort Mode',
+      ],
+      cosmicThumbSubs: [
+        'Deep Relaxation Music','Meditation Soundscape','Healing Ambient','For Sleep & Calm',
+        'Stress Relief · Night Mode','Cosmic Stillness','Peaceful Night Music',
+      ],
+      cosmicVisualScenes: [
+        'ancient tree of life silhouetted against infinite starfield, bioluminescent leaves, cosmic scale',
+        'cliff overlook above silent valley fog, pre-dawn violet and gold sky, vast peaceful scale',
+        'japanese zen garden under supermoon, cherry blossom petals drifting, still water reflection',
+        'northern lights dancing over frozen lake, perfect mirror reflection, emerald and violet sky',
+        'abandoned orbital observatory viewport, nebula and distant galaxies, serene cosmic solitude',
+        'cozy cabin window framing snow moon over winter forest, warm interior glow vs cold blue night',
+        'emerald aurora over calm black ocean, single distant lighthouse, minimal composition',
+        'crystal cavern with soft internal bioluminescent glow, underground cathedral atmosphere',
+        'floating monolith islands in pastel cloud sea at twilight, dreamlike fantasy scale',
+        'underwater light cathedral, god rays through deep blue water, weightless calm',
+        'lone figure-scale platform above endless cloud ocean, ringed planet on horizon, sci-fi serenity',
+        'enchanted forest clearing, fireflies and soft mist, moonbeams through ancient trees',
+        'blood moon over desert dunes, long shadows, cinematic solitude and warmth',
+        'rain-soaked neon city viewed from high rooftop at night, bokeh, cyberpunk calm not chaos',
+        'sacred geometry lotus pond at dawn, mist rising, golden hour meditation aesthetic',
+      ],
+    };
+
+    const STEPS = [
+      'Welcome','Variables','Content Package','Suno','DAW Stitch','AI Images','Video','YouTube','Export'
+    ];
+
+    const AI_IMAGE_NEGATIVE = 'text, letters, words, logo, watermark, signature, people, faces, blurry, low quality, jpeg artifacts';
+
+    let state = { step: 0, package: null, segmentDone: {}, checklist: {} };
+
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function pickN(arr, n) {
+      const shuffled = [...arr].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, n);
+    }
+    function randBetween(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+    function slugify(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
+    function pickDifferent(arr, current) {
+      const options = arr.filter(x => x !== current);
+      return pick(options.length ? options : arr);
+    }
+
+    function getInstrumentKey(moodId) {
+      if (moodId === 'epic-rock' || moodId === 'cinematic') return 'epic';
+      if (moodId === 'scifi') return 'scifi';
+      if (moodId === 'focus') return 'focus';
+      if (moodId === 'fantasy') return 'cinematic';
+      if (moodId === 'deep-sleep') return 'nature';
+      return 'healing';
+    }
+
+    function getAtmosphereKey(moodId) {
+      if (moodId === 'epic-rock' || moodId === 'cinematic') return 'epic';
+      if (moodId === 'scifi') return 'scifi';
+      if (moodId === 'focus') return 'focus';
+      if (moodId === 'deep-sleep') return 'sleep';
+      return 'healing';
+    }
+
+    function isEpicMode(v) {
+      return v.epicEnabled || v.mood.id === 'epic-rock' || v.mood.id === 'cinematic' || v.titleStyle === 'epic' || /post-grunge|ambient rock/i.test(v.genre);
+    }
+
+    function resolveEpicField(val, pool) {
+      return val && val !== 'auto' ? val : pick(pool);
+    }
+
+    function fillEpicSelect(id, items, autoLabel = 'Auto (shuffle on regen)') {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = `<option value="auto">${autoLabel}</option>` + items.map(i => {
+        const label = i.length > 78 ? i.slice(0, 78) + '…' : i;
+        return `<option value="${i.replace(/"/g, '&quot;')}">${label}</option>`;
+      }).join('');
+    }
+
+    function initEpicSelects() {
+      const E = DATA.epic;
+      fillEpicSelect('epicPulse', E.pulses);
+      fillEpicSelect('epicOpening', E.openings);
+      fillEpicSelect('epicMiddle', E.middles);
+      fillEpicSelect('epicClosing', E.closings);
+      fillEpicSelect('epicGenreStack', E.genreStacks, 'Auto (use Primary Genre)');
+      fillEpicSelect('epicScene', DATA.atmospheres.epic, 'Auto (shuffle scene)');
+      fillEpicSelect('epicVisual', E.visualModifiers, 'Auto (shuffle style)');
+      fillEpicSelect('epicBadge', E.epicBadges.map(b => `[${b}]`), 'None');
+    }
+
+    function syncEpicPanel() {
+      const mood = document.getElementById('mood').value;
+      const titleStyle = document.getElementById('titleStyle').value;
+      const epicOn = document.getElementById('epicEnabled').checked || mood === 'epic-rock' || mood === 'cinematic' || titleStyle === 'epic';
+      const panel = document.getElementById('epicVarsPanel');
+      if (panel) panel.style.display = epicOn ? 'block' : 'none';
+      if ((mood === 'epic-rock' || mood === 'cinematic' || titleStyle === 'epic') && !document.getElementById('epicEnabled').checked) {
+        document.getElementById('epicEnabled').checked = true;
+      }
+    }
+
+    function shuffleEpicArcs(lock, silent) {
+      const E = DATA.epic;
+      const set = (id, val) => { const el = document.getElementById(id); if (el && (!lock || !lock.has(id))) el.value = val; };
+      set('epicPulse', pick(E.pulses));
+      set('epicOpening', pick(E.openings));
+      set('epicMiddle', pick(E.middles));
+      set('epicClosing', pick(E.closings));
+      set('epicGenreStack', pick(E.genreStacks));
+      set('epicScene', pick(DATA.atmospheres.epic));
+      set('epicVisual', pick(E.visualModifiers));
+      set('epicBadge', `[${pick(E.epicBadges)}]`);
+      document.getElementById('genre').value = document.getElementById('epicGenreStack').value;
+      document.getElementById('atmosphere').value = document.getElementById('epicScene').value;
+      document.getElementById('epicEnabled').checked = true;
+      syncEpicPanel();
+      updateSegmentStats();
+      saveProject(true);
+      if (!silent) showToast('🔥 Epic arc shuffled!');
+    }
+
+    function applyEpicVarsToForm(v) {
+      if (v.epicScene && v.epicScene !== 'auto') document.getElementById('atmosphere').value = v.epicScene;
+      if (v.epicGenreStack && v.epicGenreStack !== 'auto') document.getElementById('genre').value = v.epicGenreStack;
+    }
+
+    function epicMoodWords() {
+      return pickN(DATA.epic.moodWords, 2).join(', ');
+    }
+
+    function epicInstruments() {
+      return pickN(DATA.instruments.epic, 3).join(', ');
+    }
+
+    function epicProduction() {
+      return pick(DATA.productions.filter(p => /cathedral|cassette|heroic|grit|arena|tape|intimate cinematic/i.test(p)).concat(DATA.productions));
+    }
+
+    function applyEpicPreset(amp) {
+      const mood = DATA.moods.find(m => m.id === 'epic-rock');
+      document.getElementById('mood').value = 'epic-rock';
+      document.getElementById('titleStyle').value = 'epic';
+      document.getElementById('epicEnabled').checked = true;
+      document.getElementById('genre').value = 'post-grunge ambient rock';
+      document.getElementById('scifiMode').value = 'N/A';
+      document.getElementById('moodWords').value = epicMoodWords();
+      document.getElementById('instruments').value = epicInstruments();
+      document.getElementById('atmosphere').value = pick(DATA.atmospheres.epic);
+      document.getElementById('bpm').value = amp ? pick([86, 90, 96, 104]) : randBetween(80, 104);
+      document.getElementById('energy').value = pick(['low-mid', 'slow-build dynamic', 'gentle groove']);
+      document.getElementById('production').value = epicProduction();
+      document.getElementById('seriesName').value = Math.random() > 0.35 ? pick(DATA.epic.seriesNames) : '';
+      document.getElementById('freqPrimary').value = Math.random() > 0.55 ? 'none' : pick(['theta', 'grounding', 'alpha']);
+      document.getElementById('freqSecondary').value = 'none';
+      document.getElementById('freqMix').value = 'subtle bed';
+      document.getElementById('binaural').value = 'solfeggio tone only — no brainwave layer';
+      document.getElementById('thumbPalette').value = pick(['rust orange nebula + starlight white', 'midnight blue + rose gold', 'deep indigo + warm gold']);
+      const thumbMain = pick(DATA.epic.thumbMains);
+      document.getElementById('thumbMain').value = thumbMain;
+      const dur = DATA.durations.find(d => d.id === document.getElementById('duration').value) || DATA.durations[1];
+      document.getElementById('thumbSub').value = pick(DATA.epic.thumbSubs);
+      document.getElementById('slug').value = slugify(thumbMain + '-' + dur.id);
+      document.getElementById('lore').value = Math.random() > 0.7 ? 'featuring Lumen the Dream Weaver' : '';
+      shuffleEpicArcs(new Set(), true);
+      applySunoPreset('epic');
+      syncEpicPanel();
+    }
+
+    function getEnergyOptions(mood) {
+      const map = {
+        'deep-sleep': ['ultra-low', 'low'],
+        cortisol: ['ultra-low', 'low'],
+        healing: ['ultra-low', 'low'],
+        fantasy: ['ultra-low', 'low'],
+        scifi: ['ultra-low', 'low'],
+        focus: ['low', 'low-mid'],
+        cinematic: ['low', 'low-mid', 'gentle groove', 'slow-build dynamic'],
+        'epic-rock': ['low-mid', 'gentle groove', 'slow-build dynamic'],
+      };
+      return map[mood.id] || [mood.energy, 'low', 'ultra-low'];
+    }
+
+    function varyBpm(mood, avoid) {
+      let bpm = randBetween(mood.bpm[0], mood.bpm[1]);
+      let tries = 0;
+      while (bpm === avoid && tries < 12 && mood.bpm[1] - mood.bpm[0] > 0) {
+        bpm = randBetween(mood.bpm[0], mood.bpm[1]);
+        tries++;
+      }
+      return bpm;
+    }
+
+    function applyCosmicIdea(cosmic) {
+      document.getElementById('cosmicName').value = cosmic.name;
+      document.getElementById('thumbMain').value = cosmic.thumbMain;
+      document.getElementById('thumbSub').value = cosmic.thumbSub;
+      if (document.getElementById('titleStyle').value === 'cosmic') {
+        document.getElementById('atmosphere').value = cosmic.scene.split(',')[0].trim();
+        document.getElementById('slug').value = slugify(cosmic.name + '-' + document.getElementById('duration').value);
+      }
+    }
+
+    function regeneratePackage(scope = 'all') {
+      const mood = DATA.moods.find(m => m.id === document.getElementById('mood').value) || DATA.moods[0];
+      const instKey = getInstrumentKey(mood.id);
+      const atmKey = getAtmosphereKey(mood.id);
+      const instPool = DATA.instruments[instKey] || DATA.instruments.healing;
+      const atmPool = DATA.atmospheres[atmKey] || DATA.atmospheres.healing;
+      const curBpm = parseInt(document.getElementById('bpm').value, 10);
+      const curAtm = document.getElementById('atmosphere').value;
+      const curProd = document.getElementById('production').value;
+      const curPalette = document.getElementById('thumbPalette').value;
+      const curEnergy = document.getElementById('energy').value;
+      const curMoodWords = document.getElementById('moodWords').value;
+      const dur = DATA.durations.find(d => d.id === document.getElementById('duration').value) || DATA.durations[4];
+
+      const apply = {
+        bpm: () => { document.getElementById('bpm').value = varyBpm(mood, curBpm); },
+        moodWords: () => {
+          document.getElementById('moodWords').value = isEpicMode(getVars()) ? epicMoodWords() : pickN(DATA.moodWords, 2).join(', ');
+        },
+        instruments: () => {
+          document.getElementById('instruments').value = isEpicMode(getVars()) ? epicInstruments() : pickN(instPool, 3).join(', ');
+        },
+        atmosphere: () => {
+          if (document.getElementById('titleStyle').value === 'cosmic') {
+            document.getElementById('atmosphere').value = pick(DATA.cosmicVisualScenes).split(',')[0].trim();
+          } else if (isEpicMode(getVars())) {
+            document.getElementById('atmosphere').value = pickDifferent(DATA.atmospheres.epic, curAtm);
+          } else {
+            document.getElementById('atmosphere').value = pickDifferent(atmPool, curAtm);
+          }
+        },
+        production: () => {
+          document.getElementById('production').value = isEpicMode(getVars()) ? epicProduction() : pickDifferent(DATA.productions, curProd);
+        },
+        thumbPalette: () => { document.getElementById('thumbPalette').value = pickDifferent(DATA.thumbPalettes, curPalette); },
+        energy: () => { document.getElementById('energy').value = pickDifferent(getEnergyOptions(mood), curEnergy); },
+        lore: () => { document.getElementById('lore').value = Math.random() > 0.55 ? 'featuring Lumen the Dream Weaver' : ''; },
+        cosmic: () => {
+          document.getElementById('cosmicName').value = '';
+          applyCosmicIdea(buildCosmicIdea(getVars()));
+        },
+        thumbSub: () => {
+          if (isEpicMode(getVars())) {
+            document.getElementById('thumbSub').value = pickDifferent(DATA.epic.thumbSubs, document.getElementById('thumbSub').value);
+            return;
+          }
+          const subs = [
+            `${durShortLabel(dur)} · For Deep Relaxation`,
+            `${durShortLabel(dur)} · Meditation Soundscape`,
+            `${durShortLabel(dur)} · Healing Ambient`,
+            `${durShortLabel(dur)} · ${mood.label.split('/')[0].trim()}`,
+            pick(DATA.cosmicThumbSubs),
+          ];
+          document.getElementById('thumbSub').value = pickDifferent(subs, document.getElementById('thumbSub').value);
+        },
+        epic: () => applyEpicPreset(true),
+        epicArcs: () => shuffleEpicArcs(null, true),
+        thumbMain: () => {
+          if (isEpicMode(getVars())) {
+            document.getElementById('thumbMain').value = pickDifferent(DATA.epic.thumbMains, document.getElementById('thumbMain').value);
+          }
+        },
+        sunoExtraTags: () => {
+          const pools = [
+            'drone, atmospheric, slow-evolving, instrumental',
+            'soundscape, meditative, soft, crossfade-ready',
+            'cinematic, ambient, narrow dynamics, instrumental',
+            'space music, cosmic, synth, vast, instrumental',
+            'post-grunge, ambient rock, slow-build, gritty-soft',
+          ];
+          document.getElementById('sunoExtraTags').value = pickDifferent(pools, document.getElementById('sunoExtraTags').value);
+        },
+      };
+
+      const scopeMap = {
+        all: ['bpm', 'moodWords', 'instruments', 'atmosphere', 'production', 'thumbPalette', 'energy', 'lore', 'cosmic'],
+        bpm: ['bpm'],
+        instruments: ['instruments'],
+        atmosphere: ['atmosphere'],
+        suno: ['bpm', 'moodWords', 'instruments', 'production', 'energy', 'sunoExtraTags'],
+        sunoExtraTags: ['sunoExtraTags'],
+        visuals: ['atmosphere', 'thumbPalette'],
+        cosmic: ['cosmic', 'thumbPalette'],
+        youtube: ['moodWords', 'thumbSub', 'cosmic'],
+        short: [],
+        epicArcs: ['epicArcs'],
+        epic: ['epic', 'bpm', 'moodWords', 'instruments', 'atmosphere', 'production', 'thumbPalette', 'energy', 'thumbMain'],
+      };
+
+      (scopeMap[scope] || scopeMap.all).forEach(key => apply[key]());
+
+      if (scope === 'epicArcs') {
+        generatePackage();
+        saveProject(true);
+        showToast('🔥 Epic arc updated!');
+        return;
+      }
+
+      updateSegmentStats();
+      generatePackage();
+      saveProject(true);
+      showToast(scope === 'epic' ? '🔥 More epic!' : scope === 'all' ? 'Regenerated!' : 'Updated!');
+    }
+
+    function initForm() {
+      fillGenreSelects();
+      fillSelect('mood', DATA.moods.map(m => ({ v: m.id, l: m.label })));
+      fillSelect('duration', DATA.durations.map(d => ({ v: d.id, l: d.label })));
+      fillSelect('scifiMode', DATA.scifiModes.map(s => ({ v: s, l: s })));
+      fillSelect('energy', DATA.energies.map(e => ({ v: e, l: e })));
+      fillSelect('freqPrimary', DATA.freqModes.map(f => ({ v: f.id, l: f.label })));
+      fillSelect('freqMix', DATA.freqMix.map(f => ({ v: f, l: f })));
+      fillSelect('binaural', DATA.binaural.map(b => ({ v: b, l: b })));
+      renderStepNav();
+      buildChecklists();
+      initEpicSelects();
+      initSunoDefaults();
+      syncEpicPanel();
+    }
+
+    function copySuno() {
+      if (!state.package) generatePackage();
+      copyBlock('sunoPrompt');
+    }
+
+    function copyAIImage() {
+      if (!state.package) generatePackage();
+      copyText(document.getElementById('outAIImage').textContent);
+    }
+
+    function copyAIImageBg() {
+      if (!state.package) generatePackage();
+      copyText(document.getElementById('outAiBg').textContent);
+    }
+
+    function copyAIImageThumb() {
+      if (!state.package) generatePackage();
+      copyText(document.getElementById('outAiThumb').textContent);
+    }
+
+    function copyCosmicThumb() {
+      if (!state.package) generatePackage();
+      copyText(document.getElementById('outCosmicThumb').textContent);
+    }
+
+    function copyYoutube() {
+      if (!state.package) generatePackage();
+      const p = state.package;
+      copyText(`TITLE:\n${p.titles[0]}\n\nALT TITLES:\n${p.titles.slice(1).map((t, i) => `${i + 2}. ${t}`).join('\n')}\n\nDESCRIPTION:\n${p.description}\n\nTAGS:\n${p.tags}\n\nPINNED COMMENT:\n${p.pinned}`);
+    }
+
+    function copyCosmic() {
+      if (!state.package) generatePackage();
+      const concept = document.getElementById('outCosmic').textContent;
+      const alts = document.getElementById('outCosmicAlts').textContent;
+      copyText(`${concept}\n\n---\n\nMORE TITLE IDEAS:\n${alts}`);
+    }
+
+    function copyShort() {
+      if (!state.package) generatePackage();
+      copyBlock('shortAIPrompt');
+    }
+
+    function copyShortConcept() {
+      if (!state.package) generatePackage();
+      copyText(document.getElementById('outShortConcept').textContent);
+    }
+
+    function allGenres() {
+      return Object.values(DATA.genreGroups).flat();
+    }
+
+    function fillGenreSelects() {
+      const groups = DATA.genreGroups;
+      const buildOpts = () => Object.entries(groups).map(([label, items]) =>
+        `<optgroup label="${label}">${items.map(g => `<option value="${g}">${g}</option>`).join('')}</optgroup>`
+      ).join('');
+      document.getElementById('genre').innerHTML = buildOpts();
+      document.getElementById('genreSecondary').innerHTML = `<option value="">— none —</option>` + buildOpts();
+    }
+
+    function sunoChecked(id) {
+      const el = document.getElementById(id);
+      return el ? el.checked : false;
+    }
+
+    function initSunoDefaults() {
+      ['sunoInstrumental','sunoNoVocals','sunoNoDrums','sunoNoPercussion','sunoNoHooks','sunoNoDrops','sunoSleepSafe','sunoCrossfade','sunoNoHz','sunoNoArtists','sunoFreqHeadroom'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.checked = true;
+      });
+    }
+
+    function applySunoPreset(name) {
+      initSunoDefaults();
+      const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+      const tagSets = {
+        ambient: 'drone, atmospheric, slow-evolving, instrumental',
+        sleep: 'sleep music, delta-friendly, ultra-calm, no percussion, instrumental',
+        epic: 'post-grunge, ambient rock, slow-build, cinematic, crossfade-ready, instrumental',
+        scifi: 'space music, cosmic, synth ambient, vast, instrumental, no percussion',
+        focus: 'focus music, study beats, lo-fi, minimal, instrumental',
+      };
+      set('sunoExtraTags', tagSets[name] || '');
+      if (name === 'sleep') {
+        ['sunoNoDrums','sunoNoPercussion','sunoNoHooks','sunoNoDrops','sunoSleepSafe'].forEach(id => { document.getElementById(id).checked = true; });
+        set('sunoStructure', 'padwash');
+        set('sunoPromptStyle', 'bracket');
+      } else if (name === 'epic') {
+        set('sunoStructure', 'standard');
+        set('sunoPromptStyle', 'flowing');
+        document.getElementById('epicEnabled').checked = true;
+        syncEpicPanel();
+      } else if (name === 'scifi') {
+        set('sunoStructure', 'minimal');
+        set('sunoPromptStyle', 'tagstack');
+      } else if (name === 'focus') {
+        set('sunoStructure', 'layered');
+        set('sunoPromptStyle', 'bracket');
+        document.getElementById('sunoNoDrums').checked = false;
+      } else {
+        set('sunoStructure', 'standard');
+        set('sunoPromptStyle', 'bracket');
+      }
+      saveProject(true);
+      showToast(`Suno preset: ${name}`);
+    }
+
+    function buildGenreString(v) {
+      const parts = [v.genre];
+      if (v.genreSecondary) parts.push(v.genreSecondary);
+      if (v.mood.id === 'scifi' && v.scifiMode && v.scifiMode !== 'N/A') {
+        parts.push(v.scifiMode.toLowerCase().replace(/\s+/g, ' '));
+      }
+      if (v.sunoExtraTags) parts.push(...v.sunoExtraTags.split(',').map(s => s.trim()).filter(Boolean));
+      return [...new Set(parts)].join(', ');
+    }
+
+    function buildSunoGuards(v) {
+      const rules = [];
+      if (v.sunoInstrumental || v.sunoNoVocals) rules.push('no vocals');
+      if (v.sunoNoDrums) rules.push('no drums');
+      if (v.sunoNoPercussion) rules.push('no percussion hits');
+      if (v.sunoNoHooks) rules.push('no hooks');
+      if (v.sunoNoDrops) rules.push('no drops');
+      if (v.sunoSleepSafe) rules.push('no sudden volume changes', 'narrow dynamic range');
+      if (v.sunoNoArtists) rules.push('no artist names', 'no copyrighted melodies');
+      if (v.sunoExclude) rules.push(v.sunoExclude);
+      return rules.length ? rules.join(', ') + '. ' : '';
+    }
+
+    function buildSunoStructureBlock(v, atm) {
+      const seg = v.sunoSegmentLabel || '~8 min segment';
+      const cross = v.sunoCrossfade ? ' Designed to be crossfaded with identical segments for extended duration.' : '';
+      if (v.sunoStructure === 'minimal') {
+        return `Single ${seg}: near-static evolving texture, ultra-slow modulation, ${atm} atmosphere.${cross}`;
+      }
+      if (v.sunoStructure === 'padwash') {
+        return `${seg}: fade from silence into pad wash (${atm}), hold steady body, fade to near-silence.${cross}`;
+      }
+      if (v.sunoStructure === 'layered') {
+        return `Opening (0:00–1:30): layer 1 — atmospheric pad matching ${atm}. Body (1:30–6:30): add layer 2 textures, slow evolution. Closing (6:30–8:00): strip to layer 1 drone, fade out.${cross}`;
+      }
+      return `Opening (0:00–1:30): fade from silence, atmospheric pad wash matching ${atm}. Body (1:30–6:30): slow-evolving textures, narrow dynamic range, sleep-safe. Closing (6:30–8:00): thin to sustained drone, fade to near-silence for seamless crossfade.${cross}`;
+    }
+
+    function buildSunoFormulaHtml(v) {
+      const guards = buildSunoGuards(v).trim() || '—';
+      return `<table>
+        <tr><th>Genre blend</th><td>${buildGenreString(v)}</td></tr>
+        <tr><th>Mood</th><td>${v.moodWords.join(', ') || 'serene'}</td></tr>
+        <tr><th>Instruments</th><td>${v.instruments.join(', ')}</td></tr>
+        <tr><th>Structure</th><td>${v.sunoStructure}</td></tr>
+        <tr><th>Style</th><td>${v.sunoPromptStyle}</td></tr>
+        <tr><th>Key</th><td>${v.sunoKey || 'Auto'}</td></tr>
+        <tr><th>Suno rules</th><td>${guards}</td></tr>
+        <tr><th>Production</th><td>${v.production}</td></tr>
+        <tr><th>Tempo/Energy</th><td>${v.bpm} BPM, ${v.energy}</td></tr>
+      </table>`;
+    }
+
+    function fillSelect(id, options) {
+      const el = document.getElementById(id);
+      el.innerHTML = options.map(o => `<option value="${o.v}">${o.l}</option>`).join('');
+    }
+
+    function getVars() {
+      const moodObj = DATA.moods.find(m => m.id === document.getElementById('mood').value) || DATA.moods[0];
+      const durObj = DATA.durations.find(d => d.id === document.getElementById('duration').value) || DATA.durations[4];
+      const freqObj = DATA.freqModes.find(f => f.id === document.getElementById('freqPrimary').value) || DATA.freqModes[0];
+      return {
+        mood: moodObj,
+        duration: durObj,
+        genre: document.getElementById('genre').value,
+        genreSecondary: document.getElementById('genreSecondary').value,
+        scifiMode: document.getElementById('scifiMode').value,
+        moodWords: document.getElementById('moodWords').value.split(',').map(s=>s.trim()).filter(Boolean),
+        instruments: document.getElementById('instruments').value.split(',').map(s=>s.trim()).filter(Boolean),
+        atmosphere: document.getElementById('atmosphere').value,
+        lore: document.getElementById('lore').value,
+        bpm: parseInt(document.getElementById('bpm').value, 10) || 52,
+        energy: document.getElementById('energy').value,
+        production: document.getElementById('production').value,
+        seriesName: document.getElementById('seriesName').value,
+        freq: freqObj,
+        freqSecondary: document.getElementById('freqSecondary').value,
+        freqMix: document.getElementById('freqMix').value,
+        binaural: document.getElementById('binaural').value,
+        thumbMain: document.getElementById('thumbMain').value,
+        thumbSub: document.getElementById('thumbSub').value,
+        thumbPalette: document.getElementById('thumbPalette').value,
+        slug: document.getElementById('slug').value || 'lumen-track',
+        titleStyle: document.getElementById('titleStyle').value,
+        cosmicName: document.getElementById('cosmicName').value.trim(),
+        epicEnabled: document.getElementById('epicEnabled').checked,
+        epicPulse: document.getElementById('epicPulse').value,
+        epicOpening: document.getElementById('epicOpening').value,
+        epicMiddle: document.getElementById('epicMiddle').value,
+        epicClosing: document.getElementById('epicClosing').value,
+        epicGenreStack: document.getElementById('epicGenreStack').value,
+        epicScene: document.getElementById('epicScene').value,
+        epicVisual: document.getElementById('epicVisual').value,
+        epicBadge: document.getElementById('epicBadge').value,
+        sunoInstrumental: sunoChecked('sunoInstrumental'),
+        sunoNoVocals: sunoChecked('sunoNoVocals'),
+        sunoNoDrums: sunoChecked('sunoNoDrums'),
+        sunoNoPercussion: sunoChecked('sunoNoPercussion'),
+        sunoNoHooks: sunoChecked('sunoNoHooks'),
+        sunoNoDrops: sunoChecked('sunoNoDrops'),
+        sunoSleepSafe: sunoChecked('sunoSleepSafe'),
+        sunoCrossfade: sunoChecked('sunoCrossfade'),
+        sunoNoHz: sunoChecked('sunoNoHz'),
+        sunoNoArtists: sunoChecked('sunoNoArtists'),
+        sunoFreqHeadroom: sunoChecked('sunoFreqHeadroom'),
+        sunoStructure: document.getElementById('sunoStructure').value,
+        sunoPromptStyle: document.getElementById('sunoPromptStyle').value,
+        sunoKey: document.getElementById('sunoKey').value,
+        sunoExclude: document.getElementById('sunoExclude').value,
+        sunoExtraTags: document.getElementById('sunoExtraTags').value,
+        sunoSegmentLabel: document.getElementById('sunoSegmentLabel').value,
+      };
+    }
+
+    function durShortLabel(durObj) {
+      if (durObj.minutes >= 60) {
+        const h = Math.round(durObj.minutes / 60);
+        return `${h} Hour${h > 1 ? 's' : ''}`;
+      }
+      return durObj.label;
+    }
+
+    function buildCosmicIdea(v) {
+      const useSeries = v.seriesName && v.seriesName.includes(':') ? v.seriesName : (Math.random() > 0.82 ? pick(DATA.cosmicSeries) : null);
+      const name = v.cosmicName || useSeries || pick(DATA.cosmicNames);
+      const musicType = pick(DATA.cosmicMusicTypes);
+      const location = pick(DATA.cosmicLocations);
+      const ending = pick(DATA.cosmicEndings);
+      const badge = Math.random() > 0.32 ? pick(DATA.cosmicBadges) : '';
+      const scene = pick(DATA.cosmicVisualScenes);
+      const durShort = durShortLabel(v.duration);
+      const badgeSuffix = badge ? ` [${badge}]` : '';
+      const title1 = `${name} | ${musicType} ${location} - ${ending}${badgeSuffix}`;
+      const title2 = `${name} | ${pick(DATA.cosmicMusicTypes)} ${pick(DATA.cosmicLocations)} - ${pick(DATA.cosmicEndings)}`;
+      const title3 = `${name} | ${pick(DATA.cosmicMusicTypes)} for ${v.mood.label.split('/')[0].trim()} — ${ending}${badgeSuffix}`;
+      const title4 = `${durShort} | ${name} — ${pick(DATA.cosmicEndings)} [${pick(DATA.cosmicBadges)}]`;
+      const thumbMain = name.includes(':') ? name.split(':')[1].trim().toUpperCase() : name.toUpperCase();
+      const thumbSub = `${durShort} · ${pick(DATA.cosmicThumbSubs)}`;
+      return { name, musicType, location, ending, badge, scene, durShort, badgeSuffix, thumbMain, thumbSub, titles: [title1, title2, title3, title4] };
+    }
+
+    function buildCosmicAltIdeas(v) {
+      return Array.from({ length: 5 }, () => buildCosmicIdea({ ...v, cosmicName: '' }).titles[0]).map((t, i) => `${i + 1}. ${t}`).join('\n');
+    }
+
+    function buildCosmicConceptBlock(v, cosmic) {
+      return `TRACK NAME: ${cosmic.name}
+TITLE FORMULA: [Name] | [Music Type] [Location] - [Ending] [Badge]
+
+PRIMARY TITLES (YouTube):
+1. ${cosmic.titles[0]}
+2. ${cosmic.titles[1]}
+3. ${cosmic.titles[2]}
+4. ${cosmic.titles[3]}
+
+CONCEPT NOTES:
+- Mood: ${v.mood.label} · ${v.moodWords.join(', ') || 'serene, ethereal'}
+- Genre: ${v.genre} · ${v.bpm} BPM · ${v.energy}
+- Visual scene: ${cosmic.scene}
+- Atmosphere keywords: ${v.atmosphere}
+- Thumbnail main: "${cosmic.thumbMain}"
+- Thumbnail sub: "${cosmic.thumbSub}"
+- Palette: ${v.thumbPalette}
+
+MUSIC DIRECTION:
+Slow-evolving ${v.genre}, no drums, no vocals, narrow dynamics, sleep-safe crossfades.
+${v.freq.stack ? `Frequency layer: ${v.freq.label}` : 'Pure ambient — no frequency overlay required.'}
+Think: premium 2-hour sleep/focus upload. Poetic name + cosmic landscape thumb.`;
+    }
+
+    function buildCosmicThumbPrompt(v, cosmic) {
+      return `YouTube thumbnail 1280×720, premium cosmic ambient channel aesthetic (Astral-style layout, Lumen original).
+
+BACKGROUND (Canva stock photo or AI art — no text in image):
+${cosmic.scene}. Palette ${v.thumbPalette}. Cinematic, vast scale, dark upper third for text readability, soft glow, star bokeh, no people, no faces.
+
+TEXT LAYOUT (add in Canva):
+- Main (center-left, large): "${cosmic.thumbMain}" — elegant serif, soft white, warm gold outer glow
+- Subtext (below main): "${cosmic.thumbSub}" — smaller sans-serif, muted cream
+${cosmic.badge ? `- Badge (bottom-right, subtle): "[${cosmic.badge}]" — small caps, semi-transparent` : '- Optional badge bottom-right: "[CALM MODE: ON]" or "[Sleep Mode]"'}
+- Watermark bottom-right corner: "Lumen AI Music" — small, semi-transparent
+
+Style: calm, premium, trustworthy. No shocked faces, no arrows, no clickbait. Match top ambient meditation channels.`;
+    }
+
+    function buildCosmicVisualPrompt(v, cosmic) {
+      return `16:9 cinematic ethereal landscape for long-form ambient video. ${cosmic.scene}. ${v.atmosphere}. Palette ${v.thumbPalette}. Slow Ken Burns friendly composition, vast peaceful scale, subtle volumetric light, starfield or aurora bokeh. No text, no logos, no people. Photorealistic, dark-mode friendly, 4K wallpaper-worthy.`;
+    }
+
+    function randomizeAll() {
+      const mood = pick(DATA.moods);
+      document.getElementById('mood').value = mood.id;
+      document.getElementById('duration').value = pick(DATA.durations).id;
+      document.getElementById('genre').value = mood.id === 'scifi' ? pick(['sci-fi ambient','space music','cyberpunk ambient']) : (allGenres().includes(mood.genre) ? mood.genre : pick(allGenres()));
+      document.getElementById('genreSecondary').value = Math.random() > 0.45 ? pick(allGenres().filter(g => g !== document.getElementById('genre').value)) : '';
+      document.getElementById('scifiMode').value = mood.id === 'scifi' ? pick(DATA.scifiModes.filter(s=>s!=='N/A')) : 'N/A';
+      document.getElementById('moodWords').value = pickN(DATA.moodWords, 2).join(', ');
+      const instKey = getInstrumentKey(mood.id);
+      document.getElementById('instruments').value = pickN(DATA.instruments[instKey] || DATA.instruments.healing, 3).join(', ');
+      const atmKey = getAtmosphereKey(mood.id);
+      document.getElementById('atmosphere').value = pick(DATA.atmospheres[atmKey] || DATA.atmospheres.healing);
+      document.getElementById('lore').value = Math.random() > 0.5 ? 'featuring Lumen the Dream Weaver' : '';
+      document.getElementById('bpm').value = randBetween(mood.bpm[0], mood.bpm[1]);
+      document.getElementById('energy').value = mood.energy;
+      document.getElementById('production').value = pick(DATA.productions);
+      document.getElementById('seriesName').value = mood.id === 'scifi' && Math.random() > 0.3 ? pick(DATA.seriesNames) : '';
+      const freqPick = mood.id === 'cortisol' ? 'grounding' : mood.id === 'deep-sleep' ? 'delta' : mood.id === 'focus' ? 'alpha' : mood.id === 'scifi' ? 'none' : pick(['grounding','theta','cortisol','none']);
+      document.getElementById('freqPrimary').value = freqPick;
+      document.getElementById('freqSecondary').value = freqPick === 'grounding' || freqPick === 'theta' ? 'Theta 4 Hz R / 7 Hz L binaural' : 'none';
+      document.getElementById('freqMix').value = pick(DATA.freqMix);
+      document.getElementById('binaural').value = freqPick === 'none' ? 'solfeggio tone only — no brainwave layer' : pick(DATA.binaural);
+      const series = document.getElementById('seriesName').value;
+      const dur = DATA.durations.find(d => d.id === document.getElementById('duration').value);
+      document.getElementById('thumbMain').value = series || (mood.id === 'epic-rock' || mood.id === 'cinematic' ? pick(DATA.epic.thumbMains) : mood.id === 'cortisol' ? 'LOW CORTISOL' : mood.id === 'scifi' ? series || 'DEEP SPACE' : mood.label.split('/')[0].trim().toUpperCase().slice(0,20));
+      document.getElementById('thumbSub').value = (mood.id === 'epic-rock' || mood.id === 'cinematic') ? pick(DATA.epic.thumbSubs) : `${dur.label.replace('Single Track ~6–8 min','~8 Min')} · ${mood.id === 'scifi' ? 'Space Music · Focus' : mood.id === 'cortisol' ? 'Theta Waves · 174 Hz' : 'For Deep Relaxation'}`;
+      document.getElementById('thumbPalette').value = pick(DATA.thumbPalettes);
+      document.getElementById('slug').value = slugify(document.getElementById('thumbMain').value + '-' + dur.id);
+      updateSegmentStats();
+    }
+
+    function randomizePartial(type) {
+      if (type === 'sci-fi') {
+        document.getElementById('mood').value = 'scifi';
+        document.getElementById('genre').value = pick(['sci-fi ambient','space music','cyberpunk ambient','modular synth']);
+        document.getElementById('genreSecondary').value = Math.random() > 0.5 ? pick(['downtempo','ambient electronic','atmospheric']) : '';
+        document.getElementById('scifiMode').value = pick(DATA.scifiModes.filter(s=>s!=='N/A'));
+        document.getElementById('instruments').value = pickN(DATA.instruments.scifi, 3).join(', ');
+        document.getElementById('atmosphere').value = pick(DATA.atmospheres.scifi);
+        document.getElementById('seriesName').value = pick(DATA.seriesNames);
+        document.getElementById('bpm').value = randBetween(60, 85);
+        document.getElementById('freqPrimary').value = 'none';
+      } else if (type === 'cosmic') {
+        document.getElementById('titleStyle').value = 'cosmic';
+        const moodPick = pick(['deep-sleep','healing','scifi','fantasy','cinematic']);
+        document.getElementById('mood').value = moodPick;
+        document.getElementById('duration').value = pick(['2hr','3hr','1hr','45min']);
+        document.getElementById('genre').value = pick(['ambient','sci-fi ambient','space music','dark ambient','nature soundscape','drone ambient','epic ambient']);
+        document.getElementById('genreSecondary').value = Math.random() > 0.5 ? pick(['atmospheric','soundscape','meditation music']) : '';
+        document.getElementById('scifiMode').value = moodPick === 'scifi' ? pick(DATA.scifiModes.filter(s=>s!=='N/A')) : 'N/A';
+        document.getElementById('moodWords').value = pickN(['ethereal','serene','cosmic','weightless','still','dreamy','vast','otherworldly'], 2).join(', ');
+        const instKey = moodPick === 'scifi' ? 'scifi' : moodPick === 'fantasy' ? 'cinematic' : 'healing';
+        document.getElementById('instruments').value = pickN(DATA.instruments[instKey], 3).join(', ');
+        document.getElementById('bpm').value = randBetween(50, 72);
+        document.getElementById('energy').value = pick(['ultra-low','low']);
+        document.getElementById('production').value = pick(['vast space reverb','wide cinematic reverb','spa-quality wide mix','immersive binaural-ready stereo field']);
+        document.getElementById('seriesName').value = Math.random() > 0.7 ? pick(DATA.cosmicSeries) : '';
+        document.getElementById('freqPrimary').value = pick(['none','theta','grounding','delta']);
+        document.getElementById('freqSecondary').value = 'none';
+        document.getElementById('freqMix').value = 'barely audible under music';
+        document.getElementById('binaural').value = 'solfeggio tone only — no brainwave layer';
+        document.getElementById('thumbPalette').value = pick(DATA.thumbPalettes);
+        const cosmic = buildCosmicIdea(getVars());
+        document.getElementById('cosmicName').value = cosmic.name;
+        document.getElementById('atmosphere').value = cosmic.scene.split(',')[0];
+        document.getElementById('lore').value = Math.random() > 0.6 ? 'featuring Lumen the Dream Weaver' : '';
+        document.getElementById('thumbMain').value = cosmic.thumbMain;
+        document.getElementById('thumbSub').value = cosmic.thumbSub;
+        document.getElementById('slug').value = slugify(cosmic.name + '-' + document.getElementById('duration').value);
+      } else if (type === 'healing') {
+        document.getElementById('mood').value = pick(['cortisol','healing','deep-sleep']);
+        document.getElementById('instruments').value = pickN(DATA.instruments.healing, 3).join(', ');
+        document.getElementById('atmosphere').value = pick(DATA.atmospheres.healing);
+        document.getElementById('freqPrimary').value = 'grounding';
+        document.getElementById('freqSecondary').value = 'Theta 4 Hz R / 7 Hz L binaural';
+      } else if (type === 'epic') {
+        document.getElementById('titleStyle').value = 'standard';
+        if (!document.getElementById('duration').value || document.getElementById('duration').value === '8min') {
+          document.getElementById('duration').value = pick(['45min', '1hr', '2hr']);
+        }
+        applyEpicPreset(false);
+      } else {
+        randomizeAll();
+        return;
+      }
+      updateSegmentStats();
+    }
+
+    function updateSegmentStats() {
+      const v = getVars();
+      const el = document.getElementById('segmentStats');
+      el.innerHTML = `
+        <div class="stat"><div class="stat-val">${v.duration.segments}</div><div class="stat-label">Suno segments</div></div>
+        <div class="stat"><div class="stat-val">${v.duration.minutes}</div><div class="stat-label">Target minutes</div></div>
+        <div class="stat"><div class="stat-val">${v.bpm}</div><div class="stat-label">BPM</div></div>
+        <div class="stat"><div class="stat-val">~8</div><div class="stat-label">Min / segment</div></div>`;
+    }
+
+    function buildEpicSunoPrompt(v) {
+      const E = DATA.epic;
+      const inst = v.instruments.length ? v.instruments : pickN(DATA.instruments.epic, 3);
+      const i1 = inst[0] || 'warm analog pad wash';
+      const i2 = inst[1] || 'distant brushed-guitar haze';
+      const i3 = inst[2] || 'low cello drones';
+      const pulse = resolveEpicField(v.epicPulse, E.pulses);
+      const opening = resolveEpicField(v.epicOpening, E.openings);
+      const middle = resolveEpicField(v.epicMiddle, E.middles)
+        .replace(/\{i1\}/g, i1).replace(/\{i2\}/g, i2).replace(/\{i3\}/g, i3);
+      const closing = resolveEpicField(v.epicClosing, E.closings);
+      const prod = v.production || epicProduction();
+      const headroom = v.sunoFreqHeadroom && v.freq.stack ? ', centered low-mid clarity' : '';
+      const guards = buildSunoGuards(v);
+      const tags = pickN(E.genreTags.concat((v.sunoExtraTags || '').split(',').map(s => s.trim()).filter(Boolean)), 10).join(', ');
+      const genreLabel = v.epicGenreStack && v.epicGenreStack !== 'auto' ? v.epicGenreStack : buildGenreString(v);
+
+      return `Cinematic ${genreLabel} at ${v.bpm} BPM with ${pulse}; ${opening}, ${middle}, ${closing}, ${prod}${headroom}, intimate cinematic mix, ${guards}slow-build, ${tags}`;
+    }
+
+    function buildEpicFormulaHtml(v) {
+      const inst = v.instruments.join(', ') || 'warm analog pad wash, distant brushed-guitar haze';
+      const pulse = resolveEpicField(v.epicPulse, DATA.epic.pulses);
+      const opening = resolveEpicField(v.epicOpening, DATA.epic.openings);
+      const middle = resolveEpicField(v.epicMiddle, DATA.epic.middles);
+      const closing = resolveEpicField(v.epicClosing, DATA.epic.closings);
+      const scene = v.epicScene && v.epicScene !== 'auto' ? v.epicScene : v.atmosphere;
+      const badge = v.epicBadge && v.epicBadge !== 'auto' && v.epicBadge !== 'None' ? v.epicBadge : '—';
+      return `<table>
+        <tr><th>Epic Mode</th><td>🔥 Cinematic Post-Grunge</td></tr>
+        <tr><th>Pulse</th><td>${pulse}</td></tr>
+        <tr><th>Opening</th><td>${opening}</td></tr>
+        <tr><th>Middle</th><td>${middle}</td></tr>
+        <tr><th>Closing</th><td>${closing}</td></tr>
+        <tr><th>Genre Stack</th><td>${v.epicGenreStack !== 'auto' ? v.epicGenreStack : v.genre}</td></tr>
+        <tr><th>Instruments</th><td>${inst}</td></tr>
+        <tr><th>Scene</th><td>${scene}</td></tr>
+        <tr><th>Visual Style</th><td>${v.epicVisual !== 'auto' ? v.epicVisual : 'Auto'}</td></tr>
+        <tr><th>Badge</th><td>${badge}</td></tr>
+        <tr><th>Production</th><td>${v.production}</td></tr>
+        <tr><th>Tempo/Energy</th><td>${v.bpm} BPM, ${v.energy}</td></tr>
+      </table>`;
+    }
+
+    function buildSunoPrompt(v) {
+      if (isEpicMode(v)) return buildEpicSunoPrompt(v);
+
+      const tag = v.mood.tag || 'Ambient';
+      const inst = v.instruments.slice(0, 3).join(' + ');
+      const moods = v.moodWords.slice(0, 2).join(', ') || 'serene, ethereal';
+      const genreBlend = buildGenreString(v);
+      const guards = buildSunoGuards(v);
+      const headroom = v.sunoFreqHeadroom && v.freq.stack ? 'Center low-mid clear for frequency layering. ' : '';
+      const keyBit = v.sunoKey ? `${v.sunoKey}, ` : '';
+      const atm = v.atmosphere.split(',')[0];
+      const seg = v.sunoSegmentLabel || '~8 min segment';
+      const structure = buildSunoStructureBlock(v, atm);
+      const vocalNote = v.sunoInstrumental ? 'instrumental only, ' : '';
+
+      if (v.sunoPromptStyle === 'flowing') {
+        return `Cinematic ${genreBlend} at ${v.bpm} BPM, ${vocalNote}${v.production}, ${v.energy} energy. ${keyBit}${headroom}${guards}${structure}`;
+      }
+
+      if (v.sunoPromptStyle === 'tagstack') {
+        const tagList = genreBlend.split(', ').concat(['instrumental', 'slow-build', 'atmospheric']).filter((t, i, a) => a.indexOf(t) === i).join(', ');
+        return `[Instrumental] [${tag}] [${seg}]
+
+${moods.charAt(0).toUpperCase() + moods.slice(1)} ${v.genre}, ${inst}, ${vocalNote}${v.production}, ${v.bpm} BPM, ${v.energy} energy. ${keyBit}${headroom}${guards}${structure}
+
+Tags: ${tagList}`;
+      }
+
+      return `[Instrumental] [${tag}] [${seg}]
+
+${moods.charAt(0).toUpperCase() + moods.slice(1)} ${genreBlend}, ${inst}, ${vocalNote}${v.production}, ${v.bpm} BPM, ${v.energy} energy. ${keyBit}${headroom}${guards}${structure}`;
+    }
+
+    function buildVariations(v) {
+      const inst = v.instruments;
+      const pool = DATA.instruments[getInstrumentKey(v.mood.id)] || DATA.instruments.healing;
+      const altInst = pick(pool.filter(i => !inst.includes(i)).concat(pool));
+      const atm = v.atmosphere.split(',')[0];
+
+      if (isEpicMode(v)) {
+        const arcs = DATA.epic.variationArcs;
+        const fill = s => s
+          .replace(/\{bpm\}/g, v.bpm)
+          .replace(/\{i0\}/g, inst[0] || 'primary texture')
+          .replace(/\{i1\}/g, inst[1] || 'cello drone')
+          .replace(/\{i2\}/g, inst[2] || 'analog pad wash')
+          .replace(/\{alt\}/g, altInst)
+          .replace(/\{atm\}/g, atm);
+        return `${fill(pick(arcs.a))}\n\n${fill(pick(arcs.b))}\n\n${fill(pick(arcs.c))}`;
+      }
+
+      return `Variation A — Texture shift: Same ${v.bpm} BPM ${buildGenreString(v)}. Replace ${inst[0] || 'primary texture'} with ${altInst}. Same production and energy. ${buildSunoGuards(v)}
+
+Variation B — Pad-only drift: Strip field recordings. Pure synth pad layers — long attack/release, no transients. Same BPM, key, production.
+
+Variation C — Atmosphere emphasis: Lead with ${atm}; pads sit 3 dB lower. Most immersive segment for mid-video placement.`;
+    }
+
+    function buildFreqPlan(v) {
+      if (!v.freq.stack) return 'No frequency layers — music only.\n\nSkip DAW frequency pass unless you add tones manually later.';
+      const s = v.freq.stack;
+      const hp = v.binaural.includes('binaural') ? 'Yes — headphones recommended for binaural layers' : 'No — monaural/solfeggio works on speakers';
+      return `Primary tone(s): ${s.primary}
+Secondary / brainwave: ${v.freqSecondary || s.secondary || 'none'}
+Purpose: ${s.behind.join('; ')}
+Mix level: ${v.freqMix === 'barely audible under music' ? '-32 to -36 dB' : v.freqMix === 'tone-forward — listener hears clear tone' ? '-22 to -26 dB' : '-28 to -32 dB'} under music
+Headphone note: ${hp}
+Tools: Reaper JSFX, Audacity Generate → Tone, Gnaural, myNoise
+Layer timing: Apply AFTER full stitch. Fade in 0:00–2:00; hold; fade out last 2:00
+
+Stack order (bottom → top):
+1. Primary Hz sine(s) — mono centered
+2. Secondary binaural bed — stereo L/R if applicable
+3. Stitched Suno mix on top`;
+    }
+
+    function buildStitchPlan(v) {
+      return `Segment count: ${v.duration.segments} × ~8 min
+Crossfade: 12 sec equal-power between all segments
+Volume: Normalize each segment to -18 LUFS → final master -16 LUFS
+Variation placement: Seg 1 core → cycle A/B/C every 3 segments → final segment = Variation B (thin close)
+Frequency layers: Apply ONCE to finished ${v.duration.minutes}-min WAV
+Export: WAV 48 kHz 24-bit`;
+    }
+
+    function buildThumbBasePrompt(v, cosmic) {
+      if (v.titleStyle === 'cosmic' && cosmic) {
+        return `1280×720 cinematic thumbnail base art, no text. ${cosmic.scene}. Palette ${v.thumbPalette}. Dark upper third for text readability, star bokeh, soft glow, vast scale. No people, no faces, no logos, no watermarks.`;
+      }
+      if (isEpicMode(v)) {
+        const modifier = v.epicVisual && v.epicVisual !== 'auto' ? v.epicVisual : pick(DATA.epic.visualModifiers);
+        const scene = v.epicScene && v.epicScene !== 'auto' ? v.epicScene : v.atmosphere;
+        return `1280×720 epic cinematic thumbnail base art, no text. ${scene}. Palette ${v.thumbPalette}. ${modifier}. Dark left third for bold title text, heroic scale, post-grunge mood. No people, no faces, no logos.`;
+      }
+      return `1280×720 thumbnail base art, premium ethereal mood. ${v.atmosphere}, palette ${v.thumbPalette}, cinematic bokeh. Leave left/center area slightly darker for Canva text overlay. No text, no logos, no people, no faces.`;
+    }
+
+    function buildCanvaOverlayText(v, cosmic) {
+      if (v.titleStyle === 'cosmic' && cosmic) {
+        return `Main: "${cosmic.thumbMain}"\nSub: "${cosmic.thumbSub}"${cosmic.badge ? `\nBadge: [${cosmic.badge}]` : ''}\nWatermark: Lumen AI Music`;
+      }
+      const badge = isEpicMode(v) && v.epicBadge && v.epicBadge !== 'auto' && v.epicBadge !== 'None' ? `\nBadge: ${v.epicBadge}` : '';
+      return `Main: "${v.thumbMain}"\nSub: "${v.thumbSub}"${badge}\nWatermark: Lumen AI Music`;
+    }
+
+    function buildAIImageBlock(visual, thumbBase) {
+      return `VIDEO BACKGROUND (16:9, 1920×1080):\n${visual}\n\nNegative prompt: ${AI_IMAGE_NEGATIVE}\n\n---\n\nTHUMBNAIL BASE ART (1280×720, no text in image):\n${thumbBase}\n\nNegative prompt: ${AI_IMAGE_NEGATIVE}`;
+    }
+
+    function buildVisualPrompt(v, cosmic) {
+      if (v.titleStyle === 'cosmic' && cosmic) return buildCosmicVisualPrompt(v, cosmic);
+      if (isEpicMode(v)) {
+        const modifier = v.epicVisual && v.epicVisual !== 'auto' ? v.epicVisual : pick(DATA.epic.visualModifiers);
+        const scene = v.epicScene && v.epicScene !== 'auto' ? v.epicScene : v.atmosphere;
+        return `16:9 cinematic post-grunge ambient rock landscape for long-form video. ${scene}. ${modifier}. Palette ${v.thumbPalette}. Slow Ken Burns drift, heroic scale, rain-slick or golden-hour drama, grit-soft atmosphere. No text, no logos, no people. Photorealistic film still, dark-mode friendly, 4K wallpaper-worthy.`;
+      }
+      const sciFi = v.mood.id === 'scifi';
+      return `16:9 cinematic ethereal landscape, premium ${sciFi ? 'sci-fi' : 'meditation'} aesthetic. ${v.atmosphere}. ${sciFi ? 'Otherworldly, vast scale, subtle lens flare, volumetric fog, starfield bokeh.' : 'Serene, safe, dreamlike glow.'} No text, no logos, no people, no copyrighted characters. Photorealistic with soft glow. Dark-mode friendly. 4K wallpaper-worthy.`;
+    }
+
+    function buildThumbPrompt(v, cosmic) {
+      if (v.titleStyle === 'cosmic' && cosmic) return buildCosmicThumbPrompt(v, cosmic);
+      if (isEpicMode(v)) {
+        const scene = v.epicScene && v.epicScene !== 'auto' ? v.epicScene : v.atmosphere;
+        const badgeLine = v.epicBadge && v.epicBadge !== 'auto' && v.epicBadge !== 'None'
+          ? `- Badge (bottom-right): "${v.epicBadge}" — small caps, semi-transparent\n` : '';
+        return `YouTube thumbnail 1280×720, epic cinematic post-grunge aesthetic.
+
+BACKGROUND (no text in image):
+${scene}, palette ${v.thumbPalette}, heroic scale, dark left third for title readability.
+
+TEXT LAYOUT (add in Canva):
+- Main: "${v.thumbMain}" — bold serif, soft white, warm gold outer glow
+- Subtext: "${v.thumbSub}" — sans-serif, muted cream
+${badgeLine}- Watermark: "Lumen AI Music" — semi-transparent
+
+Calm, premium, cinematic. No clickbait.`;
+      }
+      return `YouTube thumbnail 1280×720. Background: ${v.atmosphere}, palette ${v.thumbPalette}, bokeh, premium ethereal mood.
+
+Text center-left:
+- Main: "${v.thumbMain}" — elegant serif, large, soft white with warm gold outer glow
+- Subtext: "${v.thumbSub}" — smaller sans-serif, muted cream
+
+Bottom right: subtle watermark "Lumen AI Music" — semi-transparent white sans-serif.
+
+No shocked faces, no arrows, no clickbait. Calm, premium, trustworthy.`;
+    }
+
+    function buildTitles(v, cosmic) {
+      const durShort = durShortLabel(v.duration);
+      if (v.titleStyle === 'cosmic' && cosmic) return cosmic.titles.slice(0, 3);
+      if (v.seriesName) {
+        return [
+          `${v.seriesName} : Atmospheric Sci Fi Ambient Fantasy Music`,
+          `${v.seriesName} · ${v.mood.label} · ${durShort} | Lumen AI Music`,
+          `${v.seriesName} — ${v.atmosphere.split(',')[0]} · Space Music for Focus & Escape`,
+        ];
+      }
+      if (v.mood.id === 'cortisol') {
+        return [
+          `Low Cortisol Healing Frequency 174Hz | ${durShort} Deep Relaxation & Theta Waves`,
+          `Restore Your Nervous System — 174 Hz + 396 Hz Healing Soundscape (${durShort})`,
+          `Lower Cortisol & Quiet Your Mind | Theta Meditation Music · ${durShort}`,
+        ];
+      }
+      if (isEpicMode(v)) {
+        const main = v.thumbMain || v.seriesName || 'GRAVITY DRIFT';
+        return [
+          `${main} | ${durShort} Cinematic Post-Grunge Ambient Rock · Lumen AI Music`,
+          `${main} — ${v.bpm} BPM Slow-Build · ${v.atmosphere.split(',')[0]} (${durShort})`,
+          `Epic Ambient Rock for Focus & Drift · ${main} · ${durShort} [Cinematic Mode]`,
+        ];
+      }
+      return [
+        `${v.mood.label} | ${durShort} · Lumen AI Music`,
+        `${v.moodWords[0] || 'Ethereal'} ${v.genre} — ${v.atmosphere.split(',')[0]} (${durShort})`,
+        `Hand-Curated ${v.genre} for ${v.mood.label.split('/')[0].trim()} · ${durShort}`,
+      ];
+    }
+
+    function buildDescription(v) {
+      const url = `https://www.lumenaimusic.com/music/${v.slug}?utm_source=youtube&utm_medium=video&utm_campaign=${v.slug}`;
+      const shop = `https://www.lumenaimusic.com/shop?utm_source=youtube&utm_medium=video&utm_campaign=${v.slug}`;
+      let behind = '';
+      if (v.freq.stack?.behind) {
+        behind = '\n\nBehind the frequencies:\n' + v.freq.stack.behind.map(b => '• ' + b).join('\n');
+        if (v.binaural.includes('binaural')) behind += '\n\n🎧 Headphones recommended for the full binaural effect.';
+      }
+      const timestamps = v.duration.minutes >= 45 ? `\n\nTimestamps:\n0:00:00 — Begin\n${v.duration.minutes>=60?'1:00:00 — Deepening calm\n':''}${v.duration.minutes>=120?'2:00:00 — Mid-journey stillness\n':''}` : '';
+      const sciFiHook = v.mood.id === 'scifi'
+        ? 'Experience serene and otherworldly soundscapes designed for deep study, relaxation, and immersion in atmospheric space music.\n\n'
+        : '';
+      const epicHook = isEpicMode(v)
+        ? `Drift into cinematic post-grunge ambient rock at ${v.bpm} BPM — slow-build, heroic, and crossfade-ready. ${v.moodWords.join(', ')} textures over ${v.atmosphere.split(',')[0]}.\n\n`
+        : '';
+      const moodHook = v.mood.id === 'cortisol'
+        ? 'Lower your cortisol and restore inner balance with this hand-curated healing soundscape.\n\n'
+        : epicHook || `Immerse yourself in a ${v.moodWords.join(' & ') || 'serene'} ${v.genre} journey.\n\n`;
+      return `${sciFiHook}${moodHook}Every layer was thoughtfully crafted: AI-generated segments composed in Suno, seamlessly stitched and mastered by hand${v.freq.stack ? ', with healing frequency tones added in post-production' : ''} for one continuous experience.
+
+${v.lore ? v.lore + '\n\n' : ''}${behind}${timestamps}
+
+🌙 Stream ad-free: ${url}
+
+🛍️ Shop sleep essentials: ${shop}
+
+Subscribe for new soundscapes every week.
+
+#LumenAIMusic #AmbientMusic #${v.genre.replace(/\s+/g,'')} ${isEpicMode(v)?'#PostGrunge #AmbientRock #Cinematic ':''}${v.mood.id==='scifi'?'#SciFiMusic #SpaceMusic #FocusMusic ':''}${v.mood.id==='cortisol'?'#LowerCortisol #174Hz #ThetaWaves ':''}#MeditationMusic #HealingMusic #SleepMusic
+
+All music and audio are original compositions created through AI-assisted composition and human curation. They may not be copied, reused, remixed, re-uploaded, or distributed without permission.
+
+For relaxation and wellness only. Not medical advice. Consult a healthcare professional for health concerns.`;
+    }
+
+    function buildTags(v) {
+      const base = ['lumen ai music','ambient music','meditation music','relaxing music','soundscape',v.genre,v.mood.label.toLowerCase(),`${v.duration.minutes} min`];
+      if (v.mood.id === 'scifi') base.push('sci fi music','space music','cosmos music','atmospheric sci fi','focus music','study music','cyberpunk','science fiction','futuristic music');
+      if (v.mood.id === 'cortisol') base.push('low cortisol','174 hz','396 hz','theta waves','healing frequency','solfeggio','nervous system reset','binaural beats');
+      return base.join(', ');
+    }
+
+    function getShortScene(v) {
+      const scenes = {
+        'deep-sleep': { setting: 'cozy bedroom at night, soft moonlight through sheer curtains, plush white blankets', pose: 'lying peacefully in bed wearing wireless over-ear headphones, eyes closed, gentle smile, slow breathing', light: 'warm amber bedside glow mixed with cool moon blue' },
+        cortisol: { setting: 'serene minimalist bedroom, spa-like calm, soft linen sheets', pose: 'woman relaxing in bed with headphones, one hand on chest, tension visibly releasing, eyes softly closed', light: 'healing indigo and warm gold undertones' },
+        healing: { setting: 'dreamy bedroom sanctuary, plants and soft textiles, candlelight bokeh', pose: 'woman in bed listening with headphones, serene expression, slight peaceful head tilt into pillow', light: 'sage green and cream soft glow' },
+        focus: { setting: 'minimal dusk study nook, rain on window, tidy desk nearby', pose: 'woman seated on bed edge with headphones, calm focused expression, subtle nod to the music', light: 'warm lamp glow, cool window reflection' },
+        scifi: { setting: 'futuristic sleep pod, vast nebula and stars through curved viewport', pose: 'woman reclined in pod wearing sleek headphones, weightless calm, eyes closed in awe', light: 'cyan and violet nebula rim light on face' },
+        cinematic: { setting: 'cinematic bedroom with dramatic soft shadows, velvet textures', pose: 'woman in bed with headphones, cinematic profile, emotionally present stillness', light: 'motivated window light, filmic contrast' },
+        fantasy: { setting: 'ethereal canopy bed, faint magical particles in air, dreamlike haze', pose: 'woman resting with headphones, enchanted peaceful expression, fantasy wellness aesthetic', light: 'rose gold and mist white fairy glow' },
+      };
+      return scenes[v.mood.id] || scenes.healing;
+    }
+
+    function getShortHook(v) {
+      const hooks = DATA.shortHooks[v.mood.id] || DATA.shortHooks.healing;
+      return pick(hooks);
+    }
+
+    function buildShortCaption(v, cosmic) {
+      const title = v.titleStyle === 'cosmic' && cosmic ? cosmic.titles[0] : buildTitles(v, cosmic)[0];
+      const hook = getShortHook(v);
+      return `${hook} 🌙\n\nFull ${v.duration.label} version — link in bio\n${title}\n\n#shorts #sleepmusic #ambient #meditation #lumenaimusic ${v.mood.id === 'scifi' ? '#scifimusic #focusmusic ' : ''}${v.mood.id === 'cortisol' ? '#lowcortisol #healingfrequency ' : ''}#relaxing #wellness`;
+    }
+
+    function buildShortConcept(v, cosmic) {
+      const s = getShortScene(v);
+      const hook = getShortHook(v);
+      const title = v.titleStyle === 'cosmic' && cosmic ? cosmic.titles[0] : buildTitles(v, cosmic)[0];
+      const durLabel = v.duration.label;
+      return `30-SECOND YOUTUBE SHORT — ${v.thumbMain || v.mood.label}
+
+HOOK (0–3s): "${hook}"
+FULL VIDEO: ${title}
+FORMAT: 9:16 vertical · 1080×1920 · 30 seconds
+
+SCENE: ${s.setting}
+SUBJECT: AI-generated woman ${s.pose}
+MOOD: ${v.moodWords.join(', ') || 'serene'} · ${v.genre}
+ATMOSPHERE: ${v.atmosphere}
+PALETTE: ${v.thumbPalette}
+AUDIO: 30 sec clip from master WAV — use opening pad wash (0:30–1:00 of segment 1) or most immersive moment
+
+SHOT LIST:
+0:00–0:03 — Close-up: face, eyes closed, peaceful smile, headphone detail. Text: "${hook}"
+0:03–0:12 — Slow pull-back reveals bed/setting. ${v.mood.id === 'scifi' ? 'Nebula light dances on her face.' : 'Warm lamp + soft shadows.'}
+0:12–0:22 — Medium shot: subtle movement — slow blink, deep breath, head sinks into pillow, enjoying the music
+0:22–0:28 — Text overlay: "${v.thumbMain}" + "${v.thumbSub}"
+0:28–0:30 — End card: "Full ${durLabel} → Lumen AI Music" + subtle logo
+
+TOOLS: Animate still in Kling/Runway/Pika OR Ken Burns in Premiere · audio from master WAV
+CAPTION: See Short caption in YouTube step`;
+    }
+
+    function buildShortAIPrompt(v, cosmic) {
+      const title = v.titleStyle === 'cosmic' && cosmic ? cosmic.titles[0] : buildTitles(v, cosmic)[0];
+      const s = getShortScene(v);
+      const hook = getShortHook(v);
+      return `You are a YouTube Shorts creative director for Lumen AI Music — a premium ambient/sleep/healing music channel.
+
+Generate a complete 30-second vertical Short (9:16, 1080×1920) production plan to promote this long-form video:
+
+LONG-FORM VIDEO:
+- Title: ${title}
+- Mood: ${v.mood.label}
+- Genre: ${v.genre}
+- Duration: ${v.duration.label}
+- Atmosphere: ${v.atmosphere}
+- Thumbnail text: "${v.thumbMain}" / "${v.thumbSub}"
+- Color palette: ${v.thumbPalette}
+- Slug: ${v.slug}
+
+SHORT CONCEPT (required):
+- Feature an AI-generated woman (ethereal, diverse, premium wellness aesthetic — NOT a celebrity likeness)
+- She is listening to the music with headphones and visibly enjoying it
+- Setting: ${s.setting}
+- Pose/vibe: ${s.pose}
+- Opening hook idea: "${hook}"
+
+OUTPUT (be specific and production-ready):
+1. Three alternative hooks for the first 3 seconds (text-on-screen)
+2. Full shot-by-shot storyboard with exact timestamps (0:00–0:30)
+3. Image prompts for 3 key frames (9:16 vertical)
+4. Video animation prompt for Kling/Runway/Pika (camera movement, subtle motion)
+5. On-screen text suggestions (font style: elegant serif + muted cream)
+6. Short caption + hashtags for YouTube Shorts and TikTok
+7. Audio sync notes — which 30 seconds of the ambient track to use and where to fade
+8. FFmpeg or Premiere assembly notes (vertical crop, Ken Burns if static image)
+
+RULES:
+- Calm, premium, trustworthy — no shock faces, no arrows, no clickbait
+- Dark-mode friendly, meditation/sleep brand tone
+- End with CTA to full ${v.duration.label} video on Lumen AI Music channel
+- Music is instrumental ${v.genre} at ${v.bpm} BPM — match visuals to slow, sleep-safe energy`;
+    }
+
+    function generatePackage() {
+      applyEpicVarsToForm({
+        epicScene: document.getElementById('epicScene').value,
+        epicGenreStack: document.getElementById('epicGenreStack').value,
+      });
+      const v = getVars();
+      const cosmic = buildCosmicIdea(v);
+      const suno = buildSunoPrompt(v);
+      const variations = buildVariations(v);
+      const freq = buildFreqPlan(v);
+      const stitch = buildStitchPlan(v);
+      const visual = buildVisualPrompt(v, cosmic);
+      const thumb = buildThumbPrompt(v, cosmic);
+      const thumbBase = buildThumbBasePrompt(v, cosmic);
+      const canvaText = buildCanvaOverlayText(v, cosmic);
+      const aiImageBlock = buildAIImageBlock(visual, thumbBase);
+      const cosmicConcept = buildCosmicConceptBlock(v, cosmic);
+      const cosmicAlts = buildCosmicAltIdeas(v);
+      const shortConcept = buildShortConcept(v, cosmic);
+      const shortAIPrompt = buildShortAIPrompt(v, cosmic);
+      const shortCaption = buildShortCaption(v, cosmic);
+      const titles = buildTitles(v, cosmic);
+      const description = buildDescription(v);
+      const tags = buildTags(v);
+      const pinned = `Full ad-free stream → https://www.lumenaimusic.com/music/${v.slug}`;
+
+      state.package = { v, cosmic, suno, variations, freq, stitch, visual, thumb, thumbBase, canvaText, aiImageBlock, cosmicConcept, shortConcept, shortAIPrompt, shortCaption, titles, description, tags, pinned };
+
+      document.getElementById('outSuno').textContent = suno;
+      document.getElementById('sunoPrompt').value = suno;
+      document.getElementById('outFormula').innerHTML = isEpicMode(v) ? buildEpicFormulaHtml(v) : buildSunoFormulaHtml(v);
+      const epicBadge = document.getElementById('sunoFormulaBadge');
+      if (epicBadge) epicBadge.style.display = isEpicMode(v) ? 'inline' : 'none';
+      document.getElementById('outVariations').textContent = variations;
+      document.getElementById('outFreq').textContent = freq;
+      document.getElementById('outAIImage').textContent = aiImageBlock;
+      const bgPrompt = `${visual}\n\nNegative prompt: ${AI_IMAGE_NEGATIVE}`;
+      const thumbPrompt = `${thumbBase}\n\nNegative prompt: ${AI_IMAGE_NEGATIVE}`;
+      document.getElementById('outAiBg').textContent = bgPrompt;
+      document.getElementById('outAiThumb').textContent = thumbPrompt;
+      const bgStep = document.getElementById('outAiBgStep');
+      const thumbStep = document.getElementById('outAiThumbStep');
+      const canvaEl = document.getElementById('outCanvaText');
+      if (bgStep) bgStep.textContent = bgPrompt;
+      if (thumbStep) thumbStep.textContent = thumbPrompt;
+      if (canvaEl) canvaEl.textContent = canvaText;
+      const bgFn = document.getElementById('bgFilename');
+      if (bgFn) bgFn.textContent = `background_${v.slug}.jpg`;
+      document.getElementById('outYoutube').textContent = `TITLES:\n1. ${titles[0]}\n2. ${titles[1]}\n3. ${titles[2]}\n\n---\n\nDESCRIPTION:\n${description}\n\n---\n\nTAGS:\n${tags}\n\n---\n\nPINNED COMMENT:\n${pinned}`;
+
+      document.getElementById('outShortConcept').textContent = shortConcept;
+      document.getElementById('shortAIPrompt').value = shortAIPrompt;
+      document.getElementById('outShortCaption').textContent = shortCaption;
+
+      document.getElementById('outCosmic').textContent = cosmicConcept;
+      document.getElementById('outCosmicThumb').textContent = buildCosmicThumbPrompt(v, cosmic);
+      document.getElementById('outCosmicAlts').textContent = cosmicAlts;
+
+      const full = `# Lumen AI Music Content Package\n\n## Variables\n${JSON.stringify(v, null, 2)}\n\n## Cosmic Ambience Concept\n${cosmicConcept}\n\n### 5 Alt Cosmic Titles\n${cosmicAlts}\n\n## Suno Prompt\n${suno}\n\n## Variations\n${variations}\n\n## Frequency Plan\n${freq}\n\n## Stitch Plan\n${stitch}\n\n## AI Image Prompt — Video Background (16:9)\n${visual}\n\n## AI Image Prompt — Thumbnail Base\n${thumbBase}\n\n## Canva Text Overlay\n${canvaText}\n\n## Thumbnail (full Canva spec)\n${thumb}\n\n## 30-Second YouTube Short\n${shortConcept}\n\n### Short AI Expansion Prompt\n${shortAIPrompt}\n\n### Short Caption\n${shortCaption}\n\n## Titles\n${titles.join('\n')}\n\n## Description\n${description}\n\n## Tags\n${tags}`;
+      document.getElementById('fullPackage').value = full;
+
+      const aiPrompt = `You are an expert YouTube content strategist for Lumen AI Music. Using these filled variables, generate the complete content package (Suno prompt, variations, frequency plan, stitch plan, visual prompts, thumbnail, cosmic ambience titles in Astral Ambience style with poetic names like "${cosmic.name}", 30-second YouTube Short, 3 titles, full description, tags, extra notes):\n\n${JSON.stringify({ mood: v.mood.label, duration: v.duration.label, genre: v.genre, atmosphere: v.atmosphere, instruments: v.instruments, bpm: v.bpm, energy: v.energy, production: v.production, frequency: v.freq.label, thumbnail: v.thumbMain, cosmicName: cosmic.name, titleStyle: v.titleStyle, slug: v.slug }, null, 2)}\n\nTitle formula for cosmic style: [Poetic Name] | [Music Type] [Location Phrase] - [Ending] [Badge]. Examples: "Velvet Meridian | Deep Meditation Music Beneath Eternal Stars - Healing Night Soundscape [CALM MODE: ON]". Think outside the box — original Lumen names, not copies. Follow all Lumen master prompt rules. No artist names in Suno. No Hz in Suno prompt.`;
+      document.getElementById('masterPromptForAI').value = aiPrompt;
+
+      document.getElementById('outStitch').textContent = stitch;
+      document.getElementById('outFfmpeg').textContent = `# Normalize (run per segment first)\nffmpeg -i segment.wav -af loudnorm=I=-18:TP=-1.5:LRA=11 segment_norm.wav\n\n# After manual crossfade export as master.wav — optional trim silence\nffmpeg -i master.wav -af "afade=t=in:st=0:d=2,afade=t=out:st=${v.duration.minutes*60-2}:d=2" master_faded.wav`;
+
+      document.getElementById('outVideoFfmpeg').textContent = `# Replace filenames below\nffmpeg -loop 1 -i background.jpg -i master_faded.wav -c:v libx264 -tune stillimage -c:a aac -b:a 192k -pix_fmt yuv420p -shortest -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2" output_${v.slug}.mp4`;
+
+      document.getElementById('outTitles').textContent = titles.map((t,i)=>`${i+1}. ${t}`).join('\n');
+      document.getElementById('outDesc').textContent = description;
+      document.getElementById('outTags').textContent = tags;
+      document.getElementById('outPinned').textContent = pinned;
+      document.getElementById('outSummary').textContent = `Project: ${titles[0]}
+Duration: ${v.duration.label} (${v.duration.segments} Suno segments)
+Mood: ${v.mood.label}
+Genre: ${v.genre}
+Slug: ${v.slug}
+Generated: ${new Date().toLocaleString()}`;
+
+      renderSegmentTracker(v);
+      document.getElementById('sunoStats').innerHTML = document.getElementById('segmentStats').innerHTML;
+      updateSegmentStats();
+    }
+
+    function renderSegmentTracker(v) {
+      const el = document.getElementById('segmentTracker');
+      let html = '';
+      for (let i = 1; i <= v.duration.segments; i++) {
+        const varLabel = i % 3 === 2 ? 'A' : i % 3 === 0 ? 'B' : i === v.duration.segments ? 'B-close' : 'Core';
+        const key = `seg-${i}`;
+        const checked = state.segmentDone[key] ? 'checked' : '';
+        html += `<div class="segment-row">
+          <input type="checkbox" ${checked} onchange="toggleSegment('${key}')" />
+          <span>Segment ${i} — ${varLabel}</span>
+          <button class="secondary" style="padding:0.25rem 0.5rem;font-size:0.7rem" onclick="copySuno()">Copy Suno</button>
+        </div>`;
+      }
+      el.innerHTML = html;
+    }
+
+    function toggleSegment(key) {
+      state.segmentDone[key] = !state.segmentDone[key];
+      saveProject(true);
+    }
+
+    function markAllSegments(val) {
+      const v = getVars();
+      for (let i = 1; i <= v.duration.segments; i++) state.segmentDone[`seg-${i}`] = val;
+      renderSegmentTracker(v);
+      saveProject(true);
+    }
+
+    function buildChecklists() {
+      const lists = {
+        sunoChecklist: [
+          ['Open Suno and paste core prompt', 'https://suno.com'],
+          ['Generate core segment — download WAV', ''],
+          ['Generate Variation A, B, C as needed', ''],
+          ['Check: no unexpected vocals or drums', ''],
+          ['Mark each segment done in tracker', ''],
+        ],
+        dawChecklist: [
+          ['Import all segments into DAW', ''],
+          ['Align to grid — 12 sec crossfades', ''],
+          ['Normalize each segment to -18 LUFS', ''],
+          ['Export stitched master WAV', ''],
+          ['Add frequency layers (if applicable)', ''],
+          ['Final master at -16 LUFS — export 48kHz/24-bit', ''],
+        ],
+        imageChecklist: [
+          ['Copy AI Image Prompt from Content Package', ''],
+          ['Generate 16:9 video background — save as background.jpg', ''],
+          ['Generate thumbnail base art (no text) — 1280×720', ''],
+          ['Add title + watermark in Canva', 'https://www.canva.com'],
+          ['Export thumbnail as JPG/PNG', ''],
+        ],
+        videoChecklist: [
+          ['Combine background image + master audio → MP4', ''],
+          ['Verify duration matches audio', ''],
+          ['Spot-check first/last 30 seconds', ''],
+          ['Optional: black screen version for sleep', ''],
+        ],
+        uploadChecklist: [
+          ['Upload MP4 to YouTube Studio', 'https://studio.youtube.com'],
+          ['Paste title, description, tags', ''],
+          ['Set thumbnail', ''],
+          ['Upload 30-sec Short (9:16) with link to full video', ''],
+          ['Add to playlists', ''],
+          ['Pin comment with website link', ''],
+          ['Add track to lumenaimusic.com admin', 'https://www.lumenaimusic.com/admin'],
+          ['Copy UTM link into description', ''],
+        ],
+      };
+      for (const [id, items] of Object.entries(lists)) {
+        document.getElementById(id).innerHTML = items.map(([text, link], i) => {
+          const key = `${id}-${i}`;
+          const checked = state.checklist[key] ? 'checked' : '';
+          const linkHtml = link ? `<a class="tool-link" href="${link}" target="_blank">Open →</a>` : '';
+          return `<li><input type="checkbox" ${checked} onchange="toggleCheck('${key}')" /><div><div>${text}</div>${linkHtml}</div></li>`;
+        }).join('');
+      }
+    }
+
+    function toggleCheck(key) {
+      state.checklist[key] = !state.checklist[key];
+      saveProject(true);
+    }
+
+    function renderStepNav() {
+      const nav = document.getElementById('stepNav');
+      nav.innerHTML = STEPS.map((label, i) => {
+        const cls = i === state.step ? 'active' : i < state.step ? 'done' : '';
+        return `<li class="${cls}" onclick="goStep(${i})"><span class="step-num">${i === state.step ? i : i < state.step ? '✓' : i}</span>${label}</li>`;
+      }).join('');
+      document.getElementById('progressFill').style.width = `${(state.step / (STEPS.length - 1)) * 100}%`;
+    }
+
+    function goStep(n) {
+      if (n === 2 && !state.package) generatePackage();
+      if (n >= 3 && !state.package) generatePackage();
+      state.step = n;
+      document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', +p.dataset.step === n));
+      renderStepNav();
+      window.scrollTo(0, 0);
+      saveProject(true);
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => showToast());
+    }
+
+    function copyBlock(id) {
+      const el = document.getElementById(id);
+      copyText(el.value || el.textContent);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg || 'Copied!';
+      t.classList.add('show');
+      setTimeout(() => {
+        t.classList.remove('show');
+        t.textContent = 'Copied!';
+      }, 1800);
+    }
+
+    function saveProject(silent) {
+      const data = {
+        step: state.step,
+        segmentDone: state.segmentDone,
+        checklist: state.checklist,
+        form: {},
+        package: state.package,
+      };
+      ['mood','duration','genre','genreSecondary','scifiMode','moodWords','instruments','atmosphere','lore','bpm','energy','production','seriesName','titleStyle','cosmicName','freqPrimary','freqSecondary','freqMix','binaural','thumbMain','thumbSub','thumbPalette','slug','epicPulse','epicOpening','epicMiddle','epicClosing','epicGenreStack','epicScene','epicVisual','epicBadge','sunoStructure','sunoPromptStyle','sunoKey','sunoExclude','sunoExtraTags','sunoSegmentLabel'].forEach(id => {
+        data.form[id] = document.getElementById(id).value;
+      });
+      data.form.epicEnabled = document.getElementById('epicEnabled').checked;
+      ['sunoInstrumental','sunoNoVocals','sunoNoDrums','sunoNoPercussion','sunoNoHooks','sunoNoDrops','sunoSleepSafe','sunoCrossfade','sunoNoHz','sunoNoArtists','sunoFreqHeadroom'].forEach(id => {
+        data.form[id] = document.getElementById(id).checked;
+      });
+      localStorage.setItem('lumenContentStudio', JSON.stringify(data));
+      if (!silent) showToast();
+    }
+
+    function loadProject() {
+      const raw = localStorage.getItem('lumenContentStudio');
+      if (!raw) { alert('No saved project found.'); return; }
+      const data = JSON.parse(raw);
+      if (data.form) {
+        const sunoChecks = ['sunoInstrumental','sunoNoVocals','sunoNoDrums','sunoNoPercussion','sunoNoHooks','sunoNoDrops','sunoSleepSafe','sunoCrossfade','sunoNoHz','sunoNoArtists','sunoFreqHeadroom'];
+        Object.entries(data.form).forEach(([k, val]) => {
+          const el = document.getElementById(k);
+          if (!el) return;
+          if (k === 'epicEnabled' || sunoChecks.includes(k)) el.checked = !!val;
+          else el.value = val;
+        });
+      }
+      syncEpicPanel();
+      state.step = data.step || 0;
+      state.segmentDone = data.segmentDone || {};
+      state.checklist = data.checklist || {};
+      state.package = data.package || null;
+      buildChecklists();
+      if (state.package) generatePackage();
+      goStep(state.step);
+      showToast();
+    }
+
+    function exportMarkdown() {
+      if (!state.package) generatePackage();
+      download(`lumen-${getVars().slug}.md`, document.getElementById('fullPackage').value, 'text/markdown');
+    }
+
+    function exportJSON() {
+      if (!state.package) generatePackage();
+      download(`lumen-${getVars().slug}.json`, JSON.stringify(state.package, null, 2), 'application/json');
+    }
+
+    function download(name, content, type) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([content], { type }));
+      a.download = name;
+      a.click();
+    }
+
+    function markComplete() {
+      state.step = 8;
+      goStep(8);
+      alert('Project marked complete! Export saved or start a new project.');
+    }
+
+    document.querySelectorAll('#varForm input, #varForm select').forEach(el => {
+      el.addEventListener('change', () => {
+        if (el.id === 'mood' || el.id === 'titleStyle') syncEpicPanel();
+        if (el.id === 'epicScene' && el.value !== 'auto') document.getElementById('atmosphere').value = el.value;
+        if (el.id === 'epicGenreStack' && el.value !== 'auto') document.getElementById('genre').value = el.value;
+        updateSegmentStats();
+        saveProject(true);
+      });
+    });
+
+    initForm();
+    randomizeAll();
+    updateSegmentStats();
+  </script>
+</body>
+</html>

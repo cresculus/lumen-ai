@@ -90,7 +90,7 @@ export default function NewMusicPage() {
       <button
         type="submit"
         disabled={loading}
-        className="rounded-full bg-violet-500 px-6 py-2.5 text-sm text-white disabled:opacity-50"
+        className="rounded-full bg-lumen-gold px-6 py-2.5 text-sm text-white disabled:opacity-50"
       >
         {loading ? "Uploading..." : "Publish track"}
       </button>

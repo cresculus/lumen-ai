@@ -25,9 +25,9 @@ export function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-full shrink-0 border-b border-white/10 bg-[#0a0f1e]/80 lg:w-64 lg:border-b-0 lg:border-r lg:min-h-[calc(100vh-4rem)]">
+    <aside className="w-full shrink-0 border-b border-white/10 bg-[#0F1C2E]/80 lg:w-64 lg:border-b-0 lg:border-r lg:min-h-[calc(100vh-4rem)]">
       <div className="p-4">
-        <p className="text-xs font-medium uppercase tracking-wider text-violet-300">
+        <p className="text-xs font-medium uppercase tracking-wider text-lumen-gold-light">
           Lumen AI Admin
         </p>
         <p className="mt-1 text-sm text-slate-400">Creator dashboard</p>
@@ -44,7 +44,7 @@ export function AdminSidebar() {
               className={cn(
                 "flex shrink-0 items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition",
                 active
-                  ? "bg-violet-500/20 text-violet-100"
+                  ? "bg-lumen-gold/20 text-lumen-cream"
                   : "text-slate-400 hover:bg-white/5 hover:text-white",
               )}
             >

@@ -25,13 +25,13 @@ export function MusicTrackCard({
   featured,
 }: MusicTrackCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] p-5 transition hover:border-violet-400/30 hover:shadow-xl hover:shadow-violet-500/5">
+    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] p-5 transition hover:border-lumen-gold/30 hover:shadow-xl hover:shadow-lumen-gold/5">
       {featured && (
-        <span className="absolute right-4 top-4 rounded-full bg-violet-500/25 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-violet-200">
+        <span className="absolute right-4 top-4 rounded-full bg-lumen-gold/25 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-lumen-gold-light">
           Featured
         </span>
       )}
-      <div className="relative mb-4 aspect-square overflow-hidden rounded-xl bg-gradient-to-br from-violet-600/30 via-indigo-500/20 to-slate-900/50">
+      <div className="relative mb-4 aspect-square overflow-hidden rounded-xl bg-gradient-to-br from-lumen-gold/30 via-indigo-500/20 to-slate-900/50">
         <div className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
           <PlayTrackButton
             track={{ id, title, slug, tags }}
@@ -43,11 +43,11 @@ export function MusicTrackCard({
           Lossless
         </div>
       </div>
-      <p className="text-[11px] uppercase tracking-wider text-violet-300/90">
+      <p className="text-[11px] uppercase tracking-wider text-lumen-gold-light/90">
         {tags.slice(0, 2).join(" · ") || "ambient"}
       </p>
       <Link href={`/music/${slug}`}>
-        <h3 className="mt-1 text-lg font-medium text-white transition group-hover:text-violet-100">
+        <h3 className="mt-1 text-lg font-medium text-white transition group-hover:text-lumen-cream">
           {title}
         </h3>
       </Link>
@@ -55,7 +55,7 @@ export function MusicTrackCard({
         <p className="mt-2 line-clamp-2 text-sm text-slate-400">{description}</p>
       )}
       <div className="mt-4 flex items-center justify-between">
-        <span className="text-violet-200">{formatPrice(price)}</span>
+        <span className="text-lumen-gold-light">{formatPrice(price)}</span>
         <PlayTrackButton track={{ id, title, slug, tags }} size="sm" />
       </div>
     </div>

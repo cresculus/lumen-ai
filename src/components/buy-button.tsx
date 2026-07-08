@@ -31,7 +31,7 @@ export function BuyButton({
         setAdded(true);
         setTimeout(() => setAdded(false), 1500);
       }}
-      className="rounded-full bg-violet-500 px-6 py-2.5 text-sm font-medium text-white shadow-lg shadow-violet-500/20 hover:bg-violet-400"
+      className="rounded-full bg-lumen-gold px-6 py-2.5 text-sm font-medium text-white shadow-lg shadow-lumen-gold/20 hover:bg-lumen-gold"
     >
       {added ? "Added ✓" : "Add to cart"}
     </button>
@@ -163,7 +163,7 @@ export function CheckoutButton() {
         type="button"
         disabled={loading || items.length === 0}
         onClick={handleStripeCheckout}
-        className="w-full rounded-full bg-violet-500 px-6 py-3 text-sm font-medium text-white hover:bg-violet-400 disabled:opacity-50"
+        className="w-full rounded-full bg-lumen-gold px-6 py-3 text-sm font-medium text-white hover:bg-lumen-gold disabled:opacity-50"
       >
         {loading && mode === "stripe" ? "Redirecting…" : `Pay with Stripe ${formatPrice(total)}`}
       </button>

@@ -5,7 +5,7 @@ export default function PrivacyPage() {
     <div className="prose prose-invert mx-auto max-w-3xl px-4 py-12">
       <h1>Privacy Policy</h1>
       <p>
-        Lumen AI collects account information through OAuth providers (Google,
+        Lumen AI Music collects account information through OAuth providers (Google,
         GitHub) and order information necessary to fulfill purchases. Payment
         data is processed by Stripe and not stored on our servers.
       </p>

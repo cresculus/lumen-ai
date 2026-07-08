@@ -21,7 +21,7 @@ export default async function AdminLayout({
           <div />
           <Link
             href="/"
-            className="text-sm text-slate-400 hover:text-violet-200"
+            className="text-sm text-slate-400 hover:text-lumen-gold-light"
           >
             ← View storefront
           </Link>

@@ -10,7 +10,7 @@ export default function CheckoutSuccessPage() {
       </Suspense>
       <Link
         href="/account"
-        className="mt-8 inline-block rounded-full bg-violet-500 px-6 py-3 text-sm font-medium text-white hover:bg-violet-400"
+        className="mt-8 inline-block rounded-full bg-lumen-gold px-6 py-3 text-sm font-medium text-white hover:bg-lumen-gold"
       >
         Go to account
       </Link>

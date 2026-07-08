@@ -30,7 +30,7 @@ export function OAuthButtons({ callbackUrl = "/account" }: { callbackUrl?: strin
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-white/10" />
         </div>
-        <p className="relative mx-auto w-fit bg-[#070b16] px-3 text-xs uppercase tracking-wider text-slate-500">
+        <p className="relative mx-auto w-fit bg-[#0F1C2E] px-3 text-xs uppercase tracking-wider text-slate-500">
           Demo sign-in (no OAuth needed)
         </p>
       </div>
@@ -41,7 +41,7 @@ export function OAuthButtons({ callbackUrl = "/account" }: { callbackUrl?: strin
           onClick={() =>
             signIn("demo", { account: "customer", callbackUrl })
           }
-          className="flex items-center justify-center gap-2 rounded-xl border border-violet-400/30 bg-violet-500/10 px-4 py-3 text-sm font-medium text-violet-100 transition hover:bg-violet-500/20"
+          className="flex items-center justify-center gap-2 rounded-xl border border-lumen-gold/30 bg-lumen-gold/10 px-4 py-3 text-sm font-medium text-lumen-cream transition hover:bg-lumen-gold/20"
         >
           <User className="h-4 w-4" />
           Demo guest

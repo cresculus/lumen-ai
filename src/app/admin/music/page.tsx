@@ -14,7 +14,7 @@ export default async function AdminMusicPage() {
         <h2 className="text-xl font-medium text-white">Music catalog</h2>
         <Link
           href="/admin/music/new"
-          className="rounded-full bg-violet-500 px-4 py-2 text-sm text-white"
+          className="rounded-full bg-lumen-gold px-4 py-2 text-sm text-white"
         >
           Upload new track
         </Link>

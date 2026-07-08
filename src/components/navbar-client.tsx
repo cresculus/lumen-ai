@@ -3,22 +3,24 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { CartNavLink } from "@/components/cart-nav-link";
-import { Sparkles, User } from "lucide-react";
+import { User } from "lucide-react";
 
 export function NavbarClient() {
   const { data: session } = useSession();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-[#070b16]/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-lumen-indigo/90 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5">
         <Link
           href="/"
-          className="flex items-center gap-2 text-xl font-semibold tracking-tight text-white"
+          className="flex items-center gap-2.5 tracking-tight text-lumen-cream"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-500/20 text-violet-300">
-            <Sparkles className="h-4 w-4" />
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-lumen-gold/15 text-lumen-gold shadow-[0_0_20px_rgba(201,162,39,0.25)]">
+            <span className="h-2 w-2 rounded-full bg-lumen-gold" />
           </span>
-          Lumen <span className="text-violet-300">AI</span>
+          <span className="font-display text-lg font-semibold">
+            Lumen <span className="text-lumen-gold">AI Music</span>
+          </span>
         </Link>
         <nav className="hidden items-center gap-1 text-sm text-slate-300 md:flex">
           {[
@@ -30,7 +32,7 @@ export function NavbarClient() {
             <Link
               key={href}
               href={href}
-              className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white"
+              className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-lumen-cream"
             >
               {label}
             </Link>
@@ -38,7 +40,7 @@ export function NavbarClient() {
           {session?.user?.role === "ADMIN" && (
             <Link
               href="/admin"
-              className="rounded-lg px-3 py-2 text-violet-300 hover:bg-violet-500/10"
+              className="rounded-lg px-3 py-2 text-lumen-gold-light hover:bg-lumen-gold/10"
             >
               Dashboard
             </Link>
@@ -49,7 +51,7 @@ export function NavbarClient() {
           {session?.user ? (
             <Link
               href="/account"
-              className="inline-flex items-center gap-2 rounded-full bg-violet-500/20 px-3 py-1.5 text-sm text-violet-100 hover:bg-violet-500/30"
+              className="inline-flex items-center gap-2 rounded-full bg-lumen-gold/15 px-3 py-1.5 text-sm text-lumen-cream hover:bg-lumen-gold/25"
             >
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">
@@ -59,7 +61,7 @@ export function NavbarClient() {
           ) : (
             <Link
               href="/login"
-              className="rounded-full bg-violet-500 px-4 py-1.5 text-sm font-medium text-white hover:bg-violet-400"
+              className="rounded-full bg-lumen-gold px-4 py-1.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
             >
               Sign in
             </Link>

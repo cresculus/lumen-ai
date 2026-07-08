@@ -15,7 +15,7 @@ export function CartNavLink() {
       <ShoppingCart className="h-4 w-4" />
       <span className="hidden sm:inline">Cart</span>
       {itemCount > 0 && (
-        <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-violet-500 px-1 text-[10px] font-bold text-white">
+        <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-lumen-gold px-1 text-[10px] font-bold text-white">
           {itemCount > 99 ? "99+" : itemCount}
         </span>
       )}

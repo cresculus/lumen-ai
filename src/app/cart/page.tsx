@@ -12,7 +12,7 @@ export default function CartPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
       <div className="flex items-center gap-3">
-        <ShoppingBag className="h-8 w-8 text-violet-400" />
+        <ShoppingBag className="h-8 w-8 text-lumen-gold" />
         <div>
           <h1 className="text-3xl font-semibold text-white">Shopping cart</h1>
           <p className="text-sm text-slate-400">Music + wellness products</p>
@@ -25,7 +25,7 @@ export default function CartPage() {
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link
               href="/music"
-              className="rounded-full bg-violet-500 px-5 py-2 text-sm text-white"
+              className="rounded-full bg-lumen-gold px-5 py-2 text-sm text-white"
             >
               Browse music
             </Link>
@@ -50,7 +50,7 @@ export default function CartPage() {
                   <p className="text-xs uppercase tracking-wide text-slate-500">
                     {item.type === "DIGITAL" ? "Digital music" : "Physical product"}
                   </p>
-                  <p className="mt-1 text-sm text-violet-200">
+                  <p className="mt-1 text-sm text-lumen-gold-light">
                     {formatPrice(item.price)} each
                   </p>
                 </div>
@@ -78,7 +78,7 @@ export default function CartPage() {
                 </div>
               </div>
             ))}
-            <p className="text-right text-lg text-violet-200 lg:hidden">
+            <p className="text-right text-lg text-lumen-gold-light lg:hidden">
               Total: {formatPrice(total)}
             </p>
           </div>

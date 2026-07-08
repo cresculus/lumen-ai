@@ -22,7 +22,7 @@ export default async function AdminOrdersPage() {
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="text-white">{order.user.email}</p>
-                <p className="text-violet-200">{formatPrice(order.total)}</p>
+                <p className="text-lumen-gold-light">{formatPrice(order.total)}</p>
               </div>
               <p className="text-sm text-slate-400">{order.status}</p>
               <ul className="mt-2 text-sm text-slate-300">

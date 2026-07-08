@@ -173,24 +173,24 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
       {children}
       <audio ref={audioRef} preload="metadata" />
       {currentTrack && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-[#0a0f1e]/95 backdrop-blur-xl">
+        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-[#0F1C2E]/95 backdrop-blur-xl">
           <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-3">
             {access === "preview" && (
-              <p className="text-center text-xs text-amber-200/90">
+              <p className="text-center text-xs text-lumen-gold-light/90">
                 60-second preview ·{" "}
-                <a href="/pricing" className="underline hover:text-amber-100">
+                <a href="/pricing" className="underline hover:text-lumen-cream">
                   Subscribe for full lossless playback
                 </a>
               </p>
             )}
             <div className="flex items-center gap-4">
-              <div className="hidden h-12 w-12 shrink-0 rounded-lg bg-gradient-to-br from-violet-500/40 to-indigo-500/20 sm:block" />
+              <div className="hidden h-12 w-12 shrink-0 rounded-lg bg-gradient-to-br from-lumen-gold/40 to-indigo-500/20 sm:block" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-white">
                   {currentTrack.title}
                 </p>
                 <p className="truncate text-xs text-slate-400">
-                  {currentTrack.tags?.join(" · ") || "Lumen AI"}
+                  {currentTrack.tags?.join(" · ") || "Lumen AI Music"}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -206,7 +206,7 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
                   type="button"
                   disabled={loading}
                   onClick={togglePlay}
-                  className="rounded-full bg-violet-500 p-3 text-white hover:bg-violet-400 disabled:opacity-50"
+                  className="rounded-full bg-lumen-gold p-3 text-lumen-midnight hover:bg-lumen-gold-light disabled:opacity-50"
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
                   {isPlaying ? (
@@ -234,7 +234,7 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
                   max={duration || 100}
                   value={currentTime}
                   onChange={(e) => seek(Number(e.target.value))}
-                  className="h-1 flex-1 cursor-pointer accent-violet-500"
+                  className="h-1 flex-1 cursor-pointer accent-lumen-gold"
                 />
                 <span className="text-xs tabular-nums text-slate-400">
                   {formatDuration(duration)}
@@ -286,7 +286,7 @@ export function PlayTrackButton({
       type="button"
       onClick={() => (isCurrent ? togglePlay() : playTrack(track))}
       className={cn(
-        "rounded-full bg-violet-500 text-white shadow-lg shadow-violet-500/25 transition hover:bg-violet-400 hover:scale-105",
+        "rounded-full bg-lumen-gold text-lumen-midnight shadow-lg shadow-lumen-gold/25 transition hover:bg-lumen-gold-light hover:scale-105",
         sizeClass,
         className,
       )}

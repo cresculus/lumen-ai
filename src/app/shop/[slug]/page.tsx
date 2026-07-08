@@ -14,13 +14,15 @@ export default async function ShopDetailPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
       <div className="grid gap-8 md:grid-cols-2">
-        <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-500/20 to-violet-500/10" />
+        <div className="aspect-square rounded-2xl bg-gradient-to-br from-lumen-gold/20 to-lumen-midnight/40" />
         <div>
-          <p className="text-sm uppercase tracking-wider text-violet-300">
+          <p className="text-sm uppercase tracking-wider text-lumen-gold-light">
             {product.category}
           </p>
-          <h1 className="mt-2 text-4xl font-semibold text-white">{product.title}</h1>
-          <p className="mt-4 text-2xl text-violet-200">{formatPrice(product.price)}</p>
+          <h1 className="font-display mt-2 text-4xl font-semibold text-lumen-cream">
+            {product.title}
+          </h1>
+          <p className="mt-4 text-2xl text-lumen-gold-light">{formatPrice(product.price)}</p>
           <p className="mt-2 text-sm text-slate-400">
             {product.inventory > 0
               ? `${product.inventory} in stock`

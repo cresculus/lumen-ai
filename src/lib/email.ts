@@ -27,7 +27,7 @@ export async function sendPurchaseEmail({
   await resend.emails.send({
     from,
     to,
-    subject: "Your Lumen AI order is confirmed",
+    subject: "Your Lumen AI Music order is confirmed",
     html: `
       <h1>Thank you for your purchase</h1>
       <p>Order ID: ${orderId}</p>
