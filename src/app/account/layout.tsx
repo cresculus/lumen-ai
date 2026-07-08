@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import { DashboardShell } from "@/components/dashboard/sidebar";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export const metadata = { title: "Library" };
 
 export default async function AccountLayout({

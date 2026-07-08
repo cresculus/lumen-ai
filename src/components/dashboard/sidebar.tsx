@@ -269,6 +269,10 @@ export function DashboardShell({
           />
         </div>
         <div className="dashboard-content relative flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto">
+          <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-lumen-gold/40 bg-lumen-gold px-4 py-2 text-sm font-semibold text-lumen-midnight">
+            <span>LUMEN APP SHELL · Library</span>
+            <a href="/music" className="underline">Storefront</a>
+          </div>
           {children}
         </div>
       </div>

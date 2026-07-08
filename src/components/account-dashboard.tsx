@@ -71,6 +71,10 @@ export function AccountDashboard({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
+      <div className="border-b border-white/10 bg-[#0a0f18] px-4 py-3 md:px-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-lumen-gold">THIS IS THE DASHBOARD</p>
+        <h1 className="mt-1 text-2xl font-semibold text-white">Library workspace</h1>
+      </div>
       {/* Top chrome */}
       <div className="sticky top-0 z-10 border-b border-white/10 bg-[#0a0f18]/90 px-4 py-4 backdrop-blur-xl md:px-6">
         <div className="flex flex-wrap items-center gap-3">
