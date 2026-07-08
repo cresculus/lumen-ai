@@ -27,7 +27,7 @@ export default async function MusicDetailPage({ params }: Props) {
   if (!track) notFound();
 
   const subscribed =
-    session?.user?.id && !session.user.id.startsWith("mock-")
+    session?.user?.id
       ? await hasActiveSubscription(session.user.id)
       : false;
 

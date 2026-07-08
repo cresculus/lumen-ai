@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MusicTrackCard } from "@/components/music-track-card";
 import { ProductCard } from "@/components/product-card";
 import {
+  getCatalogMode,
   getFeaturedMusic,
   getFeaturedShop,
   type CatalogMusic,
@@ -36,22 +37,30 @@ function ShopCardLazy({ product }: { product: CatalogShopItem }) {
 }
 
 export default async function HomePage() {
-  const [music, shop] = await Promise.all([
+  const [music, shop, catalogMode] = await Promise.all([
     getFeaturedMusic(6),
     getFeaturedShop(3),
+    getCatalogMode(),
   ]);
-
-  const usingMock = music[0]?.id.startsWith("mock-") ?? false;
 
   return (
     <div>
-      {usingMock && (
+      {catalogMode === "mock" && (
         <div className="border-b border-lumen-gold/20 bg-lumen-gold/10 px-4 py-2 text-center text-sm text-lumen-cream">
-          Demo catalog active —{" "}
-          <Link href="/login" className="underline hover:text-white">
-            sign in
-          </Link>{" "}
-          to test cart, dashboard, and playback.
+          Demo catalog — connect PostgreSQL and run{" "}
+          <code className="text-lumen-gold-light">npm run db:setup</code> for the
+          live library.
+        </div>
+      )}
+      {catalogMode === "empty" && (
+        <div className="border-b border-rose-400/20 bg-rose-500/10 px-4 py-2 text-center text-sm text-lumen-cream">
+          Database connected but catalog is empty — run{" "}
+          <code className="text-lumen-gold-light">npm run db:seed</code> or upload
+          tracks in{" "}
+          <Link href="/admin/music/new" className="underline hover:text-white">
+            admin
+          </Link>
+          .
         </div>
       )}
       <section className="relative overflow-hidden border-b border-white/5">

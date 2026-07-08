@@ -27,13 +27,11 @@ declare module "@auth/core/types" {
 
 const demoUsers = {
   admin: {
-    id: "mock-admin-id",
     email: "admin@lumenaimusic.com",
     name: "Demo Admin",
     role: "ADMIN" as Role,
   },
   customer: {
-    id: "mock-customer-id",
     email: "guest@lumenaimusic.com",
     name: "Demo Guest",
     role: "CUSTOMER" as Role,
@@ -62,9 +60,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         if (!isMockAuthEnabled()) return null;
         const account = credentials?.account as keyof typeof demoUsers;
-        if (account === "admin") return demoUsers.admin;
-        if (account === "customer") return demoUsers.customer;
-        return null;
+        const demo =
+          account === "admin" ? demoUsers.admin : account === "customer" ? demoUsers.customer : null;
+        if (!demo) return null;
+
+        const user = await prisma.user.upsert({
+          where: { email: demo.email },
+          update: { name: demo.name, role: demo.role },
+          create: {
+            email: demo.email,
+            name: demo.name,
+            role: demo.role,
+          },
+        });
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        };
       },
     }),
   ],
@@ -74,16 +89,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user?.id) {
-        if (user.id.startsWith("mock-")) {
-          token.id = user.id;
-          token.role = user.role ?? "CUSTOMER";
-          token.email = user.email;
-          token.name = user.name;
-        } else {
-          const dbUser = await prisma.user.findUnique({ where: { id: user.id } });
-          token.id = user.id;
-          token.role = dbUser?.role ?? "CUSTOMER";
-        }
+        token.id = user.id;
+        token.role = user.role ?? "CUSTOMER";
+        if (user.email) token.email = user.email;
+        if (user.name) token.name = user.name;
       }
       return token;
     },

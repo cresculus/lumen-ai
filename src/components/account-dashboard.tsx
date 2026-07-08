@@ -4,7 +4,6 @@ import { useState } from "react";
 import { DownloadButton } from "@/components/download-button";
 import { PlayTrackButton } from "@/components/music-player";
 import { SignOutButton } from "@/components/oauth-buttons";
-import { MOCK_MUSIC } from "@/lib/mock-data";
 import { formatPrice } from "@/lib/utils";
 import { CreditCard, Music2 } from "lucide-react";
 
@@ -42,7 +41,8 @@ export function AccountDashboard({
 }) {
   const [portalLoading, setPortalLoading] = useState(false);
   const isActive = subscription?.status === "active";
-  const isDemoUser = userId.startsWith("mock-");
+  const isDemoUser =
+    email === "guest@lumenaimusic.com" || email === "admin@lumenaimusic.com";
 
   async function openPortal() {
     setPortalLoading(true);
@@ -70,8 +70,8 @@ export function AccountDashboard({
 
       {isDemoUser && (
         <div className="mt-6 rounded-xl border border-lumen-gold/25 bg-lumen-gold/10 px-4 py-3 text-sm text-lumen-cream">
-          Demo account — explore playback, cart, and admin. OAuth and Stripe connect
-          when you add real keys.
+          Demo account — purchases and library use the live database. Stripe
+          billing connects when you add real keys.
         </div>
       )}
 
@@ -122,31 +122,9 @@ export function AccountDashboard({
         </h2>
         <div className="mt-4 space-y-3">
           {downloads.length === 0 ? (
-            <div className="space-y-3">
-              <p className="text-slate-400">
-                {isDemoUser
-                  ? "Demo library — preview tracks below:"
-                  : "Purchase tracks or subscribe to build your library."}
-              </p>
-              {isDemoUser &&
-                MOCK_MUSIC.slice(0, 2).map((track) => (
-                  <div
-                    key={track.id}
-                    className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-4"
-                  >
-                    <p className="text-white">{track.title}</p>
-                    <PlayTrackButton
-                      track={{
-                        id: track.id,
-                        title: track.title,
-                        slug: track.slug,
-                        tags: track.tags,
-                      }}
-                      size="sm"
-                    />
-                  </div>
-                ))}
-            </div>
+            <p className="text-slate-400">
+              Purchase tracks or subscribe to build your library.
+            </p>
           ) : (
             downloads.map((download) => (
               <div

@@ -1,96 +1,48 @@
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
+import {
+  SEED_DEMO_USERS,
+  SEED_MUSIC,
+  SEED_SHOP,
+} from "../src/lib/seed-data";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  const shopProducts = [
-    {
-      title: "Silk Sleep Mask",
-      slug: "silk-sleep-mask",
-      description: "Light-blocking sleep mask for deeper rest.",
-      images: [] as string[],
-      price: 2499,
-      inventory: 50,
-      category: "sleep-masks",
-      status: "PUBLISHED" as const,
-      featured: true,
-    },
-    {
-      title: "Soft Night Cap",
-      slug: "soft-night-cap",
-      description: "Breathable night cap for comfortable sleep.",
-      images: [],
-      price: 1999,
-      inventory: 40,
-      category: "night-caps",
-      status: "PUBLISHED" as const,
-      featured: true,
-    },
-    {
-      title: "Foam Ear Plugs (10 pair)",
-      slug: "foam-ear-plugs",
-      description: "Noise-reducing ear plugs for focus and sleep.",
-      images: [],
-      price: 1299,
-      inventory: 100,
-      category: "ear-plugs",
-      status: "PUBLISHED" as const,
-      featured: false,
-    },
-  ];
+  for (const user of SEED_DEMO_USERS) {
+    await prisma.user.upsert({
+      where: { email: user.email },
+      update: { name: user.name, role: user.role },
+      create: {
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
+    });
+  }
 
-  const musicTracks = [
-    {
-      title: "Deep Sleep Ocean — 8 Hours",
-      slug: "deep-sleep-ocean-8hours",
-      description: "AI-generated ambient ocean tones for deep sleep.",
-      audioKey: "seed/placeholder.mp3",
-      coverKey: null,
-      price: 499,
-      tags: ["sleep", "deep sleep", "ambient"],
-      youtubeUrl: "https://youtube.com",
-      bpm: 60,
-      duration: 28800,
-      status: "PUBLISHED" as const,
-      featured: true,
-    },
-    {
-      title: "Focus Flow — Study Mix",
-      slug: "focus-flow-study",
-      description: "Minimal tones for concentration.",
-      audioKey: "seed/placeholder.mp3",
-      coverKey: null,
-      price: 399,
-      tags: ["focus", "study"],
-      youtubeUrl: null,
-      bpm: 72,
-      duration: 7200,
-      status: "PUBLISHED" as const,
-      featured: true,
-    },
-  ];
-
-  for (const product of shopProducts) {
+  for (const product of SEED_SHOP) {
     await prisma.physicalProduct.upsert({
       where: { slug: product.slug },
-      update: product,
+      update: {},
       create: product,
     });
   }
 
-  for (const track of musicTracks) {
+  for (const track of SEED_MUSIC) {
     await prisma.digitalProduct.upsert({
       where: { slug: track.slug },
-      update: track,
+      update: {},
       create: track,
     });
   }
 
-  console.log("Seed complete — shop + music");
+  console.log(
+    `Seed complete — ${SEED_MUSIC.length} tracks, ${SEED_SHOP.length} shop items, ${SEED_DEMO_USERS.length} demo users`,
+  );
 }
 
 main()

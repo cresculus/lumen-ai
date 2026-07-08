@@ -12,9 +12,19 @@ export type CatalogShopItem = MockPhysicalProduct;
 async function safe<T>(fn: () => Promise<T>): Promise<T | null> {
   try {
     return await fn();
-  } catch {
+  } catch (error) {
+    console.error("[catalog] database error:", error);
     return null;
   }
+}
+
+export function mockCatalogEnabled() {
+  return process.env.ENABLE_MOCK_CATALOG === "true";
+}
+
+export async function isDatabaseConnected() {
+  const result = await safe(() => prisma.$queryRaw`SELECT 1`);
+  return result !== null;
 }
 
 export async function getPublishedMusic(tag?: string): Promise<CatalogMusic[]> {
@@ -28,11 +38,22 @@ export async function getPublishedMusic(tag?: string): Promise<CatalogMusic[]> {
     }),
   );
 
-  if (db && db.length > 0) return db as CatalogMusic[];
+  if (db !== null) {
+    if (db.length === 0 && mockCatalogEnabled()) {
+      return tag
+        ? MOCK_MUSIC.filter((t) => t.tags.includes(tag))
+        : MOCK_MUSIC;
+    }
+    return db as CatalogMusic[];
+  }
 
-  return tag
-    ? MOCK_MUSIC.filter((t) => t.tags.includes(tag))
-    : MOCK_MUSIC;
+  if (mockCatalogEnabled()) {
+    return tag
+      ? MOCK_MUSIC.filter((t) => t.tags.includes(tag))
+      : MOCK_MUSIC;
+  }
+
+  return [];
 }
 
 export async function getPublishedMusicBySlug(
@@ -42,9 +63,16 @@ export async function getPublishedMusicBySlug(
     prisma.digitalProduct.findUnique({ where: { slug } }),
   );
 
-  if (db && db.status === "PUBLISHED") return db as CatalogMusic;
+  if (db !== null) {
+    if (db.status === "PUBLISHED") return db as CatalogMusic;
+    return null;
+  }
 
-  return MOCK_MUSIC.find((t) => t.slug === slug) ?? null;
+  if (mockCatalogEnabled()) {
+    return MOCK_MUSIC.find((t) => t.slug === slug) ?? null;
+  }
+
+  return null;
 }
 
 export async function getPublishedShop(): Promise<CatalogShopItem[]> {
@@ -55,8 +83,13 @@ export async function getPublishedShop(): Promise<CatalogShopItem[]> {
     }),
   );
 
-  if (db && db.length > 0) return db as CatalogShopItem[];
-  return MOCK_SHOP;
+  if (db !== null) {
+    if (db.length === 0 && mockCatalogEnabled()) return MOCK_SHOP;
+    return db as CatalogShopItem[];
+  }
+
+  if (mockCatalogEnabled()) return MOCK_SHOP;
+  return [];
 }
 
 export async function getPublishedShopBySlug(
@@ -66,9 +99,16 @@ export async function getPublishedShopBySlug(
     prisma.physicalProduct.findUnique({ where: { slug } }),
   );
 
-  if (db && db.status === "PUBLISHED") return db as CatalogShopItem;
+  if (db !== null) {
+    if (db.status === "PUBLISHED") return db as CatalogShopItem;
+    return null;
+  }
 
-  return MOCK_SHOP.find((p) => p.slug === slug) ?? null;
+  if (mockCatalogEnabled()) {
+    return MOCK_SHOP.find((p) => p.slug === slug) ?? null;
+  }
+
+  return null;
 }
 
 export async function getFeaturedMusic(limit = 6) {
@@ -83,4 +123,19 @@ export async function getFeaturedShop(limit = 3) {
 
 export function isUsingMockCatalog(items: { id: string }[]) {
   return items.length > 0 && items.every((i) => i.id.startsWith("mock-"));
+}
+
+export async function getCatalogMode(): Promise<"database" | "mock" | "empty"> {
+  const connected = await isDatabaseConnected();
+  if (!connected) {
+    return mockCatalogEnabled() ? "mock" : "empty";
+  }
+
+  const count = await safe(() =>
+    prisma.digitalProduct.count({ where: { status: "PUBLISHED" } }),
+  );
+
+  if (count === null) return mockCatalogEnabled() ? "mock" : "empty";
+  if (count > 0) return "database";
+  return mockCatalogEnabled() ? "mock" : "empty";
 }

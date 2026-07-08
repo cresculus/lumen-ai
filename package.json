@@ -13,7 +13,9 @@
     "postinstall": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "db:setup": "node scripts/setup-db.mjs",
+    "start:prod": "node scripts/setup-db.mjs && next start -H 0.0.0.0 -p ${PORT:-3000}"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

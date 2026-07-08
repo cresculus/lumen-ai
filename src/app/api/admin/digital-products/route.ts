@@ -1,8 +1,21 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
-import { uploadToR2 } from "@/lib/r2";
+import { saveUploadedFile } from "@/lib/storage";
 import { slugify } from "@/lib/utils";
 import { NextResponse } from "next/server";
+
+export async function GET() {
+  const session = await auth();
+  if (!session?.user || session.user.role !== "ADMIN") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const products = await prisma.digitalProduct.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+
+  return NextResponse.json({ products });
+}
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -23,6 +36,9 @@ export async function POST(request: Request) {
     .filter(Boolean);
   const youtubeUrl = String(formData.get("youtubeUrl") || "").trim() || null;
   const bpm = formData.get("bpm") ? Number(formData.get("bpm")) : null;
+  const duration = formData.get("duration")
+    ? Number(formData.get("duration"))
+    : null;
   const status = String(formData.get("status") || "DRAFT");
   const featured = formData.get("featured") === "true";
 
@@ -41,14 +57,20 @@ export async function POST(request: Request) {
   }
 
   const audioBuffer = Buffer.from(await audio.arrayBuffer());
-  const audioKey = `music/${slug}/${Date.now()}-${audio.name}`;
-  await uploadToR2(audioKey, audioBuffer, audio.type || "audio/mpeg");
+  const audioKey = await saveUploadedFile(
+    `music/${slug}/${Date.now()}-${audio.name}`,
+    audioBuffer,
+    audio.type || "audio/mpeg",
+  );
 
   let coverKey: string | null = null;
   if (cover) {
     const coverBuffer = Buffer.from(await cover.arrayBuffer());
-    coverKey = `music/${slug}/cover-${Date.now()}-${cover.name}`;
-    await uploadToR2(coverKey, coverBuffer, cover.type || "image/jpeg");
+    coverKey = await saveUploadedFile(
+      `music/${slug}/cover-${Date.now()}-${cover.name}`,
+      coverBuffer,
+      cover.type || "image/jpeg",
+    );
   }
 
   const product = await prisma.digitalProduct.create({
@@ -62,6 +84,7 @@ export async function POST(request: Request) {
       tags,
       youtubeUrl,
       bpm,
+      duration,
       status: status as "DRAFT" | "PUBLISHED" | "ARCHIVED",
       featured,
     },

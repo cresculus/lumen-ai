@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
-import { getSignedDownloadUrl } from "@/lib/r2";
+import { resolveMediaUrl } from "@/lib/storage";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -41,7 +41,14 @@ export async function GET(
     data: { downloadCount: { increment: 1 } },
   });
 
-  const url = await getSignedDownloadUrl(download.digitalProduct.audioKey, 600);
-
-  return NextResponse.json({ url });
+  try {
+    const url = await resolveMediaUrl(download.digitalProduct.audioKey, 600);
+    return NextResponse.json({ url });
+  } catch (error) {
+    console.error("[download]", error);
+    return NextResponse.json(
+      { error: "File unavailable — contact support" },
+      { status: 503 },
+    );
+  }
 }
