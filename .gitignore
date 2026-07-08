@@ -46,3 +46,7 @@ next-env.d.ts
 # uploaded media (local dev storage)
 /uploads/*
 !/uploads/.gitkeep
+
+# Private creator tools (local only — not on the website)
+/tools/
+

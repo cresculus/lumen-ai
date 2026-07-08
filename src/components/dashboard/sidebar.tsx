@@ -12,7 +12,6 @@ import {
   Music2,
   Package,
   ShoppingBag,
-  Sparkles,
   Upload,
   type LucideIcon,
 } from "lucide-react";
@@ -40,17 +39,6 @@ const userSections: NavSection[] = [
     ],
   },
   {
-    title: "Create",
-    items: [
-      {
-        href: "/content-studio.html",
-        label: "Content studio",
-        icon: Sparkles,
-        external: true,
-      },
-    ],
-  },
-  {
     title: "Shop",
     items: [{ href: "/shop", label: "Wellness shop", icon: ShoppingBag }],
   },
@@ -69,12 +57,6 @@ const adminSections: NavSection[] = [
     items: [
       { href: "/admin/music", label: "Music catalog", icon: Music2 },
       { href: "/admin/music/new", label: "Upload track", icon: Upload },
-      {
-        href: "/content-studio.html",
-        label: "Content studio",
-        icon: Sparkles,
-        external: true,
-      },
     ],
   },
   {

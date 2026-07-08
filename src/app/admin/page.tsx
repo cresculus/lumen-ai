@@ -6,7 +6,6 @@ import {
   Music,
   Package,
   ShoppingBag,
-  Sparkles,
   TrendingUp,
   Upload,
 } from "lucide-react";
@@ -80,7 +79,7 @@ export default async function AdminDashboardPage() {
       <div className="mb-8 grid gap-3 sm:grid-cols-2">
         <Link
           href="/admin/music/new"
-          className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-lumen-gold/30"
+          className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-lumen-gold/30 sm:col-span-2"
         >
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-lumen-gold/15">
             <Upload className="h-5 w-5 text-lumen-gold" />
@@ -90,18 +89,6 @@ export default async function AdminDashboardPage() {
             <p className="text-sm text-slate-400">Audio, cover art, publish</p>
           </div>
         </Link>
-        <a
-          href="/content-studio.html"
-          className="flex items-center gap-4 rounded-2xl border border-lumen-gold/20 bg-gradient-to-br from-lumen-gold/10 to-transparent p-5 transition hover:border-lumen-gold/40"
-        >
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-lumen-gold/15">
-            <Sparkles className="h-5 w-5 text-lumen-gold" />
-          </div>
-          <div>
-            <p className="font-medium text-white">Content studio</p>
-            <p className="text-sm text-slate-400">Prompt packs + YouTube SEO</p>
-          </div>
-        </a>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">

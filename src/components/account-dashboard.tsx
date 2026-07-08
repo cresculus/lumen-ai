@@ -4,7 +4,7 @@ import { useState } from "react";
 import { DownloadButton } from "@/components/download-button";
 import { PlayTrackButton } from "@/components/music-player";
 import { formatPrice } from "@/lib/utils";
-import { CreditCard, Music2, Package, Sparkles } from "lucide-react";
+import { CreditCard, Music2, Package } from "lucide-react";
 
 type DownloadRow = {
   id: string;
@@ -76,7 +76,7 @@ export function AccountDashboard({
         </div>
       )}
 
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid gap-4 lg:grid-cols-2">
         <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 lg:col-span-2">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
@@ -120,17 +120,6 @@ export function AccountDashboard({
             )}
           </div>
         </section>
-
-        <a
-          href="/content-studio.html"
-          className="rounded-2xl border border-lumen-gold/20 bg-gradient-to-br from-lumen-gold/15 to-transparent p-5 transition hover:border-lumen-gold/40"
-        >
-          <Sparkles className="h-5 w-5 text-lumen-gold" />
-          <p className="mt-3 font-medium text-white">Content studio</p>
-          <p className="mt-1 text-sm text-slate-400">
-            Pack Suno prompts and YouTube SEO kits
-          </p>
-        </a>
       </div>
 
       <section className="mt-8">
