@@ -5,26 +5,20 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import {
   BarChart3,
-  Beaker,
-  Bell,
-  ChevronDown,
-  ChevronLeft,
-  Compass,
-  FileText,
-  Gift,
-  Home,
+  CreditCard,
+  LayoutDashboard,
   Library,
-  MoreHorizontal,
+  LogOut,
   Music2,
   Package,
   ShoppingBag,
   Sparkles,
-  UserRound,
-  LayoutDashboard,
+  Upload,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState, type ReactNode } from "react";
+import { signOut } from "next-auth/react";
+import type { ReactNode } from "react";
 
 type NavItem = {
   href: string;
@@ -34,74 +28,97 @@ type NavItem = {
   external?: boolean;
 };
 
-const userNav: NavItem[] = [
-  { href: "/", label: "Home", icon: Home, exact: true },
-  { href: "/music", label: "Explore", icon: Compass },
-  { href: "/content-studio.html", label: "Create", icon: Sparkles, external: true },
-  { href: "/content-studio.html", label: "Studio", icon: Music2, external: true },
-  { href: "/account", label: "Library", icon: Library, exact: true },
+type NavSection = { title: string; items: NavItem[] };
+
+const userSections: NavSection[] = [
+  {
+    title: "Sanctuary",
+    items: [
+      { href: "/account", label: "My library", icon: Library, exact: true },
+      { href: "/music", label: "Browse music", icon: Music2 },
+      { href: "/pricing", label: "Subscription", icon: CreditCard },
+    ],
+  },
+  {
+    title: "Create",
+    items: [
+      {
+        href: "/content-studio.html",
+        label: "Content studio",
+        icon: Sparkles,
+        external: true,
+      },
+    ],
+  },
+  {
+    title: "Shop",
+    items: [{ href: "/shop", label: "Wellness shop", icon: ShoppingBag }],
+  },
 ];
 
-const userBottomNav: NavItem[] = [
-  { href: "/pricing", label: "Earn Credits", icon: Gift },
-  { href: "/content-studio.html", label: "Labs", icon: Beaker, external: true },
-  { href: "/terms", label: "Terms & Policies", icon: FileText },
+const adminSections: NavSection[] = [
+  {
+    title: "Overview",
+    items: [
+      { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+      { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
+    ],
+  },
+  {
+    title: "Catalog",
+    items: [
+      { href: "/admin/music", label: "Music catalog", icon: Music2 },
+      { href: "/admin/music/new", label: "Upload track", icon: Upload },
+      {
+        href: "/content-studio.html",
+        label: "Content studio",
+        icon: Sparkles,
+        external: true,
+      },
+    ],
+  },
+  {
+    title: "Commerce",
+    items: [
+      { href: "/admin/shop", label: "Shop products", icon: ShoppingBag },
+      { href: "/admin/orders", label: "Orders", icon: Package },
+    ],
+  },
 ];
 
-const adminNav: NavItem[] = [
-  { href: "/admin", label: "Home", icon: LayoutDashboard, exact: true },
-  { href: "/music", label: "Explore", icon: Compass },
-  { href: "/admin/music/new", label: "Create", icon: Sparkles },
-  { href: "/content-studio.html", label: "Studio", icon: Music2, external: true },
-  { href: "/admin/music", label: "Library", icon: Library },
-  { href: "/admin/orders", label: "Notifications", icon: Bell },
-];
-
-const adminBottomNav: NavItem[] = [
-  { href: "/admin/shop", label: "Shop", icon: ShoppingBag },
-  { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/admin/orders", label: "Orders", icon: Package },
-  { href: "/terms", label: "Terms & Policies", icon: FileText },
-];
-
-function NavLink({
-  item,
-  collapsed,
-}: {
-  item: NavItem;
-  collapsed: boolean;
-}) {
+function NavLink({ item }: { item: NavItem }) {
   const pathname = usePathname();
   const active = item.exact
     ? pathname === item.href
     : pathname === item.href ||
-      (item.href !== "/" && pathname.startsWith(item.href));
+      (item.href !== "/" && pathname.startsWith(`${item.href}`));
 
   const className = cn(
-    "group flex w-full items-center gap-3 rounded-full px-4 py-2 text-left text-[14px] leading-6 transition",
+    "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition",
     active
-      ? "bg-white/10 text-white"
-      : "text-white/55 hover:bg-white/5 hover:text-white",
-    collapsed && "justify-center px-2",
+      ? "bg-lumen-gold/15 text-lumen-cream shadow-[inset_3px_0_0_0_#c9a227]"
+      : "text-slate-400 hover:bg-white/5 hover:text-lumen-cream",
   );
 
   const content = (
     <>
-      <item.icon className="h-[18px] w-[18px] shrink-0" />
-      {!collapsed && <span>{item.label}</span>}
+      <item.icon
+        className={cn("h-4 w-4 shrink-0", active && "text-lumen-gold")}
+      />
+      <span className="truncate">{item.label}</span>
     </>
   );
 
   if (item.external) {
     return (
-      <a href={item.href} className={className} title={item.label}>
+      <a href={item.href} className={className}>
         {content}
       </a>
     );
   }
 
   return (
-    <Link href={item.href} className={className} title={item.label}>
+    <Link href={item.href} className={className}>
       {content}
     </Link>
   );
@@ -119,127 +136,82 @@ export function DashboardSidebar({
   statusLabel?: string;
 }) {
   const { data: session } = useSession();
-  const [collapsed, setCollapsed] = useState(false);
+  const isAdmin =
+    variant === "admin" || session?.user?.role === "ADMIN";
+  const sections = isAdmin ? adminSections : userSections;
   const displayName =
     name ||
     session?.user?.name ||
     email?.split("@")[0] ||
     session?.user?.email?.split("@")[0] ||
-    "Creator";
+    "Member";
   const displayEmail = email || session?.user?.email || "";
-  const isAdmin =
-    variant === "admin" || session?.user?.role === "ADMIN";
-  const nav = isAdmin ? adminNav : userNav;
-  const bottom = isAdmin ? adminBottomNav : userBottomNav;
-  const credits =
-    statusLabel ||
-    (isAdmin ? "Admin" : "Library");
+  const badge =
+    statusLabel || (isAdmin ? "Creator admin" : "Member library");
 
   return (
-    <aside
-      className={cn(
-        "group/sidebar relative flex h-full flex-col gap-4 overflow-y-auto border-r border-white/10 bg-[#0a0f18] text-white transition-[width] duration-200",
-        collapsed ? "w-[72px]" : "w-[200px]",
-      )}
-      data-collapsed={collapsed}
-      style={{ minWidth: collapsed ? 72 : 200, maxWidth: collapsed ? 72 : 200 }}
-    >
-      <div className="flex h-[88px] items-start justify-start p-4 pt-8">
-        <Link
-          href={isAdmin ? "/admin" : "/"}
-          className={cn(
-            "relative inline-flex max-w-[7rem] items-center gap-2 p-2",
-            collapsed && "max-w-none justify-center px-0",
-          )}
-        >
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-lumen-gold/20 text-lumen-gold shadow-[0_0_24px_rgba(201,162,39,0.35)]">
-            <span className="h-2 w-2 rounded-full bg-lumen-gold" />
-          </span>
-          {!collapsed && (
-            <span className="font-display text-lg font-semibold leading-none tracking-tight">
-              Lumen
-            </span>
-          )}
+    <aside className="flex h-full w-[260px] shrink-0 flex-col border-r border-white/10 bg-lumen-midnight">
+      <div className="border-b border-white/10 px-5 py-6">
+        <Link href={isAdmin ? "/admin" : "/account"} className="block">
+          <p className="font-display text-xl font-semibold tracking-tight text-lumen-cream">
+            Lumen <span className="text-lumen-gold">AI</span>
+          </p>
+          <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-lumen-gold-light/80">
+            {isAdmin ? "Creator console" : "Sound library"}
+          </p>
         </Link>
       </div>
 
-      <button
-        type="button"
-        aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        onClick={() => setCollapsed((c) => !c)}
-        className={cn(
-          "absolute top-[35px] z-10 flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/60 transition hover:bg-white/10 hover:text-white",
-          collapsed ? "left-1/2 -translate-x-1/2" : "right-4",
-        )}
-      >
-        <ChevronLeft
-          className={cn("h-[18px] w-[18px] transition", collapsed && "rotate-180")}
-        />
-      </button>
-
-      <div className="flex min-h-14 flex-col items-stretch justify-center gap-1 px-3">
-        <Link
-          href="/account"
-          className={cn(
-            "flex w-full items-center gap-2 rounded-full p-1 text-left text-white/55 transition hover:bg-white/5 hover:text-white",
-            collapsed && "justify-center",
-          )}
-        >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-lumen-gold/50 to-indigo-500/40 text-sm font-medium text-white">
+      <div className="border-b border-white/10 px-4 py-4">
+        <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-lumen-gold/40 to-lumen-indigo text-sm font-semibold text-lumen-cream">
             {displayName.slice(0, 1).toUpperCase()}
           </span>
-          {!collapsed && (
-            <>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[14px] font-medium leading-4 text-white/90">
-                  {displayName}
-                </span>
-                <span className="mt-0.5 block truncate text-[13px] leading-4 text-white/40">
-                  {credits}
-                </span>
-              </span>
-              <ChevronDown className="h-4 w-4 shrink-0 text-white/35" />
-            </>
-          )}
-        </Link>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-medium text-lumen-cream">
+              {displayName}
+            </p>
+            <p className="truncate text-xs text-slate-500">{badge}</p>
+          </div>
+        </div>
       </div>
 
-      {!collapsed && (
-        <div className="-mt-2 mb-1 px-4">
-          <Link
-            href={isAdmin ? "/admin/music/new" : "/pricing"}
-            className="flex w-full items-center justify-center rounded-full border border-white/12 bg-white/5 px-3 py-2 text-[13px] font-medium text-white/85 transition hover:bg-white/10"
-          >
-            {isAdmin ? "Upload track" : "Upgrade to Premier"}
-          </Link>
-        </div>
-      )}
-
-      <nav className="flex flex-col gap-px px-3">
-        {nav.map((item) => (
-          <NavLink key={`${item.href}-${item.label}`} item={item} collapsed={collapsed} />
+      <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
+        {sections.map((section) => (
+          <div key={section.title}>
+            <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+              {section.title}
+            </p>
+            <div className="space-y-1">
+              {section.items.map((item) => (
+                <NavLink key={`${item.href}-${item.label}`} item={item} />
+              ))}
+            </div>
+          </div>
         ))}
       </nav>
 
-      <div className="min-h-2 flex-1" />
-
-      <nav className="mb-4 flex flex-col gap-px px-3">
-        {bottom.map((item) => (
-          <NavLink key={`${item.href}-${item.label}`} item={item} collapsed={collapsed} />
-        ))}
-        {!collapsed && displayEmail && (
-          <p className="mt-2 truncate px-4 text-[11px] text-white/25">{displayEmail}</p>
+      <div className="space-y-2 border-t border-white/10 p-4">
+        {displayEmail && (
+          <p className="truncate px-1 text-[11px] text-slate-600">
+            {displayEmail}
+          </p>
         )}
-        <span
-          className={cn(
-            "flex w-full items-center gap-3 rounded-full px-4 py-2 text-[14px] text-white/40",
-            collapsed && "justify-center px-2",
-          )}
+        <Link
+          href="/"
+          className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-400 hover:bg-white/5 hover:text-lumen-cream"
         >
-          <MoreHorizontal className="h-[18px] w-[18px]" />
-          {!collapsed && <span>More</span>}
-        </span>
-      </nav>
+          View storefront
+        </Link>
+        <button
+          type="button"
+          onClick={() => signOut({ callbackUrl: "/" })}
+          className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-400 hover:bg-white/5 hover:text-lumen-cream"
+        >
+          <LogOut className="h-4 w-4" />
+          Sign out
+        </button>
+      </div>
     </aside>
   );
 }
@@ -258,95 +230,81 @@ export function DashboardShell({
   statusLabel?: string;
 }) {
   return (
-    <div className="suno-shell flex h-[100dvh] w-full flex-col overflow-hidden bg-[#0a0f18]">
-      <div className="flex min-h-0 w-full flex-1 overflow-hidden">
-        <div className="hidden md:flex">
-          <DashboardSidebar
-            variant={variant}
-            email={email}
-            name={name}
-            statusLabel={statusLabel}
-          />
-        </div>
-        <div className="dashboard-content relative flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto">
-          <div className="sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-lumen-gold/40 bg-lumen-gold px-4 py-2 text-sm font-semibold text-lumen-midnight">
-            <span>LUMEN APP SHELL · Library</span>
-            <a href="/music" className="underline">Storefront</a>
-          </div>
-          {children}
-        </div>
+    <div className="flex min-h-[100dvh] w-full bg-[#0a1525]">
+      <div className="hidden md:flex">
+        <DashboardSidebar
+          variant={variant}
+          email={email}
+          name={name}
+          statusLabel={statusLabel}
+        />
       </div>
-
-      <MobileDashNav variant={variant} />
+      <div className="flex min-h-[100dvh] min-w-0 flex-1 flex-col">
+        <MobileTopBar variant={variant} />
+        <div className="dashboard-content flex-1 overflow-y-auto">{children}</div>
+      </div>
     </div>
   );
 }
 
-function MobileDashNav({ variant }: { variant: "user" | "admin" }) {
-  const pathname = usePathname();
+function MobileTopBar({ variant }: { variant: "user" | "admin" }) {
   const { data: session } = useSession();
-  const isAdmin = variant === "admin" || session?.user?.role === "ADMIN";
-  const items = [
-    {
-      href: isAdmin ? "/admin" : "/",
-      label: "Home",
-      icon: isAdmin ? LayoutDashboard : Home,
-    },
-    { href: "/music", label: "Explore", icon: Compass },
-    {
-      href: isAdmin ? "/admin/music/new" : "/content-studio.html",
-      label: "Create",
-      icon: Sparkles,
-      accent: true,
-      external: !isAdmin,
-    },
-    {
-      href: isAdmin ? "/admin/music" : "/account",
-      label: "Library",
-      icon: Library,
-    },
-    { href: "/account", label: "Profile", icon: UserRound, profile: true },
-  ] as const;
+  const pathname = usePathname();
+  const isAdmin =
+    variant === "admin" || session?.user?.role === "ADMIN";
+  const links = isAdmin
+    ? [
+        { href: "/admin", label: "Home" },
+        { href: "/admin/music", label: "Music" },
+        { href: "/admin/music/new", label: "Upload" },
+        { href: "/admin/orders", label: "Orders" },
+        { href: "/account", label: "Library" },
+      ]
+    : [
+        { href: "/account", label: "Library" },
+        { href: "/music", label: "Browse" },
+        { href: "/pricing", label: "Plan" },
+        { href: "/shop", label: "Shop" },
+      ];
 
   return (
-    <div className="dash-mobile-nav flex h-[60px] w-full items-center justify-between gap-0 overflow-x-auto border-t border-white/10 bg-[#0a0f18] px-2 py-3 md:hidden">
-      {items.map((item) => {
-        const active =
-          pathname === item.href ||
-          (item.href !== "/" && pathname.startsWith(item.href));
-        const className = cn(
-          "flex flex-1 items-center justify-center rounded-full py-1.5 transition",
-          "accent" in item && item.accent
-            ? "bg-gradient-to-r from-lumen-gold to-amber-300 text-lumen-midnight"
-            : active
-              ? "text-white"
-              : "text-white/45",
-        );
-        const Icon = item.icon;
-        if ("external" in item && item.external) {
+    <div className="border-b border-white/10 bg-lumen-midnight/95 backdrop-blur-xl md:hidden">
+      <div className="flex items-center justify-between px-4 py-3">
+        <div>
+          <p className="font-display text-lg font-semibold text-lumen-cream">
+            Lumen <span className="text-lumen-gold">AI</span>
+          </p>
+          <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500">
+            {isAdmin ? "Creator console" : "Sound library"}
+          </p>
+        </div>
+        <Link
+          href="/"
+          className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-slate-300"
+        >
+          Store
+        </Link>
+      </div>
+      <div className="flex gap-1 overflow-x-auto px-3 pb-3">
+        {links.map((link) => {
+          const active =
+            pathname === link.href || pathname.startsWith(`${link.href}/`);
           return (
-            <a key={item.label} href={item.href} className={className} aria-label={item.label}>
-              <Icon className="h-6 w-6" />
-            </a>
-          );
-        }
-        if ("profile" in item && item.profile) {
-          return (
-            <Link key={item.label} href={item.href} className={className} aria-label={item.label}>
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-lumen-gold/50 to-indigo-500/40 text-[10px] font-semibold text-white">
-                {(session?.user?.name || session?.user?.email || "U")
-                  .slice(0, 1)
-                  .toUpperCase()}
-              </span>
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "shrink-0 rounded-xl px-3 py-1.5 text-xs",
+                active
+                  ? "bg-lumen-gold/20 text-lumen-cream"
+                  : "bg-white/5 text-slate-400",
+              )}
+            >
+              {link.label}
             </Link>
           );
-        }
-        return (
-          <Link key={item.label} href={item.href} className={className} aria-label={item.label}>
-            <Icon className="h-6 w-6" />
-          </Link>
-        );
-      })}
+        })}
+      </div>
     </div>
   );
 }

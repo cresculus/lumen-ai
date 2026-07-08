@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { DashboardShell } from "@/components/dashboard/sidebar";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Admin" };
 
 export default async function AdminLayout({
@@ -19,7 +20,7 @@ export default async function AdminLayout({
       variant="admin"
       email={session.user.email || undefined}
       name={session.user.name || undefined}
-      statusLabel="Admin · Creator"
+      statusLabel="Creator admin"
     >
       <div className="min-h-0 flex-1 px-4 py-6 md:px-8 md:py-8">{children}</div>
     </DashboardShell>

@@ -21,7 +21,7 @@ export default async function AccountLayout({
       variant={isAdmin ? "admin" : "user"}
       email={session.user.email || undefined}
       name={session.user.name || undefined}
-      statusLabel={isAdmin ? "Admin · Creator" : "Library"}
+      statusLabel={isAdmin ? "Creator admin" : "Member library"}
     >
       {children}
     </DashboardShell>

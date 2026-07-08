@@ -173,7 +173,7 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
       {children}
       <audio ref={audioRef} preload="metadata" />
       {currentTrack && (
-        <div data-playbar="true" className="fixed bottom-0 left-0 right-0 z-50 overflow-hidden border-t border-white/10 bg-[#121820]/95 text-white backdrop-blur-xl md:min-h-[84px]">
+        <div data-playbar="true" className="fixed bottom-0 left-0 right-0 z-50 overflow-hidden border-t border-white/10 bg-lumen-midnight/95 text-white backdrop-blur-xl md:min-h-[84px]">
           {access === "preview" && (
             <p className="border-b border-white/5 px-4 py-1.5 text-center text-[11px] text-lumen-gold-light/90">
               60-second preview ·{" "}
@@ -212,7 +212,7 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
                     type="button"
                     disabled={loading}
                     onClick={togglePlay}
-                    className="rounded-full bg-white p-2.5 text-lumen-midnight shadow-lg hover:bg-lumen-cream disabled:opacity-50"
+                    className="rounded-full bg-lumen-gold p-2.5 text-lumen-midnight shadow-lg shadow-lumen-gold/20 hover:bg-lumen-gold-light disabled:opacity-50"
                     aria-label={isPlaying ? "Pause" : "Play"}
                   >
                     {isPlaying ? (
