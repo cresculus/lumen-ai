@@ -50,3 +50,6 @@ next-env.d.ts
 # Private creator tools (local only — not on the website)
 /tools/
 
+
+# Local-only creator pipeline (do not deploy / do not commit)
+/public/content-studio.html
