@@ -6,12 +6,8 @@ import { NavbarClient } from "@/components/navbar-client";
 import { SignedInBanner } from "@/components/signed-in-banner";
 
 function isAppShellRoute(pathname: string) {
-  return (
-    pathname === "/account" ||
-    pathname.startsWith("/account/") ||
-    pathname === "/admin" ||
-    pathname.startsWith("/admin/")
-  );
+  // Only admin keeps the dense sidebar shell; /account uses storefront chrome.
+  return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
 export function StorefrontChrome({ children }: { children: React.ReactNode }) {
