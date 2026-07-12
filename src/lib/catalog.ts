@@ -50,6 +50,25 @@ function filterMusic(
   return result;
 }
 
+/** Prefer DB rows; fill gaps from mock so new Fake DJ / chamber titles show without re-seeding. */
+function mergeCatalog(
+  dbTracks: CatalogMusic[],
+  options?: { tag?: string; q?: string },
+) {
+  if (!mockCatalogEnabled()) {
+    return filterMusic(dbTracks, options);
+  }
+  const bySlug = new Map(dbTracks.map((t) => [t.slug, t]));
+  for (const mock of MOCK_MUSIC) {
+    if (!bySlug.has(mock.slug)) bySlug.set(mock.slug, mock);
+  }
+  const merged = [...bySlug.values()].sort((a, b) => {
+    if (a.featured !== b.featured) return a.featured ? -1 : 1;
+    return b.createdAt.getTime() - a.createdAt.getTime();
+  });
+  return filterMusic(merged, options);
+}
+
 export async function getPublishedMusic(
   tagOrOptions?: string | { tag?: string; q?: string },
 ): Promise<CatalogMusic[]> {
@@ -62,17 +81,18 @@ export async function getPublishedMusic(
     prisma.digitalProduct.findMany({
       where: {
         status: "PUBLISHED",
-        ...(normalized.tag ? { tags: { has: normalized.tag } } : {}),
       },
       orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
     }),
   );
 
   if (db !== null) {
-    if (db.length === 0 && mockCatalogEnabled()) {
-      return filterMusic(MOCK_MUSIC, normalized);
+    if (db.length === 0) {
+      return mockCatalogEnabled()
+        ? filterMusic(MOCK_MUSIC, normalized)
+        : [];
     }
-    return filterMusic(db as CatalogMusic[], { q: normalized.q });
+    return mergeCatalog(db as CatalogMusic[], normalized);
   }
 
   if (mockCatalogEnabled()) {
