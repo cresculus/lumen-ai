@@ -30,7 +30,7 @@ declare module "@auth/core/types" {
 const demoGuest = {
   id: "demo-guest",
   email: "guest@lumenaimusic.com",
-  name: "Demo Guest",
+  name: "Guest",
 };
 
 async function resolveDemoGuest() {

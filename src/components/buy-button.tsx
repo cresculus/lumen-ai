@@ -179,12 +179,12 @@ export function CheckoutButton() {
         onClick={handleDemoCheckout}
         className="w-full rounded-full border border-amber-400/30 bg-amber-500/10 px-6 py-3 text-sm font-medium text-amber-100 hover:bg-amber-500/20 disabled:opacity-50"
       >
-        {loading && mode === "demo" ? "Processing…" : "Demo checkout (no payment)"}
+        {loading && mode === "demo" ? "Processing…" : "Checkout without payment"}
       </button>
 
       <p className="text-center text-xs text-slate-500">
-        Demo checkout adds digital tracks to your library and clears the cart —
-        no payment required.
+        Adds tracks to your library and clears the cart — for testing until
+        Stripe is live.
       </p>
     </div>
   );

@@ -124,7 +124,7 @@ export function AccountDashboard({
   const [downloads, setDownloads] = useState(serverDownloads);
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const isActive = subscription?.status === "active";
-  const isDemoUser = email === "guest@lumenaimusic.com";
+  const isGuest = email === "guest@lumenaimusic.com";
 
   useEffect(() => {
     const local = readDemoLibrary().map(toDownloadRow);
@@ -177,101 +177,106 @@ export function AccountDashboard({
     })
     .filter(Boolean) as DownloadRow[];
 
+  const hasOwned = downloads.length > 0;
+  const hasFavorites = favoriteTracks.length > 0;
+
   return (
     <div className="w-full">
-      {/* Full-bleed hero, content locked to nav width (max-w-6xl) */}
       <section className="relative w-full overflow-hidden border-b border-white/5">
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_12%_0%,rgba(201,162,39,0.2),transparent_50%),radial-gradient(ellipse_at_88%_60%,rgba(15,35,60,0.95),transparent_55%),linear-gradient(180deg,#0f1c2e_0%,#0a1525_100%)]" />
           <div className="absolute inset-0 opacity-35 [background-image:radial-gradient(rgba(232,212,138,0.11)_1px,transparent_1px)] [background-size:28px_28px]" />
-          <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-lumen-gold/10 blur-3xl" />
-          <div className="absolute bottom-0 right-0 h-96 w-96 translate-x-1/4 translate-y-1/4 rounded-full bg-indigo-950/50 blur-3xl" />
         </div>
 
-        <div className="relative mx-auto w-full max-w-6xl px-4 py-16 md:py-24">
-          <div className="grid items-end gap-10 lg:grid-cols-[1.4fr_1fr]">
-            <div>
-              <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
-                Your library
-              </p>
-              <h1 className="font-display mt-4 text-4xl font-semibold leading-[1.08] tracking-tight text-lumen-cream md:text-6xl">
-                Listening room
-              </h1>
-              <p className="mt-5 max-w-xl text-lg text-slate-300">
-                Soundscapes you own and favorites you keep — full width of the
-                Lumen sanctuary, ready whenever you need quiet.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/music"
-                  className="rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight shadow-lg shadow-lumen-gold/20 hover:bg-lumen-gold-light"
-                >
-                  Browse soundscapes
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="rounded-full border border-lumen-cream/25 px-7 py-3.5 text-sm font-medium text-lumen-cream hover:bg-white/5"
-                >
-                  {isActive ? "Manage Unlimited" : "Unlock Unlimited"}
-                </Link>
-              </div>
-              {isDemoUser && (
-                <p className="mt-6 text-xs text-slate-500">
-                  Guest session — sign in with Google to keep purchases across
-                  devices.
-                </p>
-              )}
-            </div>
-
-            <div className="rounded-3xl border border-lumen-gold/25 bg-lumen-gold/[0.07] p-6 backdrop-blur-sm md:p-7">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-lumen-gold-light">
-                Membership
-              </p>
-              <h2 className="font-display mt-2 text-2xl text-lumen-cream">
-                Lumen Unlimited
-              </h2>
-              {isActive ? (
-                <p className="mt-2 text-sm text-emerald-300/90">
-                  Active
-                  {subscription?.currentPeriodEnd && (
-                    <>
-                      {" "}
-                      · renews{" "}
-                      {subscription.currentPeriodEnd.toLocaleDateString()}
-                    </>
-                  )}
-                </p>
-              ) : (
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                  Full-length streaming across the catalog — no ads, no sixty
-                  second cutoff.
-                </p>
-              )}
-              <div className="mt-5">
-                {isActive ? (
-                  <button
-                    type="button"
-                    disabled={portalLoading || isDemoUser}
-                    onClick={openPortal}
-                    className="rounded-full border border-white/20 px-5 py-2.5 text-sm text-white hover:bg-white/5 disabled:opacity-50"
-                  >
-                    Manage billing
-                  </button>
-                ) : (
-                  <Link
-                    href="/pricing"
-                    className="inline-flex rounded-full bg-lumen-gold px-5 py-2.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
-                  >
-                    View plans
-                  </Link>
-                )}
-              </div>
-            </div>
+        <div className="relative mx-auto w-full max-w-6xl px-4 py-16 md:py-20">
+          <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
+            Library
+          </p>
+          <h1 className="font-display mt-4 text-4xl font-semibold tracking-tight text-lumen-cream md:text-6xl">
+            Listening room
+          </h1>
+          <p className="mt-5 max-w-xl text-lg text-slate-300">
+            Tracks you own and favorites you save — ready whenever you need
+            quiet.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/music"
+              className="rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight shadow-lg shadow-lumen-gold/20 hover:bg-lumen-gold-light"
+            >
+              Browse soundscapes
+            </Link>
+            {!isActive && (
+              <Link
+                href="/pricing"
+                className="rounded-full border border-lumen-cream/25 px-7 py-3.5 text-sm font-medium text-lumen-cream hover:bg-white/5"
+              >
+                Go Unlimited
+              </Link>
+            )}
           </div>
+          {isGuest && (
+            <p className="mt-5 text-xs text-slate-500">
+              Browsing as a guest.{" "}
+              <Link href="/login" className="text-lumen-gold-light underline">
+                Sign in
+              </Link>{" "}
+              to keep purchases on every device.
+            </p>
+          )}
         </div>
       </section>
 
-      {/* Owned — same width as Music catalog */}
+      {!isActive && (
+        <section className="w-full border-b border-white/5">
+          <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8">
+            <div>
+              <h2 className="font-display text-xl text-lumen-cream">
+                Lumen Unlimited
+              </h2>
+              <p className="mt-1 text-sm text-slate-400">
+                Full-length streaming across the catalog — no ads.
+              </p>
+            </div>
+            <Link
+              href="/pricing"
+              className="rounded-full bg-lumen-gold px-5 py-2.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
+            >
+              View plans
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {isActive && (
+        <section className="w-full border-b border-white/5">
+          <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8">
+            <div>
+              <h2 className="font-display text-xl text-lumen-cream">
+                Lumen Unlimited
+              </h2>
+              <p className="mt-1 text-sm text-emerald-300/90">
+                Active
+                {subscription?.currentPeriodEnd && (
+                  <>
+                    {" "}
+                    · renews {subscription.currentPeriodEnd.toLocaleDateString()}
+                  </>
+                )}
+              </p>
+            </div>
+            <button
+              type="button"
+              disabled={portalLoading || isGuest}
+              onClick={openPortal}
+              className="rounded-full border border-white/20 px-5 py-2.5 text-sm text-white hover:bg-white/5 disabled:opacity-50"
+            >
+              Manage billing
+            </button>
+          </div>
+        </section>
+      )}
+
       <section className="w-full border-b border-white/5">
         <div className="mx-auto w-full max-w-6xl px-4 py-14 md:py-16">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
@@ -279,43 +284,36 @@ export function AccountDashboard({
               <h2 className="font-display text-3xl text-lumen-cream">
                 Owned tracks
               </h2>
-              <p className="mt-2 text-sm text-slate-400">
-                {downloads.length} title{downloads.length === 1 ? "" : "s"} ·
-                play anytime
-              </p>
+              {hasOwned && (
+                <p className="mt-2 text-sm text-slate-400">
+                  {downloads.length} title{downloads.length === 1 ? "" : "s"}
+                </p>
+              )}
             </div>
-            <Link
-              href="/music"
-              className="text-sm text-lumen-gold-light hover:text-lumen-cream"
-            >
-              Add more →
-            </Link>
+            {hasOwned && (
+              <Link
+                href="/music"
+                className="text-sm text-lumen-gold-light hover:text-lumen-cream"
+              >
+                Add more →
+              </Link>
+            )}
           </div>
 
-          {downloads.length === 0 ? (
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 px-6 py-20 text-center md:px-12">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,162,39,0.1),transparent_60%)]" />
-              <p className="relative font-display text-3xl text-lumen-cream md:text-4xl">
-                The room is still empty
+          {!hasOwned ? (
+            <div className="rounded-3xl border border-white/10 px-6 py-16 text-center md:px-12">
+              <p className="font-display text-2xl text-lumen-cream md:text-3xl">
+                Nothing owned yet
               </p>
-              <p className="relative mx-auto mt-4 max-w-lg text-base text-slate-400">
-                Own a soundscape or start Unlimited — then this wall fills with
-                everything you can play ad-free.
+              <p className="mx-auto mt-3 max-w-md text-slate-400">
+                Pick a soundscape from the catalog — it will show up here.
               </p>
-              <div className="relative mt-8 flex flex-wrap justify-center gap-3">
-                <Link
-                  href="/music"
-                  className="rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
-                >
-                  Browse music
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="rounded-full border border-white/15 px-7 py-3.5 text-sm text-lumen-cream hover:bg-white/5"
-                >
-                  Listen ad-free
-                </Link>
-              </div>
+              <Link
+                href="/music"
+                className="mt-8 inline-flex rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
+              >
+                Browse soundscapes
+              </Link>
             </div>
           ) : (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -331,34 +329,30 @@ export function AccountDashboard({
         </div>
       </section>
 
-      {/* Favorites */}
-      <section className="w-full border-b border-white/5 bg-white/[0.02]">
-        <div className="mx-auto w-full max-w-6xl px-4 py-14 md:py-16">
-          <div className="mb-8 flex items-center gap-3">
-            <Heart className="h-5 w-5 text-lumen-gold" />
-            <div>
+      {(hasFavorites || hasOwned) && (
+        <section className="w-full border-b border-white/5 bg-white/[0.02]">
+          <div className="mx-auto w-full max-w-6xl px-4 py-14 md:py-16">
+            <div className="mb-8 flex items-center gap-3">
+              <Heart className="h-5 w-5 text-lumen-gold" />
               <h2 className="font-display text-3xl text-lumen-cream">
-                Saved favorites
+                Favorites
               </h2>
-              <p className="mt-1 text-sm text-slate-400">
-                Hearts from the catalog gather here
-              </p>
             </div>
-          </div>
 
-          {favoriteTracks.length === 0 ? (
-            <p className="text-slate-500">
-              Browse music and tap the heart — favorites land on this wall.
-            </p>
-          ) : (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {favoriteTracks.map((track) => (
-                <LibraryCard key={track.id} track={track} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+            {!hasFavorites ? (
+              <p className="text-slate-500">
+                Heart a track while browsing to save it here.
+              </p>
+            ) : (
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {favoriteTracks.map((track) => (
+                  <LibraryCard key={track.id} track={track} />
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {orders.length > 0 && (
         <section className="w-full">

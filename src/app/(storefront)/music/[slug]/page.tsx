@@ -6,7 +6,7 @@ import { FavoriteButton } from "@/components/favorite-button";
 import { PlayTrackButton } from "@/components/music-player";
 import { hasActiveSubscription } from "@/lib/access";
 import { getPublishedMusicBySlug } from "@/lib/catalog";
-import { buildUtmUrl, formatDuration, formatPrice } from "@/lib/utils";
+import { formatDuration, formatPrice } from "@/lib/utils";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -31,9 +31,6 @@ export default async function MusicDetailPage({ params }: Props) {
     session?.user?.id
       ? await hasActiveSubscription(session.user.id)
       : false;
-
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-  const shareUrl = buildUtmUrl(`${appUrl}/music/${track.slug}`, track.slug);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -109,13 +106,10 @@ export default async function MusicDetailPage({ params }: Props) {
             </p>
           ) : (
             <p className="mt-4 text-sm text-slate-500">
-              Guests get a 60-second preview. Purchase or subscribe for full
-              length and downloads.
+              Preview the first minute free. Own the track or go Unlimited for
+              full length.
             </p>
           )}
-          <p className="mt-8 break-all text-xs text-slate-600">
-            Funnel link: {shareUrl}
-          </p>
         </div>
       </div>
     </div>

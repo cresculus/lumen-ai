@@ -2,7 +2,6 @@ import Link from "next/link";
 import { MusicTrackCard } from "@/components/music-track-card";
 import { ProductCard } from "@/components/product-card";
 import {
-  getCatalogMode,
   getChannelTracks,
   getFeaturedShop,
   getMusicByPillar,
@@ -39,35 +38,15 @@ function ShopCardLazy({ product }: { product: CatalogShopItem }) {
 }
 
 export default async function HomePage() {
-  const [shop, catalogMode, channel, ...pillarTracks] = await Promise.all([
+  const [shop, channel, ...pillarTracks] = await Promise.all([
     getFeaturedShop(3),
-    getCatalogMode(),
     getChannelTracks(4),
     ...MUSIC_PILLARS.map((p) => getMusicByPillar(p.id, 3)),
   ]);
 
   return (
     <div>
-      {catalogMode === "mock" && (
-        <div className="border-b border-lumen-gold/20 bg-lumen-gold/10 px-4 py-2 text-center text-sm text-lumen-cream">
-          Demo catalog — connect PostgreSQL and run{" "}
-          <code className="text-lumen-gold-light">npm run db:setup</code> for the
-          live library.
-        </div>
-      )}
-      {catalogMode === "empty" && (
-        <div className="border-b border-rose-400/20 bg-rose-500/10 px-4 py-2 text-center text-sm text-lumen-cream">
-          Database connected but catalog is empty — run{" "}
-          <code className="text-lumen-gold-light">npm run db:seed</code> or upload
-          tracks in{" "}
-          <Link href="/admin/music/new" className="underline hover:text-white">
-            admin
-          </Link>
-          .
-        </div>
-      )}
-
-      {/* Phase D — brand-first atmospheric hero */}
+      {/* Brand hero */}
       <section className="relative min-h-[88vh] overflow-hidden border-b border-white/5">
         <div
           className="pointer-events-none absolute inset-0"

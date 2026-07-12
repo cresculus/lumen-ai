@@ -14,7 +14,7 @@ const oauthProviders: { id: Provider; label: string }[] = [
 export function OAuthButtons({ callbackUrl = "/account" }: { callbackUrl?: string }) {
   const [loading, setLoading] = useState(false);
 
-  async function demoGuestSignIn() {
+  async function guestSignIn() {
     setLoading(true);
     try {
       await signIn("demo", {
@@ -25,7 +25,7 @@ export function OAuthButtons({ callbackUrl = "/account" }: { callbackUrl?: strin
     } catch (error) {
       console.error(error);
       setLoading(false);
-      alert("Demo sign-in failed. Check that ENABLE_MOCK_AUTH is not false.");
+      alert("Could not start guest session. Try again.");
     }
   }
 
@@ -49,24 +49,19 @@ export function OAuthButtons({ callbackUrl = "/account" }: { callbackUrl?: strin
           <div className="w-full border-t border-white/10" />
         </div>
         <p className="relative mx-auto w-fit bg-[#0F1C2E] px-3 text-xs uppercase tracking-wider text-slate-500">
-          Or try as a guest
+          Or
         </p>
       </div>
 
       <button
         type="button"
         disabled={loading}
-        onClick={demoGuestSignIn}
+        onClick={guestSignIn}
         className="flex w-full items-center justify-center gap-2 rounded-xl border border-lumen-gold/30 bg-lumen-gold/10 px-4 py-3 text-sm font-medium text-lumen-cream transition hover:bg-lumen-gold/20 disabled:opacity-60"
       >
         <User className="h-4 w-4" />
-        {loading ? "Opening library…" : "Demo guest"}
+        {loading ? "Opening library…" : "Continue as guest"}
       </button>
-
-      <p className="text-center text-xs text-slate-500">
-        Admin access is only available when you sign in with the owner Google
-        account. Demo guest is a normal member library.
-      </p>
     </div>
   );
 }
