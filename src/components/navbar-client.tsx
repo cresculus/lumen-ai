@@ -45,14 +45,6 @@ export function NavbarClient() {
               {label}
             </Link>
           ))}
-          {session?.user && (
-            <Link
-              href={dashHref}
-              className="rounded-lg px-3 py-2 text-lumen-gold-light hover:bg-lumen-gold/10"
-            >
-              {dashLabel}
-            </Link>
-          )}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -60,17 +52,14 @@ export function NavbarClient() {
           {session?.user ? (
             <Link
               href={dashHref}
-              className="inline-flex items-center gap-2 rounded-full bg-lumen-gold px-3 py-1.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
+              className="inline-flex items-center gap-2 rounded-full bg-lumen-gold px-4 py-1.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
             >
               {isAdmin ? (
                 <LayoutDashboard className="h-4 w-4" />
               ) : (
                 <User className="h-4 w-4" />
               )}
-              <span className="hidden sm:inline">
-                {session.user.name?.split(" ")[0] || "Demo"} · {dashLabel}
-              </span>
-              <span className="sm:hidden">{dashLabel}</span>
+              {dashLabel}
             </Link>
           ) : (
             <Link

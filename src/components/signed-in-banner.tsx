@@ -5,12 +5,21 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { ArrowRight } from "lucide-react";
 
+/**
+ * Only nudge guests who signed in but aren't on library/admin yet —
+ * and only if the sticky nav Library button isn't enough context.
+ * Disabled: nav already shows Library / Dashboard when signed in.
+ */
 export function SignedInBanner() {
+  return null;
+}
+
+/** Kept for optional reuse (e.g. post-checkout). Not mounted globally. */
+export function SignedInBannerActive() {
   const { data: session, status } = useSession();
   const pathname = usePathname() || "";
 
   if (status !== "authenticated" || !session?.user) return null;
-  // Already on library / admin — don't stack a redundant banner
   if (pathname.startsWith("/account") || pathname.startsWith("/admin")) {
     return null;
   }
@@ -18,7 +27,6 @@ export function SignedInBanner() {
   const isAdmin = session.user.role === "ADMIN";
   const href = isAdmin ? "/admin" : "/account";
   const label = isAdmin ? "Open admin dashboard" : "Open your library";
-  const roleLabel = isAdmin ? "Admin" : "Member";
 
   return (
     <div className="border-b border-lumen-gold/25 bg-lumen-gold/15 px-4 py-3">
@@ -28,8 +36,6 @@ export function SignedInBanner() {
           <span className="font-medium text-white">
             {session.user.name || session.user.email}
           </span>
-          {" · "}
-          {roleLabel}
         </p>
         <Link
           href={href}
