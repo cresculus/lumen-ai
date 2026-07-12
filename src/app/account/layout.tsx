@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { Footer } from "@/components/footer";
 import { NavbarClient } from "@/components/navbar-client";
-import { SignedInBanner } from "@/components/signed-in-banner";
 import { DashboardShell } from "@/components/dashboard/sidebar";
 import { redirect } from "next/navigation";
 
@@ -33,7 +32,6 @@ export default async function AccountLayout({
   return (
     <>
       <NavbarClient />
-      <SignedInBanner />
       <main className="flex-1">{children}</main>
       <Footer />
     </>

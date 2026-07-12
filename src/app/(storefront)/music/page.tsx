@@ -95,9 +95,9 @@ export default async function MusicPage({
         <div className="mx-auto w-full max-w-6xl px-4 py-12 md:py-16">
           <div className="mb-8 flex items-end justify-between gap-4">
             <p className="text-sm text-slate-400">
-              {tracks.length} soundscape{tracks.length === 1 ? "" : "s"}
-              {activeTag ? ` · ${activeTag}` : ""}
-              {query ? ` · “${query}”` : ""}
+              {`${tracks.length} soundscape${tracks.length === 1 ? "" : "s"}${
+                activeTag ? ` · ${activeTag}` : ""
+              }${query ? ` · “${query}”` : ""}`}
             </p>
             <Link
               href="/pricing"
