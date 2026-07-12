@@ -44,8 +44,8 @@ export default async function MusicPage({
             Curated soundscapes
           </h1>
           <p className="mt-5 max-w-xl text-lg text-slate-300">
-            Sleep, focus, deep house, and chamber strings — preview free, own or
-            subscribe for the full drift.
+            Pay per song or go Unlimited — preview free, add to cart, own in
+            your Library.
           </p>
 
           <form

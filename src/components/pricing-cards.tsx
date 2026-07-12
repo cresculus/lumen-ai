@@ -4,68 +4,86 @@ import { useState } from "react";
 import Link from "next/link";
 import { Check, Sparkles } from "lucide-react";
 
-const plans = [
+type PlanId = "pay-per-song" | "monthly" | "yearly";
+
+const plans: {
+  id: PlanId;
+  name: string;
+  price: string;
+  description: string;
+  cta: string;
+  href: string | null;
+  highlight: boolean;
+  badge?: string;
+  features: string[];
+}[] = [
   {
-    name: "Single weaving",
+    id: "pay-per-song",
+    name: "Pay per song",
     price: "From $2.99",
-    description: "Own one soundscape forever. Download for offline sanctuary.",
-    cta: "Browse soundscapes",
+    description: "Buy tracks one at a time. Own them in your library.",
+    cta: "Browse Music",
     href: "/music",
     highlight: false,
     features: [
+      "Add any track to cart",
       "Full lossless download",
-      "Lifetime access to purchased tracks",
-      "Stream in your library",
+      "Stream owned tracks in Library",
     ],
   },
   {
-    name: "Lumen Unlimited",
+    id: "monthly",
+    name: "Unlimited Monthly",
     price: "$9.99/mo",
-    description: "Uninterrupted drift through the full catalog.",
-    cta: "Subscribe",
+    description: "Stream the full catalog. Cancel anytime.",
+    cta: "Subscribe monthly",
     href: null,
-    highlight: true,
+    highlight: false,
     features: [
       "Unlimited streaming — full catalog",
       "Highest quality audio",
-      "Early access to new weavings",
-      "10% off quiet apothecary",
       "Cancel anytime",
     ],
   },
   {
-    name: "Quiet apothecary",
-    price: "Shop",
-    description: "Candles, journals, and objects that match the sonic world.",
-    cta: "Visit shop",
-    href: "/shop",
-    highlight: false,
+    id: "yearly",
+    name: "Unlimited Yearly",
+    price: "$99/yr",
+    description: "Full catalog for a year plus a free Silk Sleep Mask.",
+    cta: "Subscribe yearly",
+    href: null,
+    highlight: true,
+    badge: "Free Silk Sleep Mask",
     features: [
-      "Curated wellness essentials",
-      "Designed for restful rituals",
-      "Bundles arriving soon",
+      "Unlimited streaming — full catalog",
+      "Free Silk Sleep Mask included",
+      "Best value for long listening",
     ],
   },
 ];
 
 export function PricingCards({ isLoggedIn }: { isLoggedIn: boolean }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<PlanId | null>(null);
 
-  async function handleSubscribe() {
+  async function handleSubscribe(plan: "monthly" | "yearly") {
     if (!isLoggedIn) {
       window.location.href = "/login?callbackUrl=/pricing";
       return;
     }
-    setLoading(true);
+    setLoading(plan);
     try {
-      const res = await fetch("/api/stripe/subscribe", { method: "POST" });
+      const res = await fetch("/api/stripe/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan }),
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       window.location.href = data.url;
     } catch (e) {
       alert(e instanceof Error ? e.message : "Subscription unavailable");
     } finally {
-      setLoading(false);
+      setLoading(null);
     }
   }
 
@@ -73,17 +91,17 @@ export function PricingCards({ isLoggedIn }: { isLoggedIn: boolean }) {
     <div className="grid gap-6 md:grid-cols-3">
       {plans.map((plan) => (
         <div
-          key={plan.name}
+          key={plan.id}
           className={`relative rounded-2xl border p-6 ${
             plan.highlight
               ? "border-lumen-gold/40 bg-gradient-to-b from-lumen-gold/15 to-transparent shadow-lg shadow-lumen-gold/10"
               : "border-white/10 bg-white/[0.03]"
           }`}
         >
-          {plan.highlight && (
+          {plan.highlight && plan.badge && (
             <span className="mb-4 inline-flex items-center gap-1 rounded-full bg-lumen-gold/25 px-2.5 py-0.5 text-xs text-lumen-cream">
               <Sparkles className="h-3 w-3" />
-              Most luminous
+              {plan.badge}
             </span>
           )}
           <h3 className="font-display text-xl font-semibold text-lumen-cream">
@@ -111,11 +129,13 @@ export function PricingCards({ isLoggedIn }: { isLoggedIn: boolean }) {
           ) : (
             <button
               type="button"
-              disabled={loading}
-              onClick={handleSubscribe}
+              disabled={loading !== null}
+              onClick={() =>
+                handleSubscribe(plan.id as "monthly" | "yearly")
+              }
               className="mt-8 w-full rounded-full bg-lumen-gold py-2.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light disabled:opacity-50"
             >
-              {loading ? "Redirecting…" : plan.cta}
+              {loading === plan.id ? "Redirecting…" : plan.cta}
             </button>
           )}
         </div>

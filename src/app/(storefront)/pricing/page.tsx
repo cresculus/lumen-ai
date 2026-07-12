@@ -20,8 +20,8 @@ export default async function PricingPage() {
           Choose your sanctuary
         </h1>
         <p className="mt-4 text-slate-400">
-          Preview any soundscape free. Subscribe for the full catalog in highest
-          quality, or own individual weavings forever.
+          Pay per song, or subscribe monthly or yearly for the full catalog.
+          Yearly includes a free Silk Sleep Mask.
         </p>
       </div>
       <div className="mt-12">

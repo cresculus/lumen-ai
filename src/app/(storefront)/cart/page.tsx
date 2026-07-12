@@ -30,7 +30,7 @@ export default function CartPage() {
               Browse music
             </Link>
             <Link
-              href="/shop"
+              href="/account?tab=shop"
               className="rounded-full border border-white/15 px-5 py-2 text-sm text-white"
             >
               Visit shop

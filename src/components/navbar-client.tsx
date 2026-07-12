@@ -6,19 +6,22 @@ import { useState } from "react";
 import { CartNavLink } from "@/components/cart-nav-link";
 import { LayoutDashboard, Menu, User, X } from "lucide-react";
 
-const LINKS = [
-  ["Music", "/music"],
-  ["Shop", "/shop"],
-  ["Pricing", "/pricing"],
-  ["About", "/about"],
-] as const;
-
 export function NavbarClient() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const isAdmin = session?.user?.role === "ADMIN";
   const dashHref = isAdmin ? "/admin" : "/account";
   const dashLabel = isAdmin ? "Dashboard" : "Library";
+  const shopHref = session?.user
+    ? "/account?tab=shop"
+    : "/login?callbackUrl=/account%3Ftab%3Dshop";
+
+  const navLinks = [
+    ["Music", "/music"],
+    ["Pricing", "/pricing"],
+    ["About", "/about"],
+    ["Shop", shopHref],
+  ] as const;
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-lumen-indigo/90 backdrop-blur-xl">
@@ -36,9 +39,9 @@ export function NavbarClient() {
         </Link>
 
         <nav className="hidden items-center gap-1 text-sm text-slate-300 md:flex">
-          {LINKS.map(([label, href]) => (
+          {navLinks.map(([label, href]) => (
             <Link
-              key={href}
+              key={`${label}-${href}`}
               href={href}
               className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-lumen-cream"
             >
@@ -83,9 +86,9 @@ export function NavbarClient() {
       {open && (
         <nav className="border-t border-white/10 px-4 py-3 md:hidden">
           <div className="flex flex-col gap-1 text-sm text-slate-300">
-            {LINKS.map(([label, href]) => (
+            {navLinks.map(([label, href]) => (
               <Link
-                key={href}
+                key={`${label}-${href}`}
                 href={href}
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-3 py-2.5 hover:bg-white/5 hover:text-lumen-cream"

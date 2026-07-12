@@ -77,19 +77,23 @@ export default async function MusicDetailPage({ params }: Props) {
               }}
             />
             <FavoriteButton productId={track.id} />
-            <BuyButton
-              productId={track.id}
-              title={track.title}
-              price={track.price}
-              slug={track.slug}
-              type="DIGITAL"
-            />
-            <Link
-              href="/pricing"
-              className="rounded-full border border-white/15 px-6 py-2.5 text-sm text-white hover:bg-white/5"
-            >
-              Subscribe
-            </Link>
+            {!subscribed && (
+              <BuyButton
+                productId={track.id}
+                title={track.title}
+                price={track.price}
+                slug={track.slug}
+                type="DIGITAL"
+              />
+            )}
+            {!subscribed && (
+              <Link
+                href="/pricing"
+                className="rounded-full border border-white/15 px-6 py-2.5 text-sm text-white hover:bg-white/5"
+              >
+                Go Unlimited
+              </Link>
+            )}
             {track.youtubeUrl && (
               <Link
                 href={track.youtubeUrl}
@@ -102,12 +106,12 @@ export default async function MusicDetailPage({ params }: Props) {
           </div>
           {subscribed ? (
             <p className="mt-4 text-sm text-emerald-300/90">
-              Unlimited active — full-length streaming unlocked.
+              In Unlimited — full-length streaming unlocked.
             </p>
           ) : (
             <p className="mt-4 text-sm text-slate-500">
-              Preview the first minute free. Own the track or go Unlimited for
-              full length.
+              Preview the first minute free. Add to cart to buy this track, or go
+              Unlimited for the full catalog.
             </p>
           )}
         </div>

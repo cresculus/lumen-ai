@@ -1,13 +1,26 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
-import { createSubscriptionCheckout } from "@/lib/subscription";
+import {
+  createSubscriptionCheckout,
+  type SubscriptionPlan,
+} from "@/lib/subscription";
 import { NextResponse } from "next/server";
 
-export async function POST() {
+export async function POST(request: Request) {
   const session = await auth();
 
   if (!session?.user?.id || !session.user.email) {
     return NextResponse.json({ error: "Sign in required" }, { status: 401 });
+  }
+
+  let plan: SubscriptionPlan = "monthly";
+  try {
+    const body = await request.json();
+    if (body?.plan === "yearly" || body?.plan === "monthly") {
+      plan = body.plan;
+    }
+  } catch {
+    // default monthly when body empty
   }
 
   const user = await prisma.user.findUnique({
@@ -23,6 +36,7 @@ export async function POST() {
       userId: user.id,
       email: user.email,
       customerId: user.stripeCustomerId,
+      plan,
     });
 
     if (stripeCustomerId && stripeCustomerId !== user.stripeCustomerId) {

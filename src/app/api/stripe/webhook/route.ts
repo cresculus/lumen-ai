@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { sendPurchaseEmail } from "@/lib/email";
 import { getStripe } from "@/lib/stripe";
+import { grantYearlySleepMaskGift } from "@/lib/subscription";
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 
@@ -79,6 +80,9 @@ export async function POST(request: Request) {
             where: { id: session.metadata.userId },
             data: { stripeCustomerId: session.customer },
           });
+        }
+        if (session.metadata.plan === "yearly") {
+          await grantYearlySleepMaskGift(session.metadata.userId);
         }
       }
       return NextResponse.json({ received: true });
