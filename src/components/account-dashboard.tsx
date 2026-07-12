@@ -63,8 +63,7 @@ export function AccountDashboard({
   const [downloads, setDownloads] = useState(serverDownloads);
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const isActive = subscription?.status === "active";
-  const isDemoUser =
-    email === "guest@lumenaimusic.com" || email === "admin@lumenaimusic.com";
+  const isDemoUser = email === "guest@lumenaimusic.com";
 
   useEffect(() => {
     const local = readDemoLibrary().map(toDownloadRow);

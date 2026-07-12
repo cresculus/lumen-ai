@@ -11,8 +11,8 @@ export default function LoginPage() {
         Sign in to Lumen AI Music
       </h1>
       <p className="mt-3 text-slate-400">
-        Return to your sound library, cart, and sanctuary. Use demo sign-in to
-        explore without OAuth setup.
+        Return to your sound library, cart, and sanctuary. Sign in with Google
+        using your account — admin tools open only for the site owner.
       </p>
 
       <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6">

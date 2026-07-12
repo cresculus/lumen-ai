@@ -10,7 +10,7 @@ export default async function AccountPage() {
   if (!session?.user) redirect("/login");
 
   const userId = session.user.id;
-  const isOfflineDemo = userId === "demo-guest" || userId === "demo-admin";
+  const isOfflineDemo = userId === "demo-guest";
 
   let downloads: Parameters<typeof AccountDashboard>[0]["downloads"] = [];
   let orders: Parameters<typeof AccountDashboard>[0]["orders"] = [];

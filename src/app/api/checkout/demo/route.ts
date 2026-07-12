@@ -27,8 +27,7 @@ export async function POST(request: Request) {
 
   const body = demoCheckoutSchema.parse(await request.json());
   const hasMock = body.items.some((item) => isMockId(item.productId));
-  const offlineDemo =
-    session.user.id === "demo-guest" || session.user.id === "demo-admin";
+  const offlineDemo = session.user.id === "demo-guest";
 
   // Mock catalog / offline demo → client library (localStorage)
   if (hasMock || offlineDemo) {

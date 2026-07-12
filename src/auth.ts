@@ -5,6 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/db";
 import { isMockAuthEnabled } from "@/lib/mock-data";
+import { getAdminEmail, roleForEmail } from "@/lib/admin";
 import type { Role } from "@/generated/prisma/client";
 
 declare module "next-auth" {
@@ -25,48 +26,56 @@ declare module "@auth/core/types" {
   }
 }
 
-const demoUsers = {
-  admin: {
-    id: "demo-admin",
-    email: "admin@lumenaimusic.com",
-    name: "Demo Admin",
-    role: "ADMIN" as Role,
-  },
-  customer: {
-    id: "demo-guest",
-    email: "guest@lumenaimusic.com",
-    name: "Demo Guest",
-    role: "CUSTOMER" as Role,
-  },
+/** Demo guest only — never grants ADMIN (admin is email-gated). */
+const demoGuest = {
+  id: "demo-guest",
+  email: "guest@lumenaimusic.com",
+  name: "Demo Guest",
 };
 
-async function resolveDemoUser(account: "admin" | "customer") {
-  const demo = demoUsers[account];
+async function resolveDemoGuest() {
+  const role = roleForEmail(demoGuest.email); // always CUSTOMER
   try {
     const user = await prisma.user.upsert({
-      where: { email: demo.email },
-      update: { name: demo.name, role: demo.role },
+      where: { email: demoGuest.email },
+      update: { name: demoGuest.name, role },
       create: {
-        email: demo.email,
-        name: demo.name,
-        role: demo.role,
+        email: demoGuest.email,
+        name: demoGuest.name,
+        role,
       },
     });
     return {
       id: user.id,
       email: user.email,
       name: user.name,
-      role: user.role,
+      role: roleForEmail(user.email),
     };
   } catch (error) {
-    console.warn("[auth] Demo user DB upsert failed — using offline demo session", error);
+    console.warn(
+      "[auth] Demo guest DB upsert failed — using offline demo session",
+      error,
+    );
     return {
-      id: demo.id,
-      email: demo.email,
-      name: demo.name,
-      role: demo.role,
+      id: demoGuest.id,
+      email: demoGuest.email,
+      name: demoGuest.name,
+      role,
     };
   }
+}
+
+async function syncUserRole(userId: string, email: string | null | undefined) {
+  const role = roleForEmail(email);
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { role },
+    });
+  } catch (error) {
+    console.warn("[auth] Could not sync user role", error);
+  }
+  return role;
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -90,9 +99,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         if (!isMockAuthEnabled()) return null;
-        const account = credentials?.account;
-        if (account !== "admin" && account !== "customer") return null;
-        return resolveDemoUser(account);
+        // Only guest demo remains — admin is email-only
+        if (credentials?.account !== "customer") return null;
+        return resolveDemoGuest();
       },
     }),
   ],
@@ -100,33 +109,52 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: "/login",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user?.id) {
         token.id = user.id;
-        token.role = user.role ?? "CUSTOMER";
         if (user.email) token.email = user.email;
         if (user.name) token.name = user.name;
       }
+
+      const email = (token.email as string | undefined) || user?.email;
+      // Re-assert on every token issue/refresh so DB can't keep a stolen ADMIN role
+      token.role = roleForEmail(email);
+
+      if (user?.id && email) {
+        await syncUserRole(user.id, email);
+      } else if (trigger === "update" && token.id && email) {
+        await syncUserRole(String(token.id), email);
+      }
+
       return token;
     },
     async session({ session, token }) {
       if (session.user && token.id) {
         session.user.id = String(token.id);
-        session.user.role = (token.role as Role) ?? "CUSTOMER";
+        session.user.role = roleForEmail(
+          (token.email as string | undefined) || session.user.email,
+        );
         if (token.email) session.user.email = String(token.email);
         if (token.name) session.user.name = String(token.name);
       }
       return session;
     },
+    async signIn({ user }) {
+      if (user.id && user.email) {
+        await syncUserRole(user.id, user.email);
+      }
+      return true;
+    },
   },
   events: {
     async createUser({ user }) {
-      const adminEmail = process.env.ADMIN_EMAIL?.toLowerCase();
-      if (adminEmail && user.email?.toLowerCase() === adminEmail) {
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { role: "ADMIN" },
-        });
+      if (user.id) {
+        await syncUserRole(user.id, user.email);
+        if (roleForEmail(user.email) === "ADMIN") {
+          console.log(
+            `[auth] Admin granted to ${getAdminEmail()} on account create`,
+          );
+        }
       }
     },
   },

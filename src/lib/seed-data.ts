@@ -228,8 +228,8 @@ export const SEED_SHOP = [
 
 export const SEED_DEMO_USERS = [
   {
-    email: "admin@lumenaimusic.com",
-    name: "Demo Admin",
+    email: "brandon.sardelli@gmail.com",
+    name: "Brandon",
     role: "ADMIN" as const,
   },
   {

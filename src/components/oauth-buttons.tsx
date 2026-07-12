@@ -2,7 +2,7 @@
 
 import { signIn, signOut } from "next-auth/react";
 import { useState } from "react";
-import { Shield, User } from "lucide-react";
+import { User } from "lucide-react";
 
 type Provider = "google" | "github";
 
@@ -12,19 +12,19 @@ const oauthProviders: { id: Provider; label: string }[] = [
 ];
 
 export function OAuthButtons({ callbackUrl = "/account" }: { callbackUrl?: string }) {
-  const [loading, setLoading] = useState<"customer" | "admin" | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  async function demoSignIn(account: "customer" | "admin") {
-    setLoading(account);
+  async function demoGuestSignIn() {
+    setLoading(true);
     try {
       await signIn("demo", {
-        account,
-        callbackUrl: account === "admin" ? "/admin" : "/account",
+        account: "customer",
+        callbackUrl: "/account",
         redirect: true,
       });
     } catch (error) {
       console.error(error);
-      setLoading(null);
+      setLoading(false);
       alert("Demo sign-in failed. Check that ENABLE_MOCK_AUTH is not false.");
     }
   }
@@ -49,33 +49,23 @@ export function OAuthButtons({ callbackUrl = "/account" }: { callbackUrl?: strin
           <div className="w-full border-t border-white/10" />
         </div>
         <p className="relative mx-auto w-fit bg-[#0F1C2E] px-3 text-xs uppercase tracking-wider text-slate-500">
-          Demo sign-in (no OAuth needed)
+          Or try as a guest
         </p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <button
-          type="button"
-          disabled={loading !== null}
-          onClick={() => demoSignIn("customer")}
-          className="flex items-center justify-center gap-2 rounded-xl border border-lumen-gold/30 bg-lumen-gold/10 px-4 py-3 text-sm font-medium text-lumen-cream transition hover:bg-lumen-gold/20 disabled:opacity-60"
-        >
-          <User className="h-4 w-4" />
-          {loading === "customer" ? "Opening library…" : "Demo guest"}
-        </button>
-        <button
-          type="button"
-          disabled={loading !== null}
-          onClick={() => demoSignIn("admin")}
-          className="flex items-center justify-center gap-2 rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm font-medium text-amber-100 transition hover:bg-amber-500/20 disabled:opacity-60"
-        >
-          <Shield className="h-4 w-4" />
-          {loading === "admin" ? "Opening dashboard…" : "Demo admin"}
-        </button>
-      </div>
+      <button
+        type="button"
+        disabled={loading}
+        onClick={demoGuestSignIn}
+        className="flex w-full items-center justify-center gap-2 rounded-xl border border-lumen-gold/30 bg-lumen-gold/10 px-4 py-3 text-sm font-medium text-lumen-cream transition hover:bg-lumen-gold/20 disabled:opacity-60"
+      >
+        <User className="h-4 w-4" />
+        {loading ? "Opening library…" : "Demo guest"}
+      </button>
 
       <p className="text-center text-xs text-slate-500">
-        Demo guest opens your Library dashboard. Demo admin opens /admin.
+        Admin access is only available when you sign in with the owner Google
+        account. Demo guest is a normal member library.
       </p>
     </div>
   );
