@@ -169,18 +169,33 @@ export async function getFeaturedShop(limit = 3) {
   return (featured.length ? featured : all).slice(0, limit);
 }
 
+/**
+ * One primary pillar per track so homepage rails don't leak / duplicate.
+ * Priority: Fake DJ → Chamber → Sleep → Focus.
+ */
+export function primaryPillarId(tags: string[]): string | null {
+  const t = new Set(tags.map((tag) => tag.toLowerCase()));
+  if (t.has("fake dj") || t.has("deep house")) return "deep-house";
+  if (t.has("chamber") || t.has("cello") || t.has("strings")) return "chamber";
+  if (t.has("sleep") || t.has("deep sleep")) return "sleep";
+  if (t.has("focus") || t.has("study")) return "focus";
+  return null;
+}
+
 export async function getMusicByPillar(pillarId: string, limit = 3) {
   const pillar = MUSIC_PILLARS.find((p) => p.id === pillarId);
   if (!pillar) return [];
   const all = await getPublishedMusic();
   return all
-    .filter((t) => pillar.tags.some((tag) => t.tags.includes(tag)))
+    .filter((t) => primaryPillarId(t.tags) === pillarId)
     .slice(0, limit);
 }
 
-export async function getChannelTracks(limit = 4) {
+export async function getChannelTracks(limit = 3) {
   const all = await getPublishedMusic();
-  return all.filter((t) => Boolean(t.youtubeUrl)).slice(0, limit);
+  return all
+    .filter((t) => Boolean(t.youtubeUrl))
+    .slice(0, limit);
 }
 
 export function isUsingMockCatalog(items: { id: string }[]) {
