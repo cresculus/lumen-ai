@@ -6,9 +6,16 @@ function run(command) {
 }
 
 async function main() {
+  // Sync schema only (Favorite model, etc). Do NOT seed sample products —
+  // catalog falls back to mock data when the DB catalog is empty, or use Admin → Music to upload real tracks.
   run("npx prisma db push");
-  run("npx tsx prisma/seed.ts");
-  console.log("Database ready.");
+
+  if (process.env.RUN_DB_SEED === "true") {
+    run("npx tsx prisma/seed.ts");
+    console.log("Database seeded.");
+  } else {
+    console.log("Database schema synced (seed skipped).");
+  }
 }
 
 main().catch((error) => {

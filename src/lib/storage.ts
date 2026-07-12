@@ -55,3 +55,27 @@ export async function readLocalFile(storageKey: string) {
   const fullPath = path.join(UPLOAD_DIR, storageKey);
   return fs.readFile(fullPath);
 }
+
+export async function getLocalFileSize(storageKey: string) {
+  const fullPath = path.join(UPLOAD_DIR, storageKey);
+  const stat = await fs.stat(fullPath);
+  return stat.size;
+}
+
+/** Byte-range read for long-form seek (206 Partial Content). */
+export async function readLocalFileRange(
+  storageKey: string,
+  start: number,
+  end: number,
+) {
+  const fullPath = path.join(UPLOAD_DIR, storageKey);
+  const length = end - start + 1;
+  const handle = await fs.open(fullPath, "r");
+  try {
+    const buffer = Buffer.alloc(length);
+    await handle.read(buffer, 0, length, start);
+    return buffer;
+  } finally {
+    await handle.close();
+  }
+}

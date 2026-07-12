@@ -117,6 +117,11 @@ export function CheckoutButton() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Demo checkout failed");
 
+      if (data.mode === "local" && Array.isArray(data.tracks)) {
+        const { mergeDemoLibrary } = await import("@/lib/demo-library");
+        mergeDemoLibrary(data.tracks);
+      }
+
       clearCart();
       router.push("/checkout/success?demo=1");
     } catch (err) {
@@ -178,7 +183,8 @@ export function CheckoutButton() {
       </button>
 
       <p className="text-center text-xs text-slate-500">
-        Demo checkout logs the order and clears your cart — for testing only.
+        Demo checkout adds digital tracks to your library and clears the cart —
+        no payment required.
       </p>
     </div>
   );

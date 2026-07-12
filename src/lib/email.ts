@@ -16,8 +16,9 @@ export async function sendPurchaseEmail({
   items: string[];
 }) {
   const resend = getResend();
-  const from = process.env.EMAIL_FROM || "orders@lumenai.com";
+  const from = process.env.EMAIL_FROM || "orders@lumenaimusic.com";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const libraryUrl = `${appUrl}/account`;
 
   if (!resend) {
     console.log("[email skipped] Resend not configured", { to, orderId, items });
@@ -27,12 +28,26 @@ export async function sendPurchaseEmail({
   await resend.emails.send({
     from,
     to,
-    subject: "Your Lumen AI Music order is confirmed",
+    subject: "Your Lumen AI Music order is ready",
     html: `
-      <h1>Thank you for your purchase</h1>
-      <p>Order ID: ${orderId}</p>
-      <ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>
-      <p><a href="${appUrl}/account">View your library and orders</a></p>
+      <div style="font-family: Georgia, serif; color: #0f1c2e; line-height: 1.5;">
+        <h1 style="font-weight: 600;">Sound, woven in light</h1>
+        <p>Thank you — your order is confirmed.</p>
+        <p style="color: #666; font-size: 14px;">Order ID: ${orderId}</p>
+        <ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>
+        <p>
+          Open your library to stream full length and download lossless files
+          (signed links, limited uses):
+        </p>
+        <p>
+          <a href="${libraryUrl}" style="color: #8a7340;">
+            View your sound library
+          </a>
+        </p>
+        <p style="font-size: 13px; color: #666;">
+          For relaxation and wellness only. Lumen AI Music.
+        </p>
+      </div>
     `,
   });
 }

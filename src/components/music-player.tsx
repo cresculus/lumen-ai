@@ -143,8 +143,10 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
   const seek = (time: number) => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.currentTime = time;
-    setCurrentTime(time);
+    const capped =
+      access === "preview" ? Math.min(time, PREVIEW_LIMIT_SEC - 0.25) : time;
+    audio.currentTime = capped;
+    setCurrentTime(capped);
   };
 
   const playNext = () => {
@@ -175,12 +177,26 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
       {currentTrack && (
         <div data-playbar="true" className="fixed bottom-0 left-0 right-0 z-50 overflow-hidden border-t border-white/10 bg-lumen-midnight/95 text-white backdrop-blur-xl md:min-h-[84px]">
           {access === "preview" && (
-            <p className="border-b border-white/5 px-4 py-1.5 text-center text-[11px] text-lumen-gold-light/90">
-              60-second preview ·{" "}
-              <a href="/pricing" className="underline hover:text-lumen-cream">
-                Subscribe for full lossless playback
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-b border-lumen-gold/20 bg-lumen-gold/10 px-4 py-2 text-center text-[11px] text-lumen-cream">
+              <span>
+                Preview ends at {PREVIEW_LIMIT_SEC}s — full length with purchase
+                or Unlimited.
+              </span>
+              <a
+                href="/pricing"
+                className="font-medium text-lumen-gold-light underline hover:text-white"
+              >
+                Subscribe
               </a>
-            </p>
+              {currentTrack?.slug && (
+                <a
+                  href={`/music/${currentTrack.slug}`}
+                  className="font-medium text-lumen-gold-light underline hover:text-white"
+                >
+                  Buy this track
+                </a>
+              )}
+            </div>
           )}
           <div className="flex w-full flex-row items-center justify-between gap-2 px-3 py-3 md:px-5">
             <div className="relative mr-auto min-w-[8rem] flex-1 shrink-0">
@@ -237,14 +253,23 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
                   <input
                     type="range"
                     min={0}
-                    max={duration || 100}
-                    value={currentTime}
+                    max={
+                      access === "preview"
+                        ? PREVIEW_LIMIT_SEC
+                        : duration || 100
+                    }
+                    value={Math.min(
+                      currentTime,
+                      access === "preview" ? PREVIEW_LIMIT_SEC : duration || 0,
+                    )}
                     onChange={(e) => seek(Number(e.target.value))}
                     className="h-1 flex-1 cursor-pointer accent-white"
                     aria-label="Playback progress"
                   />
                   <span className="min-w-8 text-left text-xs tabular-nums text-white/40">
-                    {formatDuration(duration)}
+                    {formatDuration(
+                      access === "preview" ? PREVIEW_LIMIT_SEC : duration,
+                    )}
                   </span>
                 </div>
               </div>

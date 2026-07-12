@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 import { BuyButton } from "@/components/buy-button";
+import { FavoriteButton } from "@/components/favorite-button";
 import { PlayTrackButton } from "@/components/music-player";
 import { hasActiveSubscription } from "@/lib/access";
 import { getPublishedMusicBySlug } from "@/lib/catalog";
@@ -69,7 +70,7 @@ export default async function MusicDetailPage({ params }: Props) {
           {track.description && (
             <p className="mt-4 leading-relaxed text-slate-300">{track.description}</p>
           )}
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <PlayTrackButton
               track={{
                 id: track.id,
@@ -78,6 +79,7 @@ export default async function MusicDetailPage({ params }: Props) {
                 tags: track.tags,
               }}
             />
+            <FavoriteButton productId={track.id} />
             <BuyButton
               productId={track.id}
               title={track.title}
@@ -101,6 +103,16 @@ export default async function MusicDetailPage({ params }: Props) {
               </Link>
             )}
           </div>
+          {subscribed ? (
+            <p className="mt-4 text-sm text-emerald-300/90">
+              Unlimited active — full-length streaming unlocked.
+            </p>
+          ) : (
+            <p className="mt-4 text-sm text-slate-500">
+              Guests get a 60-second preview. Purchase or subscribe for full
+              length and downloads.
+            </p>
+          )}
           <p className="mt-8 break-all text-xs text-slate-600">
             Funnel link: {shareUrl}
           </p>

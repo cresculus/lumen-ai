@@ -44,6 +44,7 @@ model User {
   sessions      Session[]
   orders        Order[]
   downloads     Download[]
+  favorites     Favorite[]
   subscription  Subscription?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
@@ -113,6 +114,7 @@ model DigitalProduct {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   downloads   Download[]
+  favorites   Favorite[]
 }
 
 model PhysicalProduct {
@@ -178,6 +180,18 @@ model Download {
   createdAt        DateTime       @default(now())
 
   @@unique([userId, digitalProductId])
+}
+
+model Favorite {
+  id               String         @id @default(cuid())
+  userId           String
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  digitalProductId String
+  digitalProduct   DigitalProduct @relation(fields: [digitalProductId], references: [id], onDelete: Cascade)
+  createdAt        DateTime       @default(now())
+
+  @@unique([userId, digitalProductId])
+  @@index([userId])
 }
 
 model AnalyticsEvent {

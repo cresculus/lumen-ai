@@ -195,6 +195,59 @@ www.lumenaimusic.com
 
 ---
 
+## Session 7 — Website research (notes only, 2026-07-11)
+
+Browsed GitHub repos that mirror Lumen (music catalog + player + paid library + shop). **No implementation this session.**
+
+### Repos reviewed
+- `jjoej15/prod-jja-store` — beat store: bottom player, ranged stream, S3 presigned downloads
+- `mrstevedev/bbpmusiclibrary` — sample packs: signed re-download library
+- `sharananurag998/opengrove` — digital + physical + subscriptions commerce
+- `Ankit-2145/multi-vendor-marketplace` — Gumroad-like storefront IA (skip multi-tenant)
+- `mbeps/drumroll-music`, Musicfy / Spotify clones — queue, favorites, sub-gated streaming
+- `whopio/whop-tutorials` — gumroad/spotify clone patterns (skip Whop lock-in)
+
+### Live check
+- www.lumenaimusic.com live with featured music + apothecary; still demo-catalog posture
+- Full nav (Music / Shop / Pricing / About / Library) clearer when Demo Guest signed in
+
+### Output
+- Full notes + phase plan: `docs/WEBSITE-RESEARCH-NOTES.md`
+- Decision: **evolve existing app**, don’t rebuild from a Spotify fork
+- Next implement trigger: Phase A (trust/funnel) → B (downloads) → C (library UX) → D (atmosphere)
+
+---
+
+## Session 8 — Website Phases A–D implemented (2026-07-11)
+
+Picked best patterns from research notes and shipped all four phases on the existing app (no Spotify fork).
+
+### Phase A — Trust & funnel
+- Expanded seed + mock catalog: Fake DJ (Late Night, Late Train Drip, Late Set Drift), chamber strings, Gravity Drift / YT links
+- Mobile hamburger nav: Music · Shop · Pricing · About always available
+- Library empty state: Browse music + Listen ad-free CTAs
+
+### Phase B — Delivery
+- `/api/media` supports HTTP Range / **206 Partial Content** for long-form seek
+- Download API: purchase **or** active Unlimited; short-lived signed URLs
+- Demo checkout → DB library **or** browser library (mock/offline); purchase email via Resend when configured
+
+### Phase C — Library UX
+- `Favorite` Prisma model + `/api/favorites` + heart button + Saved favorites in account
+- Music search + mood filters (sleep, deep house, chamber, strings, …)
+- Player preview gate: capped seek, Subscribe + Buy this track CTAs
+
+### Phase D — Atmosphere
+- Brand-first hero (Lumen AI Music + Sound, Woven in Light)
+- Pillar rails: Deep Sleep · Focus · Fake DJ · Chamber
+- From the channel strip for tracks with `youtubeUrl`
+
+### Ops
+- Railway start runs `prisma db push` only (no auto-seed). Set `RUN_DB_SEED=true` only if you want sample rows.
+- Empty DB → mock catalog serves the storefront until you upload real tracks in admin.
+
+---
+
 ## Changelog summary
 
 | Date | Change |
@@ -204,7 +257,9 @@ www.lumenaimusic.com
 | 2026-07-07 | DNS setup lumenaimusic.com |
 | 2026-07-07 | Music player + subscriptions + admin UI |
 | 2026-07-07 | Mock data, demo auth, cart polish, PROJECT_LOG |
+| 2026-07-11 | Website GitHub research notes + Phase A–E roadmap (no code) |
+| 2026-07-11 | Phases A–D implemented (catalog, nav, range stream, favorites, homepage) |
 
 ---
 
-*Last updated: July 7, 2026*
+*Last updated: July 11, 2026*

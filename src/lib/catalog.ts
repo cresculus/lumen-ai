@@ -5,6 +5,7 @@ import {
   type MockDigitalProduct,
   type MockPhysicalProduct,
 } from "@/lib/mock-data";
+import { MUSIC_PILLARS } from "@/lib/seed-data";
 
 export type CatalogMusic = MockDigitalProduct;
 export type CatalogShopItem = MockPhysicalProduct;
@@ -19,7 +20,9 @@ async function safe<T>(fn: () => Promise<T>): Promise<T | null> {
 }
 
 export function mockCatalogEnabled() {
-  return process.env.ENABLE_MOCK_CATALOG === "true";
+  // Default on for empty/local demos; set ENABLE_MOCK_CATALOG=false in production
+  // once the live catalog is seeded.
+  return process.env.ENABLE_MOCK_CATALOG !== "false";
 }
 
 export async function isDatabaseConnected() {
@@ -27,12 +30,39 @@ export async function isDatabaseConnected() {
   return result !== null;
 }
 
-export async function getPublishedMusic(tag?: string): Promise<CatalogMusic[]> {
+function filterMusic(
+  tracks: CatalogMusic[],
+  options?: { tag?: string; q?: string },
+) {
+  let result = tracks;
+  if (options?.tag) {
+    result = result.filter((t) => t.tags.includes(options.tag!));
+  }
+  if (options?.q) {
+    const q = options.q.toLowerCase().trim();
+    result = result.filter(
+      (t) =>
+        t.title.toLowerCase().includes(q) ||
+        t.description?.toLowerCase().includes(q) ||
+        t.tags.some((tag) => tag.toLowerCase().includes(q)),
+    );
+  }
+  return result;
+}
+
+export async function getPublishedMusic(
+  tagOrOptions?: string | { tag?: string; q?: string },
+): Promise<CatalogMusic[]> {
+  const normalized =
+    typeof tagOrOptions === "string"
+      ? { tag: tagOrOptions }
+      : { tag: tagOrOptions?.tag, q: tagOrOptions?.q };
+
   const db = await safe(() =>
     prisma.digitalProduct.findMany({
       where: {
         status: "PUBLISHED",
-        ...(tag ? { tags: { has: tag } } : {}),
+        ...(normalized.tag ? { tags: { has: normalized.tag } } : {}),
       },
       orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
     }),
@@ -40,17 +70,13 @@ export async function getPublishedMusic(tag?: string): Promise<CatalogMusic[]> {
 
   if (db !== null) {
     if (db.length === 0 && mockCatalogEnabled()) {
-      return tag
-        ? MOCK_MUSIC.filter((t) => t.tags.includes(tag))
-        : MOCK_MUSIC;
+      return filterMusic(MOCK_MUSIC, normalized);
     }
-    return db as CatalogMusic[];
+    return filterMusic(db as CatalogMusic[], { q: normalized.q });
   }
 
   if (mockCatalogEnabled()) {
-    return tag
-      ? MOCK_MUSIC.filter((t) => t.tags.includes(tag))
-      : MOCK_MUSIC;
+    return filterMusic(MOCK_MUSIC, normalized);
   }
 
   return [];
@@ -113,12 +139,28 @@ export async function getPublishedShopBySlug(
 
 export async function getFeaturedMusic(limit = 6) {
   const all = await getPublishedMusic();
-  return all.slice(0, limit);
+  const featured = all.filter((t) => t.featured);
+  return (featured.length ? featured : all).slice(0, limit);
 }
 
 export async function getFeaturedShop(limit = 3) {
   const all = await getPublishedShop();
-  return all.slice(0, limit);
+  const featured = all.filter((p) => p.featured);
+  return (featured.length ? featured : all).slice(0, limit);
+}
+
+export async function getMusicByPillar(pillarId: string, limit = 3) {
+  const pillar = MUSIC_PILLARS.find((p) => p.id === pillarId);
+  if (!pillar) return [];
+  const all = await getPublishedMusic();
+  return all
+    .filter((t) => pillar.tags.some((tag) => t.tags.includes(tag)))
+    .slice(0, limit);
+}
+
+export async function getChannelTracks(limit = 4) {
+  const all = await getPublishedMusic();
+  return all.filter((t) => Boolean(t.youtubeUrl)).slice(0, limit);
 }
 
 export function isUsingMockCatalog(items: { id: string }[]) {

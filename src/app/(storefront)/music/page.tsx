@@ -1,22 +1,23 @@
+import Link from "next/link";
 import { MusicTrackCard } from "@/components/music-track-card";
 import { getPublishedMusic } from "@/lib/catalog";
+import { MUSIC_MOOD_FILTERS } from "@/lib/seed-data";
 
 export const metadata = {
   title: "Music",
   description:
-    "Hand-curated ambient soundscapes for deep sleep, focus, and cinematic drift.",
+    "Hand-curated ambient soundscapes for deep sleep, focus, deep house, and chamber strings.",
 };
-
-const filters = ["all", "sleep", "focus", "ambient", "study", "deep sleep"];
 
 export default async function MusicPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tag?: string }>;
+  searchParams: Promise<{ tag?: string; q?: string }>;
 }) {
-  const { tag } = await searchParams;
+  const { tag, q } = await searchParams;
   const activeTag = tag && tag !== "all" ? tag : undefined;
-  const tracks = await getPublishedMusic(activeTag);
+  const query = q?.trim() || undefined;
+  const tracks = await getPublishedMusic({ tag: activeTag, q: query });
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
@@ -28,15 +29,42 @@ export default async function MusicPage({
           Curated soundscapes
         </h1>
         <p className="mt-3 text-slate-400">
-          Human-curated and finished with care. Stream in the highest quality
-          your files support — preview free, own or subscribe for the full drift.
+          Human-curated and finished with care. Preview free — own a track or
+          subscribe for the full drift.
         </p>
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-2">
-        {filters.map((f) => {
-          const href = f === "all" ? "/music" : `/music?tag=${encodeURIComponent(f)}`;
-          const active = (activeTag || "all") === f || (!activeTag && f === "all");
+      <form action="/music" method="get" className="mt-8 flex flex-wrap gap-3">
+        {activeTag && (
+          <input type="hidden" name="tag" value={activeTag} />
+        )}
+        <input
+          type="search"
+          name="q"
+          defaultValue={query || ""}
+          placeholder="Search sleep, deep house, strings…"
+          className="min-w-[16rem] flex-1 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-sm text-lumen-cream placeholder:text-slate-500 outline-none focus:border-lumen-gold/40"
+        />
+        <button
+          type="submit"
+          className="rounded-full bg-lumen-gold/20 px-5 py-2.5 text-sm text-lumen-cream hover:bg-lumen-gold/30"
+        >
+          Search
+        </button>
+      </form>
+
+      <div className="mt-6 flex flex-wrap gap-2">
+        {MUSIC_MOOD_FILTERS.map((f) => {
+          const href =
+            f === "all"
+              ? query
+                ? `/music?q=${encodeURIComponent(query)}`
+                : "/music"
+              : `/music?tag=${encodeURIComponent(f)}${
+                  query ? `&q=${encodeURIComponent(query)}` : ""
+                }`;
+          const active =
+            (activeTag || "all") === f || (!activeTag && f === "all");
           return (
             <a
               key={f}
@@ -55,7 +83,7 @@ export default async function MusicPage({
 
       {tracks.length === 0 ? (
         <p className="mt-12 text-center text-slate-500">
-          No tracks in this collection yet. New weavings arrive soon.
+          No tracks match this mood. Try another filter or clear search.
         </p>
       ) : (
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

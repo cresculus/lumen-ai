@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
-import { isMockId } from "@/lib/mock-data";
+import { findMockTrack, isMockId } from "@/lib/mock-data";
+import { sendPurchaseEmail } from "@/lib/email";
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -25,17 +26,37 @@ export async function POST(request: Request) {
   }
 
   const body = demoCheckoutSchema.parse(await request.json());
+  const hasMock = body.items.some((item) => isMockId(item.productId));
+  const offlineDemo =
+    session.user.id === "demo-guest" || session.user.id === "demo-admin";
 
-  for (const item of body.items) {
-    if (isMockId(item.productId)) {
-      return NextResponse.json(
-        {
-          error:
-            "Cart contains demo items — clear cart and add tracks from the live catalog.",
-        },
-        { status: 400 },
-      );
-    }
+  // Mock catalog / offline demo → client library (localStorage)
+  if (hasMock || offlineDemo) {
+    const tracks = body.items
+      .filter((item) => item.type === "DIGITAL")
+      .map((item) => {
+        const mock = isMockId(item.productId)
+          ? findMockTrack(item.productId)
+          : null;
+        return {
+          id: `demo-${item.productId}`,
+          digitalProductId: item.productId,
+          title: mock?.title || item.title,
+          slug: mock?.slug || item.productId,
+          tags: mock?.tags || [],
+          downloadCount: 0,
+          maxDownloads: 5,
+        };
+      });
+
+    return NextResponse.json({
+      ok: true,
+      mode: "local",
+      message: "Demo order saved to your browser library",
+      orderId: `demo-${Date.now()}`,
+      tracks,
+      items: body.items.map((i) => i.title),
+    });
   }
 
   const order = await prisma.order.create({
@@ -116,8 +137,17 @@ export async function POST(request: Request) {
     });
   }
 
+  if (session.user.email) {
+    await sendPurchaseEmail({
+      to: session.user.email,
+      orderId: order.id,
+      items: order.items.map((i) => i.title),
+    });
+  }
+
   return NextResponse.json({
     ok: true,
+    mode: "database",
     message: "Demo order placed — tracks added to your library",
     orderId: order.id,
   });

@@ -2,11 +2,20 @@
 
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { CartNavLink } from "@/components/cart-nav-link";
-import { LayoutDashboard, User } from "lucide-react";
+import { LayoutDashboard, Menu, User, X } from "lucide-react";
+
+const LINKS = [
+  ["Music", "/music"],
+  ["Shop", "/shop"],
+  ["Pricing", "/pricing"],
+  ["About", "/about"],
+] as const;
 
 export function NavbarClient() {
   const { data: session } = useSession();
+  const [open, setOpen] = useState(false);
   const isAdmin = session?.user?.role === "ADMIN";
   const dashHref = isAdmin ? "/admin" : "/account";
   const dashLabel = isAdmin ? "Dashboard" : "Library";
@@ -25,13 +34,9 @@ export function NavbarClient() {
             Lumen <span className="text-lumen-gold">AI Music</span>
           </span>
         </Link>
+
         <nav className="hidden items-center gap-1 text-sm text-slate-300 md:flex">
-          {[
-            ["Music", "/music"],
-            ["Shop", "/shop"],
-            ["Pricing", "/pricing"],
-            ["About", "/about"],
-          ].map(([label, href]) => (
+          {LINKS.map(([label, href]) => (
             <Link
               key={href}
               href={href}
@@ -49,6 +54,7 @@ export function NavbarClient() {
             </Link>
           )}
         </nav>
+
         <div className="flex items-center gap-2">
           <CartNavLink />
           {session?.user ? (
@@ -74,8 +80,42 @@ export function NavbarClient() {
               Sign in
             </Link>
           )}
+          <button
+            type="button"
+            className="rounded-lg p-2 text-slate-300 hover:bg-white/5 hover:text-lumen-cream md:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </div>
+
+      {open && (
+        <nav className="border-t border-white/10 px-4 py-3 md:hidden">
+          <div className="flex flex-col gap-1 text-sm text-slate-300">
+            {LINKS.map(([label, href]) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2.5 hover:bg-white/5 hover:text-lumen-cream"
+              >
+                {label}
+              </Link>
+            ))}
+            {session?.user && (
+              <Link
+                href={dashHref}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2.5 text-lumen-gold-light hover:bg-lumen-gold/10"
+              >
+                {dashLabel}
+              </Link>
+            )}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
