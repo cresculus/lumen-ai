@@ -26,7 +26,7 @@ export function MusicTrackCard({
   featured,
 }: MusicTrackCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] p-5 transition hover:border-lumen-gold/30 hover:shadow-xl hover:shadow-lumen-gold/5">
+    <article className="group relative flex h-full min-h-0 flex-col rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] p-5 transition hover:border-lumen-gold/30 hover:shadow-xl hover:shadow-lumen-gold/5">
       <div className="absolute right-4 top-4 z-10 flex items-center gap-2">
         {featured && (
           <span className="rounded-full bg-lumen-gold/25 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-lumen-gold-light">
@@ -35,7 +35,7 @@ export function MusicTrackCard({
         )}
         <FavoriteButton productId={id} />
       </div>
-      <div className="relative mb-4 aspect-square overflow-hidden rounded-xl bg-gradient-to-br from-lumen-gold/30 via-indigo-500/20 to-slate-900/50">
+      <div className="relative mb-4 w-full shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-lumen-gold/30 via-indigo-500/20 to-slate-900/50 aspect-[4/3]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(232,212,138,0.25),transparent_55%)]" />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
           <PlayTrackButton track={{ id, title, slug, tags }} size="lg" />
@@ -56,10 +56,10 @@ export function MusicTrackCard({
       {description && (
         <p className="mt-2 line-clamp-2 text-sm text-slate-400">{description}</p>
       )}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-auto flex items-center justify-between pt-4">
         <span className="text-lumen-gold-light">{formatPrice(price)}</span>
         <PlayTrackButton track={{ id, title, slug, tags }} size="sm" />
       </div>
-    </div>
+    </article>
   );
 }

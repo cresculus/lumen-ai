@@ -54,12 +54,12 @@ function Section({
 }) {
   return (
     <section
-      className={`w-full border-b border-white/5 ${
+      className={`relative isolate w-full border-b border-white/5 ${
         tone === "soft" ? "bg-white/[0.02]" : ""
       }`}
     >
-      <div className="mx-auto w-full max-w-6xl px-4 py-14 md:py-16">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <div className="mx-auto w-full max-w-6xl px-4 py-16 md:py-20">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl">
             {eyebrow && (
               <p className="text-sm uppercase tracking-[0.25em] text-lumen-gold-light">
@@ -147,9 +147,11 @@ export default async function HomePage() {
             blurb={pillar.blurb}
             href={`/music?tag=${encodeURIComponent(pillar.tags[0])}`}
           >
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {tracks.map((track) => (
-                <TrackCard key={track.id} track={track} />
+                <div key={track.id} className="min-h-0 min-w-0">
+                  <TrackCard track={track} />
+                </div>
               ))}
             </div>
           </Section>
