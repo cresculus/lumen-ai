@@ -111,7 +111,7 @@ export async function getPublishedMusicBySlug(
 
   if (db !== null) {
     if (db.status === "PUBLISHED") return db as CatalogMusic;
-    return null;
+    // fall through to mock if unpublished / missing live file
   }
 
   if (mockCatalogEnabled()) {
