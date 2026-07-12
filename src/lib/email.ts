@@ -31,7 +31,7 @@ export async function sendPurchaseEmail({
     subject: "Your Lumen AI Music order is ready",
     html: `
       <div style="font-family: Georgia, serif; color: #0f1c2e; line-height: 1.5;">
-        <h1 style="font-weight: 600;">Sound, woven in light</h1>
+        <h1 style="font-weight: 600;">Sound Experiences</h1>
         <p>Thank you — your order is confirmed.</p>
         <p style="color: #666; font-size: 14px;">Order ID: ${orderId}</p>
         <ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>

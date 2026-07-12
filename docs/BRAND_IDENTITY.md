@@ -7,7 +7,7 @@
 
 ## 1. Brand Essence
 
-**Tagline:** Sound, Woven in Light
+**Tagline:** Sound Experiences
 
 **Mission:**
 

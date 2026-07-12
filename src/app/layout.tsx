@@ -17,7 +17,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Lumen AI Music — Sound, Woven in Light",
+    default: "Lumen AI Music — Sound Experiences",
     template: "%s | Lumen AI Music",
   },
   description:
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Lumen AI Music",
     description:
-      "Sound, woven in light. Premium ambient for deep sleep, focus, and quiet restoration.",
+      "Sound Experiences by Lumen AI Music. Premium ambient for deep sleep, focus, and quiet restoration.",
     type: "website",
     siteName: "Lumen AI Music",
   },

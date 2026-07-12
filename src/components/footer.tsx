@@ -6,7 +6,7 @@ export function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-10 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="font-display text-lumen-cream">Lumen AI Music</p>
-          <p className="mt-1 text-lumen-gold-light/80">Sound, Woven in Light</p>
+          <p className="mt-1 text-lumen-gold-light/80">Sound Experiences</p>
           <p className="mt-2 text-xs text-slate-500">
             © {new Date().getFullYear()} Lumen AI Music. For relaxation and
             wellness only.

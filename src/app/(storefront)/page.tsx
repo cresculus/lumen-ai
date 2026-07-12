@@ -115,7 +115,7 @@ export default async function HomePage() {
             Lumen AI Music
           </p>
           <h1 className="font-display max-w-3xl text-4xl font-semibold leading-[1.1] tracking-tight text-lumen-cream md:text-6xl">
-            Sound, Woven in Light
+            Sound Experiences
           </h1>
           <p className="mt-6 max-w-xl text-lg text-slate-300">
             Hand-finished ambient for deep rest and focus — AI composition,
