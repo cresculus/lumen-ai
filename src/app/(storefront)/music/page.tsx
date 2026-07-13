@@ -119,18 +119,19 @@ export default async function MusicPage({
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid items-stretch grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {tracks.map((track) => (
-              <MusicTrackCard
-                key={track.id}
-                id={track.id}
-                title={track.title}
-                slug={track.slug}
-                price={track.price}
-                tags={track.tags}
-                description={track.description}
-                featured={track.featured}
-              />
+              <div key={track.id} className="grid-card-cell">
+                <MusicTrackCard
+                  id={track.id}
+                  title={track.title}
+                  slug={track.slug}
+                  price={track.price}
+                  tags={track.tags}
+                  description={track.description}
+                  featured={track.featured}
+                />
+              </div>
             ))}
           </div>
         )}

@@ -88,11 +88,11 @@ export function PricingCards({ isLoggedIn }: { isLoggedIn: boolean }) {
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-3">
+    <div className="grid items-stretch gap-6 md:grid-cols-3">
       {plans.map((plan) => (
+        <div key={plan.id} className="grid-card-cell">
         <div
-          key={plan.id}
-          className={`relative rounded-2xl border p-6 ${
+          className={`relative h-full rounded-2xl border p-6 ${
             plan.highlight
               ? "border-lumen-gold/40 bg-gradient-to-b from-lumen-gold/15 to-transparent shadow-lg shadow-lumen-gold/10"
               : "border-white/10 bg-white/[0.03]"
@@ -138,6 +138,7 @@ export function PricingCards({ isLoggedIn }: { isLoggedIn: boolean }) {
               {loading === plan.id ? "Redirecting…" : plan.cta}
             </button>
           )}
+        </div>
         </div>
       ))}
     </div>

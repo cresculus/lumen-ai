@@ -32,7 +32,7 @@ export default async function AccountLayout({
   return (
     <>
       <NavbarClient />
-      <main className="flex-1">{children}</main>
+      <main className="relative isolate z-10 flex-1">{children}</main>
       <Footer />
     </>
   );

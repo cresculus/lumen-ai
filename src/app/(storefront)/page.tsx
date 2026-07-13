@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="w-full">
-      <section className="relative min-h-[78vh] overflow-hidden md:min-h-[88vh]">
+    <div className="w-full bg-[#0a1525]">
+      <section className="relative min-h-[78vh] overflow-hidden bg-[#0f1c2e] md:min-h-[88vh]">
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_30%,rgba(201,162,39,0.18),transparent_50%),radial-gradient(ellipse_at_80%_60%,rgba(15,40,70,0.9),transparent_55%),linear-gradient(180deg,#0f1c2e_0%,#0a1525_100%)]" />
           <div className="absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(232,212,138,0.12)_1px,transparent_1px)] [background-size:28px_28px]" />

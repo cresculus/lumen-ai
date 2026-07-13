@@ -58,7 +58,7 @@ function LibraryCard({
 }) {
   const { digitalProduct: p, digitalProductId } = track;
   return (
-    <article className="group relative flex h-full min-h-0 flex-col rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] p-0 transition hover:border-lumen-gold/35 hover:shadow-xl hover:shadow-lumen-gold/5">
+    <article className="group relative flex h-full flex-col rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] p-0 transition hover:border-lumen-gold/35 hover:shadow-xl hover:shadow-lumen-gold/5">
       <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-lumen-gold/35 via-[#152238] to-lumen-midnight">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_22%,rgba(232,212,138,0.4),transparent_58%)]" />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
@@ -110,7 +110,7 @@ function LibraryCard({
 
 function ShopCard({ product }: { product: CatalogShopItem }) {
   return (
-    <article className="flex h-full min-h-0 flex-col rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] p-5">
+    <article className="flex h-full flex-col rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] p-5">
       <div className="mb-4 aspect-[4/3] shrink-0 rounded-xl bg-gradient-to-br from-lumen-gold/20 to-lumen-midnight/40" />
       <p className="text-[11px] uppercase tracking-wider text-lumen-gold-light/90">
         {product.category}
@@ -234,8 +234,8 @@ export function AccountDashboard({
   const hasFavorites = favoriteTracks.length > 0;
 
   return (
-    <div className="w-full">
-      <section className="relative w-full overflow-hidden border-b border-white/5">
+    <div className="w-full bg-[#0a1525]">
+      <section className="relative w-full overflow-hidden border-b border-white/5 bg-[#0f1c2e]">
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_12%_0%,rgba(201,162,39,0.2),transparent_50%),radial-gradient(ellipse_at_88%_60%,rgba(15,35,60,0.95),transparent_55%),linear-gradient(180deg,#0f1c2e_0%,#0a1525_100%)]" />
           <div className="absolute inset-0 opacity-35 [background-image:radial-gradient(rgba(232,212,138,0.11)_1px,transparent_1px)] [background-size:28px_28px]" />
@@ -288,7 +288,7 @@ export function AccountDashboard({
         </div>
       </section>
 
-      <section className="w-full border-b border-white/5">
+      <section className="relative z-10 w-full border-b border-white/5 bg-[#0a1525]">
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-6">
           <div className="flex gap-2">
             <button
@@ -325,7 +325,7 @@ export function AccountDashboard({
       </section>
 
       {!isActive && tab === "library" && (
-        <section className="w-full border-b border-white/5">
+        <section className="relative z-10 w-full border-b border-white/5 bg-[#0a1525]">
           <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8">
             <div>
               <h2 className="font-display text-xl text-lumen-cream">
@@ -346,7 +346,7 @@ export function AccountDashboard({
       )}
 
       {isActive && tab === "library" && (
-        <section className="w-full border-b border-white/5">
+        <section className="relative z-10 w-full border-b border-white/5 bg-[#0a1525]">
           <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8">
             <div>
               <h2 className="font-display text-xl text-lumen-cream">
@@ -375,7 +375,7 @@ export function AccountDashboard({
       )}
 
       {tab === "shop" ? (
-        <section className="w-full border-b border-white/5">
+        <section className="relative z-10 w-full border-b border-white/5 bg-[#0a1525]">
           <div className="mx-auto w-full max-w-6xl px-4 py-14 md:py-16">
             <div className="mb-8">
               <h2 className="font-display text-3xl text-lumen-cream">
@@ -390,7 +390,7 @@ export function AccountDashboard({
             ) : (
               <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {shopProducts.map((product) => (
-                  <div key={product.id} className="min-h-0 min-w-0">
+                  <div key={product.id} className="grid-card-cell">
                     <ShopCard product={product} />
                   </div>
                 ))}
@@ -400,7 +400,7 @@ export function AccountDashboard({
         </section>
       ) : (
         <>
-          <section className="w-full border-b border-white/5">
+          <section className="relative z-10 w-full border-b border-white/5 bg-[#0a1525]">
             <div className="mx-auto w-full max-w-6xl px-4 py-14 md:py-16">
               <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
                 <div>
@@ -450,7 +450,7 @@ export function AccountDashboard({
               ) : (
                 <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {downloads.map((download) => (
-                    <div key={download.id} className="min-h-0 min-w-0">
+                    <div key={download.id} className="grid-card-cell">
                       <LibraryCard track={download} showDownload />
                     </div>
                   ))}
@@ -460,7 +460,7 @@ export function AccountDashboard({
           </section>
 
           {(hasFavorites || hasOwned) && (
-            <section className="w-full border-b border-white/5 bg-white/[0.02]">
+            <section className="relative z-10 w-full border-b border-white/5 bg-[#0c1828]">
               <div className="mx-auto w-full max-w-6xl px-4 py-14 md:py-16">
                 <div className="mb-8 flex items-center gap-3">
                   <Heart className="h-5 w-5 text-lumen-gold" />
@@ -476,7 +476,7 @@ export function AccountDashboard({
                 ) : (
                   <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {favoriteTracks.map((track) => (
-                      <div key={track.id} className="min-h-0 min-w-0">
+                      <div key={track.id} className="grid-card-cell">
                         <LibraryCard track={track} />
                       </div>
                     ))}
@@ -489,7 +489,7 @@ export function AccountDashboard({
       )}
 
       {orders.length > 0 && (
-        <section className="w-full">
+        <section className="relative z-10 w-full bg-[#0a1525]">
           <div className="mx-auto w-full max-w-6xl px-4 py-14">
             <h2 className="font-display text-2xl text-lumen-cream">Orders</h2>
             <div className="mt-6 grid gap-3 md:grid-cols-2">

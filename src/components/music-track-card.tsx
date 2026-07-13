@@ -26,7 +26,7 @@ export function MusicTrackCard({
   featured,
 }: MusicTrackCardProps) {
   return (
-    <article className="group relative flex flex-col rounded-2xl border border-white/10 bg-[#0f1c2e]/80 p-4 transition hover:border-lumen-gold/30">
+    <article className="group relative flex h-full flex-col rounded-2xl border border-white/10 bg-[#0f1c2e]/80 p-4 transition hover:border-lumen-gold/30">
       <div className="absolute right-4 top-4 z-10 flex items-center gap-2">
         {featured && (
           <span className="rounded-full bg-lumen-gold/25 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-lumen-gold-light">

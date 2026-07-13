@@ -10,6 +10,7 @@ export default function CartPage() {
   const { items, removeItem, updateQuantity, total } = useCart();
 
   return (
+    <div className="w-full bg-[#0a1525]">
     <div className="mx-auto max-w-4xl px-4 py-12">
       <div className="flex items-center gap-3">
         <ShoppingBag className="h-8 w-8 text-lumen-gold" />
@@ -87,6 +88,7 @@ export default function CartPage() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

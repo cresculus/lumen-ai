@@ -24,7 +24,8 @@
 }
 
 body {
-  background: radial-gradient(
+  background: #0a1525;
+  background-image: radial-gradient(
     ellipse 120% 80% at 50% -20%,
     #1a2840 0%,
     #0f1c2e 45%,
@@ -33,6 +34,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
   min-height: 100vh;
+}
+
+/* Grid card cells: never collapse row height below content (fixes footer overlap) */
+.grid-card-cell {
+  min-width: 0;
+  min-height: min-content;
 }
 
 .font-display {
