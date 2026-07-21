@@ -28,14 +28,17 @@ export function NavbarClient() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5">
         <Link
           href="/"
-          className="flex items-center gap-2.5 tracking-tight text-lumen-cream"
+          className="flex shrink-0 items-center"
+          aria-label="Lumen Listening Rooms"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-lumen-gold/15 text-lumen-gold shadow-[0_0_20px_rgba(201,162,39,0.25)]">
-            <span className="h-2 w-2 rounded-full bg-lumen-gold" />
-          </span>
-          <span className="font-display text-lg font-semibold">
-            Lumen <span className="text-lumen-gold">AI Music</span>
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/lumen-listening-rooms-logo.svg"
+            alt="Lumen Listening Rooms"
+            className="h-7 w-auto md:h-8"
+            width={200}
+            height={28}
+          />
         </Link>
 
         <nav className="hidden items-center gap-1 text-sm text-slate-300 md:flex">

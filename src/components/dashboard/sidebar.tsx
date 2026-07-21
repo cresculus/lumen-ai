@@ -135,10 +135,13 @@ export function DashboardSidebar({
     <aside className="flex h-full w-[260px] shrink-0 flex-col border-r border-white/10 bg-lumen-midnight">
       <div className="border-b border-white/10 px-5 py-6">
         <Link href={isAdmin ? "/admin" : "/account"} className="block">
-          <p className="font-display text-xl font-semibold tracking-tight text-lumen-cream">
-            Lumen <span className="text-lumen-gold">AI</span>
-          </p>
-          <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-lumen-gold-light/80">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/lumen-listening-rooms-logo.svg"
+            alt="Lumen Listening Rooms"
+            className="h-8 w-auto"
+          />
+          <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-lumen-gold-light/80">
             {isAdmin ? "Creator console" : "Sound library"}
           </p>
         </Link>
@@ -253,10 +256,13 @@ function MobileTopBar({ variant }: { variant: "user" | "admin" }) {
     <div className="border-b border-white/10 bg-lumen-midnight/95 backdrop-blur-xl md:hidden">
       <div className="flex items-center justify-between px-4 py-3">
         <div>
-          <p className="font-display text-lg font-semibold text-lumen-cream">
-            Lumen <span className="text-lumen-gold">AI</span>
-          </p>
-          <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/lumen-listening-rooms-logo.svg"
+            alt="Lumen Listening Rooms"
+            className="h-7 w-auto"
+          />
+          <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-slate-500">
             {isAdmin ? "Creator console" : "Sound library"}
           </p>
         </div>

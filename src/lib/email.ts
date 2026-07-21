@@ -28,10 +28,10 @@ export async function sendPurchaseEmail({
   await resend.emails.send({
     from,
     to,
-    subject: "Your Lumen AI Music order is ready",
+    subject: "Your Lumen Listening Rooms order is ready",
     html: `
       <div style="font-family: Georgia, serif; color: #0f1c2e; line-height: 1.5;">
-        <h1 style="font-weight: 600;">Sound Experiences</h1>
+        <h1 style="font-weight: 600;">Lumen Listening Rooms</h1>
         <p>Thank you — your order is confirmed.</p>
         <p style="color: #666; font-size: 14px;">Order ID: ${orderId}</p>
         <ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>
@@ -45,7 +45,7 @@ export async function sendPurchaseEmail({
           </a>
         </p>
         <p style="font-size: 13px; color: #666;">
-          For relaxation and wellness only. Lumen AI Music.
+          For relaxation and wellness only. Lumen Listening Rooms.
         </p>
       </div>
     `,

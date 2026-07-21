@@ -207,7 +207,8 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
                     {currentTrack.title}
                   </p>
                   <p className="truncate text-xs leading-4 text-white/45">
-                    {currentTrack.tags?.slice(0, 3).join(" · ") || "Lumen AI Music"}
+                    {currentTrack.tags?.slice(0, 3).join(" · ") ||
+                      "Lumen Listening Rooms"}
                   </p>
                 </div>
               </div>

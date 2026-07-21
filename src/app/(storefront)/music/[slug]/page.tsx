@@ -16,7 +16,8 @@ export async function generateMetadata({ params }: Props) {
   if (!track) return { title: "Track not found" };
   return {
     title: track.title,
-    description: track.description || "Lumen AI Music — hand-curated ambient",
+    description:
+      track.description || "Lumen Listening Rooms — hand-curated ambient",
   };
 }
 

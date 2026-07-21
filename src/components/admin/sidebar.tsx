@@ -28,7 +28,7 @@ export function AdminSidebar() {
     <aside className="w-full shrink-0 border-b border-white/10 bg-[#0F1C2E]/80 lg:w-64 lg:border-b-0 lg:border-r lg:min-h-[calc(100vh-4rem)]">
       <div className="p-4">
         <p className="text-xs font-medium uppercase tracking-wider text-lumen-gold-light">
-          Lumen AI Admin
+          Lumen Listening Admin
         </p>
         <p className="mt-1 text-sm text-slate-400">Creator dashboard</p>
       </div>

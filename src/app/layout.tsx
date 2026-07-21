@@ -16,18 +16,26 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.lumenlistening.com"),
   title: {
-    default: "Lumen AI Music — Sound Experiences",
-    template: "%s | Lumen AI Music",
+    default: "Lumen Listening Rooms — Quiet rooms for rest & focus",
+    template: "%s | Lumen Listening Rooms",
   },
   description:
-    "Hand-curated ambient soundscapes for deep rest, focus, and cinematic drift. Human-finished AI composition — ad-free streaming at lumenaimusic.com.",
+    "Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration. Long-form atmospheres you can leave on.",
   openGraph: {
-    title: "Lumen AI Music",
+    title: "Lumen Listening Rooms",
     description:
-      "Sound Experiences by Lumen AI Music. Premium ambient for deep sleep, focus, and quiet restoration.",
+      "Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration.",
     type: "website",
-    siteName: "Lumen AI Music",
+    siteName: "Lumen Listening Rooms",
+    url: "https://www.lumenlistening.com",
+  },
+  twitter: {
+    card: "summary",
+    title: "Lumen Listening Rooms",
+    description:
+      "Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration.",
   },
 };
 

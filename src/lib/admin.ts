@@ -1,6 +1,6 @@
 import type { Role } from "@/generated/prisma/client";
 
-/** Sole admin identity for Lumen AI Music. Overridable via ADMIN_EMAIL env. */
+/** Sole admin identity for Lumen Listening Rooms. Overridable via ADMIN_EMAIL env. */
 export const DEFAULT_ADMIN_EMAIL = "brandon.sardelli@gmail.com";
 
 export function getAdminEmail() {

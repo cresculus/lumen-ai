@@ -10,15 +10,18 @@ export default function HomePage() {
         </div>
 
         <div className="relative mx-auto flex min-h-[78vh] max-w-6xl flex-col justify-end px-4 pb-16 pt-24 md:min-h-[88vh] md:justify-center md:pb-24 md:pt-20">
-          <p className="mb-5 font-display text-2xl text-lumen-gold-light md:text-3xl">
-            Lumen AI Music
-          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/lumen-listening-rooms-logo.svg"
+            alt="Lumen Listening Rooms"
+            className="mb-5 h-10 w-auto md:h-12"
+          />
           <h1 className="font-display max-w-3xl text-4xl font-semibold leading-[1.1] tracking-tight text-lumen-cream md:text-6xl">
-            Sound Experiences
+            Quiet rooms for rest &amp; focus
           </h1>
           <p className="mt-6 max-w-xl text-lg text-slate-300">
-            Hand-finished ambient for deep rest and focus — AI composition,
-            human curation, ad-free in your library.
+            Long-form atmospheres for deep sleep, late nights, calm meditation,
+            and soft restoration. Warm, cinematic, unhurried — leave them on.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
