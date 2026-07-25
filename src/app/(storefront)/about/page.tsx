@@ -1,7 +1,7 @@
 export const metadata = {
   title: "About",
   description:
-    "Lumen Listening Rooms — quiet spaces for deep sleep, focus, late nights, and soft restoration.",
+    "Lumen Listening Rooms — quiet rooms for feeling, focus, deep rest, and soft resets.",
 };
 
 export default function AboutPage() {
@@ -14,15 +14,38 @@ export default function AboutPage() {
         About Lumen Listening Rooms
       </h1>
       <p className="mt-6 text-lg leading-relaxed text-slate-300">
-        Lumen Listening Rooms creates intimate sound sanctuaries for deep rest,
-        focus, and quiet nights. Each piece is carefully finished — stitched,
-        mastered, and shaped for long, uninterrupted listening.
+        Lumen Listening Rooms builds intimate sound sanctuaries — places you can
+        leave on for deep sleep, deep work, late nights, and soft resets. Each
+        room is carefully finished: stitched, mastered, and shaped for long,
+        uninterrupted listening.
       </p>
       <p className="mt-4 leading-relaxed text-slate-400">
-        We exist to offer a quiet, luminous space where you can drift into deep
-        rest, soften the day, focus without force, or simply inhabit a vast
-        inner world. Premium ambient for those who value presence over noise.
+        We exist for presence over noise. Warm, cinematic, unhurried atmospheres
+        where you can rest, focus without force, or step into a quieter inner
+        world — including the story skins of Quiet Kingdom.
       </p>
+
+      <h2 className="font-display mt-12 text-xl text-lumen-gold-light">
+        The rooms
+      </h2>
+      <ul className="mt-4 space-y-3 text-slate-400">
+        <li>
+          <strong className="text-lumen-cream">Focus Rooms</strong> — deep work,
+          study, and calm concentration.
+        </li>
+        <li>
+          <strong className="text-lumen-cream">Sleep Rooms</strong> — overnight
+          hush for insomnia and soft rest.
+        </li>
+        <li>
+          <strong className="text-lumen-cream">Quiet Kingdom</strong> — fantasy
+          listening rooms; story skins for the same quiet purpose.
+        </li>
+        <li>
+          <strong className="text-lumen-cream">Late Night Rooms</strong> — coffee
+          hours, quiet drives, and wind-down.
+        </li>
+      </ul>
 
       <h2 className="font-display mt-12 text-xl text-lumen-gold-light">
         What makes us different
@@ -38,7 +61,7 @@ export default function AboutPage() {
         </li>
         <li>
           <strong className="text-lumen-cream">Poetic warmth</strong> —
-          Cinematic yet intimate; cosmic scale rendered with candlelit
+          Cinematic yet intimate; vast feeling rendered with candlelit
           closeness.
         </li>
         <li>

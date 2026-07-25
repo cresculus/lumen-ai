@@ -17,7 +17,8 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: track.title,
     description:
-      track.description || "Lumen Listening Rooms — hand-curated ambient",
+      track.description ||
+      "Lumen Listening Rooms — a quiet room for feeling, focus & soft resets",
   };
 }
 

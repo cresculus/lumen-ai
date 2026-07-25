@@ -1,5 +1,28 @@
 import Link from "next/link";
 
+const ROOMS = [
+  {
+    href: "/music?tag=focus",
+    label: "Focus Rooms",
+    blurb: "Deep work, study, and calm concentration.",
+  },
+  {
+    href: "/music?tag=sleep",
+    label: "Sleep Rooms",
+    blurb: "Overnight hush for insomnia and soft rest.",
+  },
+  {
+    href: "/music?tag=fantasy",
+    label: "Quiet Kingdom",
+    blurb: "Fantasy story skins for focus and soft resets.",
+  },
+  {
+    href: "/music?tag=late%20night",
+    label: "Late Night Rooms",
+    blurb: "Coffee hours, quiet drives, and wind-down.",
+  },
+] as const;
+
 export default function HomePage() {
   return (
     <div className="w-full bg-[#0a1525]">
@@ -17,18 +40,18 @@ export default function HomePage() {
             className="mb-5 h-10 w-auto md:h-12"
           />
           <h1 className="font-display max-w-3xl text-4xl font-semibold leading-[1.1] tracking-tight text-lumen-cream md:text-6xl">
-            Quiet rooms for rest &amp; focus
+            Quiet rooms for feeling, focus &amp; soft resets
           </h1>
           <p className="mt-6 max-w-xl text-lg text-slate-300">
-            Long-form atmospheres for deep sleep, late nights, calm meditation,
-            and soft restoration. Warm, cinematic, unhurried — leave them on.
+            Long-form atmospheres for deep sleep, deep work, late nights, and
+            soft restoration. Warm, cinematic, unhurried — leave them on.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
               href="/music"
               className="rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight shadow-lg shadow-lumen-gold/20 hover:bg-lumen-gold-light"
             >
-              Explore Music
+              Explore Rooms
             </Link>
             <Link
               href="/account"
@@ -42,6 +65,37 @@ export default function HomePage() {
             >
               Go Unlimited
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-white/10">
+        <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
+          <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
+            Choose a room
+          </p>
+          <h2 className="font-display mt-3 max-w-2xl text-3xl font-semibold text-lumen-cream md:text-4xl">
+            Four doors. One quiet purpose.
+          </h2>
+          <p className="mt-4 max-w-xl text-slate-400">
+            Match the YouTube shelves — Focus, Sleep, Quiet Kingdom, and Late
+            Night. Same calm listening. Different doors in.
+          </p>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+            {ROOMS.map((room) => (
+              <Link
+                key={room.label}
+                href={room.href}
+                className="group rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-6 transition hover:border-lumen-gold/35 hover:bg-white/[0.05]"
+              >
+                <h3 className="font-display text-xl text-lumen-cream group-hover:text-lumen-gold-light">
+                  {room.label}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                  {room.blurb}
+                </p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

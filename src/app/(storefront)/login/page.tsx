@@ -23,7 +23,7 @@ export default function LoginPage() {
       <p className="mt-6 text-center text-sm text-slate-500">
         New here?{" "}
         <Link href="/music" className="text-lumen-gold-light hover:text-white">
-          Browse soundscapes →
+          Explore rooms →
         </Link>
       </p>
     </div>

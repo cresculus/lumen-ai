@@ -11,7 +11,10 @@ export function Footer() {
             alt="Lumen Listening Rooms"
             className="h-8 w-auto"
           />
-          <p className="mt-2 text-xs text-slate-500">
+          <p className="mt-2 max-w-sm text-xs text-slate-500">
+            Quiet rooms for feeling, focus &amp; soft resets.
+          </p>
+          <p className="mt-1 text-xs text-slate-600">
             © {new Date().getFullYear()} Lumen Listening Rooms. For relaxation
             and wellness only.
           </p>

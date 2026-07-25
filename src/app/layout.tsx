@@ -18,15 +18,16 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.lumenlistening.com"),
   title: {
-    default: "Lumen Listening Rooms — Quiet rooms for rest & focus",
+    default:
+      "Lumen Listening Rooms — Quiet rooms for feeling, focus & soft resets",
     template: "%s | Lumen Listening Rooms",
   },
   description:
-    "Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration. Long-form atmospheres you can leave on.",
+    "Quiet rooms for feeling, focus, deep sleep, late nights, and soft restoration. Long-form atmospheres you can leave on — Focus, Sleep, Quiet Kingdom, and Late Night.",
   openGraph: {
     title: "Lumen Listening Rooms",
     description:
-      "Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration.",
+      "Quiet rooms for feeling, focus, deep sleep, late nights, and soft restoration.",
     type: "website",
     siteName: "Lumen Listening Rooms",
     url: "https://www.lumenlistening.com",
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary",
     title: "Lumen Listening Rooms",
     description:
-      "Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration.",
+      "Quiet rooms for feeling, focus, deep sleep, late nights, and soft restoration.",
   },
 };
 

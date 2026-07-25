@@ -17,7 +17,7 @@ export function NavbarClient() {
     : "/login?callbackUrl=/account%3Ftab%3Dshop";
 
   const navLinks = [
-    ["Music", "/music"],
+    ["Rooms", "/music"],
     ["Pricing", "/pricing"],
     ["About", "/about"],
     ["Shop", shopHref],

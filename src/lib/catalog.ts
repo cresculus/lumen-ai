@@ -50,7 +50,7 @@ function filterMusic(
   return result;
 }
 
-/** Prefer DB rows; fill gaps from mock so new Fake DJ / chamber titles show without re-seeding. */
+/** Prefer DB rows; fill gaps from mock so new room titles show without re-seeding. */
 function mergeCatalog(
   dbTracks: CatalogMusic[],
   options?: { tag?: string; q?: string },
@@ -170,15 +170,31 @@ export async function getFeaturedShop(limit = 3) {
 }
 
 /**
- * One primary pillar per track so homepage rails don't leak / duplicate.
- * Priority: Fake DJ → Chamber → Sleep → Focus.
+ * One primary pillar per track so room shelves don't leak / duplicate.
+ * Priority: Quiet Kingdom → Late Night → Sleep → Focus.
  */
 export function primaryPillarId(tags: string[]): string | null {
   const t = new Set(tags.map((tag) => tag.toLowerCase()));
-  if (t.has("fake dj") || t.has("deep house")) return "deep-house";
-  if (t.has("chamber") || t.has("cello") || t.has("strings")) return "chamber";
+  if (
+    t.has("fantasy") ||
+    t.has("quiet kingdom") ||
+    t.has("medieval")
+  ) {
+    return "quiet-kingdom";
+  }
+  if (t.has("fake dj") || t.has("deep house") || t.has("late night")) {
+    return "late-night";
+  }
   if (t.has("sleep") || t.has("deep sleep")) return "sleep";
-  if (t.has("focus") || t.has("study")) return "focus";
+  if (
+    t.has("focus") ||
+    t.has("study") ||
+    t.has("chamber") ||
+    t.has("cello") ||
+    t.has("strings")
+  ) {
+    return "focus";
+  }
   return null;
 }
 
