@@ -170,8 +170,13 @@ export function AccountDashboard({
   const [portalLoading, setPortalLoading] = useState(false);
   const [downloads, setDownloads] = useState(serverDownloads);
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const tabParam = searchParams.get("tab");
   const tab: DashboardTab =
-    searchParams.get("tab") === "shop" ? "shop" : initialTab;
+    tabParam === "library"
+      ? "library"
+      : tabParam === "shop"
+        ? "shop"
+        : initialTab;
   const isActive = subscription?.status === "active";
   const isGuest = email === "guest@lumenaimusic.com";
 
@@ -195,7 +200,9 @@ export function AccountDashboard({
   }, []);
 
   function setTab(next: DashboardTab) {
-    router.push(next === "shop" ? "/account?tab=shop" : "/account");
+    router.push(
+      next === "library" ? "/account?tab=library" : "/account?tab=shop",
+    );
   }
 
   async function openPortal() {
@@ -243,22 +250,28 @@ export function AccountDashboard({
 
         <div className="relative mx-auto w-full max-w-6xl px-4 py-16 md:py-20">
           <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
-            Library
+            Account
           </p>
           <h1 className="font-display mt-4 text-4xl font-semibold tracking-tight text-lumen-cream md:text-6xl">
-            {tab === "shop" ? "Shop" : "Listening room"}
+            {tab === "shop" ? "Quiet apothecary" : "Your rooms"}
           </h1>
           <p className="mt-5 max-w-xl text-lg text-slate-300">
             {tab === "shop"
-              ? "Wellness essentials — add to cart and check out when ready."
-              : "Tracks you own, favorites, and your cart — pay per song or go Unlimited."}
+              ? "Sleep and wellness essentials — add to cart and check out when ready."
+              : "Favorites and anything you saved. Listening stays free; shop for rest objects."}
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
-              href="/music"
+              href="/shop"
               className="rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight shadow-lg shadow-lumen-gold/20 hover:bg-lumen-gold-light"
             >
-              Browse Music
+              Browse shop
+            </Link>
+            <Link
+              href="/music"
+              className="rounded-full border border-lumen-cream/25 px-7 py-3.5 text-sm font-medium text-lumen-cream hover:bg-white/5"
+            >
+              Free rooms
             </Link>
             <Link
               href="/cart"
@@ -267,14 +280,6 @@ export function AccountDashboard({
               <ShoppingCart className="h-4 w-4" />
               Cart
             </Link>
-            {!isActive && (
-              <Link
-                href="/pricing"
-                className="rounded-full border border-lumen-cream/25 px-7 py-3.5 text-sm font-medium text-lumen-cream hover:bg-white/5"
-              >
-                Go Unlimited
-              </Link>
-            )}
           </div>
           {isGuest && (
             <p className="mt-5 text-xs text-slate-500">
@@ -324,35 +329,14 @@ export function AccountDashboard({
         </div>
       </section>
 
-      {!isActive && tab === "library" && (
+      {isActive && (
         <section className="relative z-10 w-full border-b border-white/5 bg-[#0a1525]">
           <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8">
             <div>
               <h2 className="font-display text-xl text-lumen-cream">
-                Pay per song or Unlimited
+                Legacy membership
               </h2>
               <p className="mt-1 text-sm text-slate-400">
-                Buy tracks from Music, or subscribe for full-catalog streaming.
-              </p>
-            </div>
-            <Link
-              href="/pricing"
-              className="rounded-full bg-lumen-gold px-5 py-2.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
-            >
-              View plans
-            </Link>
-          </div>
-        </section>
-      )}
-
-      {isActive && tab === "library" && (
-        <section className="relative z-10 w-full border-b border-white/5 bg-[#0a1525]">
-          <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8">
-            <div>
-              <h2 className="font-display text-xl text-lumen-cream">
-                In Unlimited
-              </h2>
-              <p className="mt-1 text-sm text-emerald-300/90">
                 Active
                 {subscription?.currentPeriodEnd && (
                   <>
@@ -379,10 +363,13 @@ export function AccountDashboard({
           <div className="mx-auto w-full max-w-6xl px-4 py-14 md:py-16">
             <div className="mb-8">
               <h2 className="font-display text-3xl text-lumen-cream">
-                Quiet apothecary
+                Sleep &amp; wellness
               </h2>
               <p className="mt-2 text-sm text-slate-400">
-                Add items to cart — checkout from Cart when ready.
+                Add items to cart — checkout from Cart when ready.{" "}
+                <Link href="/shop" className="text-lumen-gold-light hover:text-lumen-cream">
+                  Open public shop →
+                </Link>
               </p>
             </div>
             {shopProducts.length === 0 ? (
@@ -413,37 +400,35 @@ export function AccountDashboard({
                     </p>
                   )}
                 </div>
-                {hasOwned && (
-                  <Link
-                    href="/music"
-                    className="text-sm text-lumen-gold-light hover:text-lumen-cream"
-                  >
-                    Buy more →
-                  </Link>
-                )}
+                <Link
+                  href="/music"
+                  className="text-sm text-lumen-gold-light hover:text-lumen-cream"
+                >
+                  Free rooms →
+                </Link>
               </div>
 
               {!hasOwned ? (
                 <div className="rounded-3xl border border-white/10 px-6 py-16 text-center md:px-12">
                   <p className="font-display text-2xl text-lumen-cream md:text-3xl">
-                    Nothing owned yet
+                    Nothing saved here yet
                   </p>
                   <p className="mx-auto mt-3 max-w-md text-slate-400">
-                    Browse Music, add tracks to cart, or subscribe for Unlimited
-                    streaming.
+                    Rooms are free to listen. Heart favorites while browsing, or
+                    shop wellness essentials for deeper rest.
                   </p>
                   <div className="mt-8 flex flex-wrap justify-center gap-3">
                     <Link
-                      href="/music"
+                      href="/shop"
                       className="inline-flex rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
                     >
-                      Browse Music
+                      Browse shop
                     </Link>
                     <Link
-                      href="/pricing"
+                      href="/music"
                       className="inline-flex rounded-full border border-white/15 px-7 py-3.5 text-sm text-lumen-cream hover:bg-white/5"
                     >
-                      Go Unlimited
+                      Free rooms
                     </Link>
                   </div>
                 </div>

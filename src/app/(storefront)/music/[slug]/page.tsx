@@ -1,19 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { auth } from "@/auth";
-import { BuyButton } from "@/components/buy-button";
 import { FavoriteButton } from "@/components/favorite-button";
 import { PlayTrackButton } from "@/components/music-player";
-import { hasActiveSubscription } from "@/lib/access";
 import { getPublishedMusicBySlug } from "@/lib/catalog";
-import { formatDuration, formatPrice } from "@/lib/utils";
+import { formatDuration } from "@/lib/utils";
 
 type Props = { params: Promise<{ slug: string }> };
+
+const YOUTUBE_CHANNEL = "https://www.youtube.com/@lumenlistening";
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const track = await getPublishedMusicBySlug(slug);
-  if (!track) return { title: "Track not found" };
+  if (!track) return { title: "Room not found" };
   return {
     title: track.title,
     description:
@@ -24,15 +23,9 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function MusicDetailPage({ params }: Props) {
   const { slug } = await params;
-  const session = await auth();
   const track = await getPublishedMusicBySlug(slug);
 
   if (!track) notFound();
-
-  const subscribed =
-    session?.user?.id
-      ? await hasActiveSubscription(session.user.id)
-      : false;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -58,16 +51,16 @@ export default async function MusicDetailPage({ params }: Props) {
             {track.title}
           </h1>
           <p className="mt-2 text-sm text-slate-500">
-            Human-curated · finished with care
+            Free to listen · human-curated
           </p>
           <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-400">
             {track.duration && <span>{formatDuration(track.duration)}</span>}
             {track.bpm && <span>{track.bpm} BPM</span>}
-            <span className="text-lumen-gold-light">Lossless stream</span>
           </div>
-          <p className="mt-6 text-3xl text-lumen-gold-light">{formatPrice(track.price)}</p>
           {track.description && (
-            <p className="mt-4 leading-relaxed text-slate-300">{track.description}</p>
+            <p className="mt-6 leading-relaxed text-slate-300">
+              {track.description}
+            </p>
           )}
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <PlayTrackButton
@@ -79,43 +72,24 @@ export default async function MusicDetailPage({ params }: Props) {
               }}
             />
             <FavoriteButton productId={track.id} />
-            {!subscribed && (
-              <BuyButton
-                productId={track.id}
-                title={track.title}
-                price={track.price}
-                slug={track.slug}
-                type="DIGITAL"
-              />
-            )}
-            {!subscribed && (
-              <Link
-                href="/pricing"
-                className="rounded-full border border-white/15 px-6 py-2.5 text-sm text-white hover:bg-white/5"
-              >
-                Go Unlimited
-              </Link>
-            )}
-            {track.youtubeUrl && (
-              <Link
-                href={track.youtubeUrl}
-                target="_blank"
-                className="rounded-full border border-white/10 px-6 py-2.5 text-sm text-slate-300 hover:text-white"
-              >
-                YouTube
-              </Link>
-            )}
+            <Link
+              href={track.youtubeUrl || YOUTUBE_CHANNEL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-white/15 px-6 py-2.5 text-sm text-white hover:bg-white/5"
+            >
+              YouTube
+            </Link>
+            <Link
+              href="/shop"
+              className="rounded-full bg-lumen-gold px-6 py-2.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
+            >
+              Shop wellness
+            </Link>
           </div>
-          {subscribed ? (
-            <p className="mt-4 text-sm text-emerald-300/90">
-              In Unlimited — full-length streaming unlocked.
-            </p>
-          ) : (
-            <p className="mt-4 text-sm text-slate-500">
-              Preview the first minute free. Add to cart to buy this track, or go
-              Unlimited for the full catalog.
-            </p>
-          )}
+          <p className="mt-4 text-sm text-slate-500">
+            Rooms are free. Sleep masks and quiet essentials are in the Shop.
+          </p>
         </div>
       </div>
     </div>

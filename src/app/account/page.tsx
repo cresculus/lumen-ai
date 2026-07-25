@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-export const metadata = { title: "Library" };
+export const metadata = { title: "Account" };
 
 export default async function AccountPage({
   searchParams,
@@ -59,7 +59,7 @@ export default async function AccountPage({
         downloads={downloads}
         orders={orders}
         shopProducts={shopProducts}
-        initialTab={tab === "shop" ? "shop" : "library"}
+        initialTab={tab === "library" ? "library" : "shop"}
       />
     </Suspense>
   );

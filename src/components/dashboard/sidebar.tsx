@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import {
   BarChart3,
-  CreditCard,
   LayoutDashboard,
   Library,
   LogOut,
@@ -31,11 +30,11 @@ type NavSection = { title: string; items: NavItem[] };
 
 const userSections: NavSection[] = [
   {
-    title: "Sanctuary",
+    title: "Account",
     items: [
-      { href: "/account", label: "My library", icon: Library, exact: true },
-      { href: "/music", label: "Browse music", icon: Music2 },
-      { href: "/pricing", label: "Subscription", icon: CreditCard },
+      { href: "/account", label: "Orders & shop", icon: ShoppingBag, exact: true },
+      { href: "/account?tab=library", label: "Saved rooms", icon: Library },
+      { href: "/music", label: "Free rooms", icon: Music2 },
     ],
   },
   {
@@ -142,7 +141,7 @@ export function DashboardSidebar({
             className="h-8 w-auto"
           />
           <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-lumen-gold-light/80">
-            {isAdmin ? "Creator console" : "Sound library"}
+            {isAdmin ? "Creator console" : "Listening Rooms"}
           </p>
         </Link>
       </div>
@@ -246,10 +245,9 @@ function MobileTopBar({ variant }: { variant: "user" | "admin" }) {
         { href: "/account", label: "Library" },
       ]
     : [
-        { href: "/account", label: "Library" },
-        { href: "/music", label: "Browse" },
-        { href: "/pricing", label: "Plan" },
+        { href: "/account", label: "Account" },
         { href: "/shop", label: "Shop" },
+        { href: "/music", label: "Rooms" },
       ];
 
   return (
@@ -263,7 +261,7 @@ function MobileTopBar({ variant }: { variant: "user" | "admin" }) {
             className="h-7 w-auto"
           />
           <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-slate-500">
-            {isAdmin ? "Creator console" : "Sound library"}
+            {isAdmin ? "Creator console" : "Listening Rooms"}
           </p>
         </div>
         <Link

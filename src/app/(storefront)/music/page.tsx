@@ -4,12 +4,13 @@ import { getPublishedMusic } from "@/lib/catalog";
 import { MUSIC_MOOD_FILTERS } from "@/lib/seed-data";
 
 export const metadata = {
-  title: "Music",
+  title: "Rooms",
   description:
-    "Listening rooms for focus, deep sleep, Quiet Kingdom, and late nights — leave them on.",
+    "Free listening rooms for focus, deep sleep, Quiet Kingdom, and late nights — leave them on.",
 };
 
 const PAGE_WIDTH = "mx-auto w-full max-w-[1400px] px-5 md:px-8";
+const YOUTUBE = "https://www.youtube.com/@lumenlistening";
 
 export default async function MusicPage({
   searchParams,
@@ -38,11 +39,11 @@ export default async function MusicPage({
             Listening rooms
           </p>
           <h1 className="font-display mt-3 text-4xl font-semibold tracking-tight text-lumen-cream md:text-5xl">
-            Choose a quiet room
+            Free quiet rooms
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-300">
-            Focus, Sleep, Quiet Kingdom, and Late Night — preview free, pay per
-            room, or go Unlimited and keep them in your Library.
+            Focus, Sleep, Quiet Kingdom, and Late Night — listen free here or on
+            YouTube. Sleep &amp; wellness objects live in the Shop.
           </p>
 
           <form
@@ -89,18 +90,28 @@ export default async function MusicPage({
       </header>
 
       <div className={`${PAGE_WIDTH} py-10 pb-28 md:py-12 md:pb-32`}>
-        <div className="mb-6 flex items-end justify-between gap-4">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <p className="text-sm text-slate-400">
             {`${tracks.length} room${tracks.length === 1 ? "" : "s"}${
               activeTag ? ` · ${activeTag}` : ""
             }${query ? ` · “${query}”` : ""}`}
           </p>
-          <Link
-            href="/pricing"
-            className="text-sm text-lumen-gold-light hover:text-lumen-cream"
-          >
-            Go Unlimited →
-          </Link>
+          <div className="flex flex-wrap gap-4 text-sm">
+            <a
+              href={YOUTUBE}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-lumen-gold-light hover:text-lumen-cream"
+            >
+              YouTube →
+            </a>
+            <Link
+              href="/shop"
+              className="text-lumen-gold-light hover:text-lumen-cream"
+            >
+              Shop wellness →
+            </Link>
+          </div>
         </div>
 
         {tracks.length === 0 ? (
@@ -119,7 +130,7 @@ export default async function MusicPage({
             </Link>
           </div>
         ) : (
-          <div className="grid items-stretch grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {tracks.map((track) => (
               <div key={track.id} className="grid-card-cell">
                 <MusicTrackCard

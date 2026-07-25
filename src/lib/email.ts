@@ -36,7 +36,7 @@ export async function sendPurchaseEmail({
         <p style="color: #666; font-size: 14px;">Order ID: ${orderId}</p>
         <ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>
         <p>
-          Open your library to stream full length and download lossless files
+          Open your library to stream full length and download your files
           (signed links, limited uses):
         </p>
         <p>

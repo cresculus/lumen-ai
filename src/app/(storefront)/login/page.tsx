@@ -13,7 +13,7 @@ export default function LoginPage() {
         Sign in
       </h1>
       <p className="mt-3 text-slate-400">
-        Access your library, cart, and Unlimited membership.
+        Access your orders, cart, and favorites.
       </p>
 
       <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
@@ -22,8 +22,12 @@ export default function LoginPage() {
 
       <p className="mt-6 text-center text-sm text-slate-500">
         New here?{" "}
+        <Link href="/shop" className="text-lumen-gold-light hover:text-white">
+          Visit shop →
+        </Link>
+        {" · "}
         <Link href="/music" className="text-lumen-gold-light hover:text-white">
-          Explore rooms →
+          Free rooms →
         </Link>
       </p>
     </div>

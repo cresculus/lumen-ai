@@ -178,7 +178,8 @@ export const SEED_SHOP = [
   {
     title: "Silk Sleep Mask",
     slug: "silk-sleep-mask",
-    description: "Light-blocking silk mask for deeper rest.",
+    description:
+      "Light-blocking silk mask for deeper sleep — pair with a Sleep Room and leave the night on.",
     images: [] as string[],
     price: 2499,
     inventory: 50,
@@ -190,7 +191,8 @@ export const SEED_SHOP = [
   {
     title: "Soft Night Cap",
     slug: "soft-night-cap",
-    description: "Breathable cotton night cap for comfortable sleep.",
+    description:
+      "Breathable cotton night cap for soft overnight rest — made for long listening nights.",
     images: [],
     price: 1999,
     inventory: 40,
@@ -202,7 +204,8 @@ export const SEED_SHOP = [
   {
     title: "Foam Ear Plugs (10 pair)",
     slug: "foam-ear-plugs",
-    description: "Noise-reducing ear plugs for focus and sleep.",
+    description:
+      "Noise-reducing ear plugs for focus rooms and insomnia nights when the world is too loud.",
     images: [],
     price: 1299,
     inventory: 100,

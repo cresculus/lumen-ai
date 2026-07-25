@@ -179,23 +179,23 @@ export function MusicPlayerProvider({ children }: { children: React.ReactNode })
           {access === "preview" && (
             <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-b border-lumen-gold/20 bg-lumen-gold/10 px-4 py-2 text-center text-[11px] text-lumen-cream">
               <span>
-                Preview ends at {PREVIEW_LIMIT_SEC}s — own this track or go
-                Unlimited for full length.
+                Preview ends at {PREVIEW_LIMIT_SEC}s — full rooms play free on
+                YouTube.
               </span>
               <a
-                href="/pricing"
+                href="https://www.youtube.com/@lumenlistening"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="font-medium text-lumen-gold-light underline hover:text-white"
               >
-                Subscribe
+                YouTube
               </a>
-              {currentTrack?.slug && (
-                <a
-                  href={`/music/${currentTrack.slug}`}
-                  className="font-medium text-lumen-gold-light underline hover:text-white"
-                >
-                  Buy this track
-                </a>
-              )}
+              <a
+                href="/shop"
+                className="font-medium text-lumen-gold-light underline hover:text-white"
+              >
+                Shop wellness
+              </a>
             </div>
           )}
           <div className="flex w-full flex-row items-center justify-between gap-2 px-3 py-3 md:px-5">

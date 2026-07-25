@@ -23,11 +23,11 @@ export const metadata: Metadata = {
     template: "%s | Lumen Listening Rooms",
   },
   description:
-    "Quiet rooms for feeling, focus, deep sleep, late nights, and soft restoration. Long-form atmospheres you can leave on — Focus, Sleep, Quiet Kingdom, and Late Night.",
+    "Free quiet rooms for feeling, focus, and soft resets — plus sleep and wellness objects that match the rooms.",
   openGraph: {
     title: "Lumen Listening Rooms",
     description:
-      "Quiet rooms for feeling, focus, deep sleep, late nights, and soft restoration.",
+      "Free quiet rooms for focus and rest, plus sleep and wellness essentials.",
     type: "website",
     siteName: "Lumen Listening Rooms",
     url: "https://www.lumenlistening.com",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary",
     title: "Lumen Listening Rooms",
     description:
-      "Quiet rooms for feeling, focus, deep sleep, late nights, and soft restoration.",
+      "Free quiet rooms for focus and rest, plus sleep and wellness essentials.",
   },
 };
 

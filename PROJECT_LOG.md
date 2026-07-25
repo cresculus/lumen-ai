@@ -81,7 +81,7 @@ Combined patterns from open-source references:
 
 ### Added
 - Global **music player** (play/pause, seek, volume, queue, 60s preview)
-- `/api/stream/[productId]` — lossless streaming from R2
+- `/api/stream/[productId]` — streaming from R2
 - **Subscription model** in Prisma + `/pricing` page
 - `/api/stripe/subscribe` + billing portal
 - Webhook handlers for subscription lifecycle

@@ -11,16 +11,12 @@ export function NavbarClient() {
   const [open, setOpen] = useState(false);
   const isAdmin = session?.user?.role === "ADMIN";
   const dashHref = isAdmin ? "/admin" : "/account";
-  const dashLabel = isAdmin ? "Dashboard" : "Library";
-  const shopHref = session?.user
-    ? "/account?tab=shop"
-    : "/login?callbackUrl=/account%3Ftab%3Dshop";
+  const dashLabel = isAdmin ? "Dashboard" : "Account";
 
   const navLinks = [
+    ["Shop", "/shop"],
     ["Rooms", "/music"],
-    ["Pricing", "/pricing"],
     ["About", "/about"],
-    ["Shop", shopHref],
   ] as const;
 
   return (

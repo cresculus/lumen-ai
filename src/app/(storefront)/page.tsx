@@ -1,29 +1,14 @@
 import Link from "next/link";
+import { ProductCard } from "@/components/product-card";
+import { getPublishedShop } from "@/lib/catalog";
 
-const ROOMS = [
-  {
-    href: "/music?tag=focus",
-    label: "Focus Rooms",
-    blurb: "Deep work, study, and calm concentration.",
-  },
-  {
-    href: "/music?tag=sleep",
-    label: "Sleep Rooms",
-    blurb: "Overnight hush for insomnia and soft rest.",
-  },
-  {
-    href: "/music?tag=fantasy",
-    label: "Quiet Kingdom",
-    blurb: "Fantasy story skins for focus and soft resets.",
-  },
-  {
-    href: "/music?tag=late%20night",
-    label: "Late Night Rooms",
-    blurb: "Coffee hours, quiet drives, and wind-down.",
-  },
-] as const;
+const YOUTUBE = "https://www.youtube.com/@lumenlistening";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const products = await getPublishedShop();
+  const featured = products.filter((p) => p.featured).slice(0, 3);
+  const shopPreview = (featured.length ? featured : products).slice(0, 3);
+
   return (
     <div className="w-full bg-[#0a1525]">
       <section className="relative min-h-[78vh] overflow-hidden bg-[#0f1c2e] md:min-h-[88vh]">
@@ -43,28 +28,31 @@ export default function HomePage() {
             Quiet rooms for feeling, focus &amp; soft resets
           </h1>
           <p className="mt-6 max-w-xl text-lg text-slate-300">
-            Long-form atmospheres for deep sleep, deep work, late nights, and
-            soft restoration. Warm, cinematic, unhurried — leave them on.
+            Long-form listening stays free. This shop is for the objects that
+            deepen rest — sleep masks, soft nights, and calm essentials that
+            match the rooms.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
-              href="/music"
+              href="/shop"
               className="rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight shadow-lg shadow-lumen-gold/20 hover:bg-lumen-gold-light"
             >
-              Explore Rooms
+              Shop wellness
             </Link>
             <Link
-              href="/account"
+              href="/music"
               className="rounded-full border border-lumen-cream/25 px-7 py-3.5 text-sm font-medium text-lumen-cream hover:bg-white/5"
             >
-              Library
+              Free rooms
             </Link>
-            <Link
-              href="/pricing"
+            <a
+              href={YOUTUBE}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-full border border-lumen-cream/25 px-7 py-3.5 text-sm font-medium text-lumen-cream hover:bg-white/5"
             >
-              Go Unlimited
-            </Link>
+              YouTube
+            </a>
           </div>
         </div>
       </section>
@@ -72,30 +60,70 @@ export default function HomePage() {
       <section className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
           <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
-            Choose a room
+            Quiet apothecary
+          </p>
+          <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
+            <h2 className="font-display max-w-xl text-3xl font-semibold text-lumen-cream md:text-4xl">
+              Sleep &amp; wellness for the rooms
+            </h2>
+            <Link
+              href="/shop"
+              className="text-sm text-lumen-gold-light hover:text-lumen-cream"
+            >
+              View all →
+            </Link>
+          </div>
+          <p className="mt-4 max-w-xl text-slate-400">
+            Buy what helps you stay in the room — not the music itself.
+          </p>
+
+          {shopPreview.length === 0 ? (
+            <p className="mt-10 text-slate-500">Products arriving soon.</p>
+          ) : (
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {shopPreview.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  title={product.title}
+                  slug={product.slug}
+                  price={product.price}
+                  description={product.description}
+                  href={`/shop/${product.slug}`}
+                  badge={product.featured ? "Featured" : undefined}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="border-t border-white/10 bg-[#0f1c2e]/50">
+        <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
+          <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
+            Listening
           </p>
           <h2 className="font-display mt-3 max-w-2xl text-3xl font-semibold text-lumen-cream md:text-4xl">
-            Four doors. One quiet purpose.
+            Rooms stay free
           </h2>
           <p className="mt-4 max-w-xl text-slate-400">
-            Match the YouTube shelves — Focus, Sleep, Quiet Kingdom, and Late
-            Night. Same calm listening. Different doors in.
+            Focus, Sleep, Quiet Kingdom, and Late Night — leave them on on
+            YouTube, or preview here. No subscription required.
           </p>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {ROOMS.map((room) => (
-              <Link
-                key={room.label}
-                href={room.href}
-                className="group rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-6 transition hover:border-lumen-gold/35 hover:bg-white/[0.05]"
-              >
-                <h3 className="font-display text-xl text-lumen-cream group-hover:text-lumen-gold-light">
-                  {room.label}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                  {room.blurb}
-                </p>
-              </Link>
-            ))}
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/music"
+              className="rounded-full border border-lumen-cream/25 px-7 py-3.5 text-sm font-medium text-lumen-cream hover:bg-white/5"
+            >
+              Explore Rooms
+            </Link>
+            <a
+              href={YOUTUBE}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
+            >
+              Watch on YouTube
+            </a>
           </div>
         </div>
       </section>

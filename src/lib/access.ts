@@ -1,41 +1,17 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
-import { isMockId } from "@/lib/mock-data";
 
 export type StreamAccess = "full" | "preview";
 
+/**
+ * Listening is free on the site. Monetization is wellness shop, not track paywalls.
+ */
 export async function getStreamAccess(
-  userId: string | undefined,
-  digitalProductId: string,
-  role?: string,
+  _userId: string | undefined,
+  _digitalProductId: string,
+  _role?: string,
 ): Promise<StreamAccess> {
-  if (role === "ADMIN") return "full";
-  if (!userId || userId.startsWith("demo-")) return "preview";
-  if (isMockId(digitalProductId)) return "preview";
-
-  try {
-    const [subscription, download] = await Promise.all([
-      prisma.subscription.findUnique({ where: { userId } }),
-      prisma.download.findUnique({
-        where: {
-          userId_digitalProductId: { userId, digitalProductId },
-        },
-      }),
-    ]);
-
-    if (subscription?.status === "active") {
-      const periodValid =
-        !subscription.currentPeriodEnd ||
-        subscription.currentPeriodEnd > new Date();
-      if (periodValid) return "full";
-    }
-
-    if (download && download.expiresAt > new Date()) return "full";
-  } catch (error) {
-    console.warn("[access] stream check failed", error);
-  }
-
-  return "preview";
+  return "full";
 }
 
 export async function getSessionStreamAccess(digitalProductId: string) {

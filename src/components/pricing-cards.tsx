@@ -27,7 +27,7 @@ const plans: {
     highlight: false,
     features: [
       "Add any room to cart",
-      "Full lossless download",
+      "Full download to your Library",
       "Stream owned rooms in Library",
     ],
   },

@@ -16,7 +16,7 @@ export default function CartPage() {
         <ShoppingBag className="h-8 w-8 text-lumen-gold" />
         <div>
           <h1 className="text-3xl font-semibold text-white">Shopping cart</h1>
-          <p className="text-sm text-slate-400">Music + wellness products</p>
+          <p className="text-sm text-slate-400">Sleep &amp; wellness</p>
         </div>
       </div>
 
@@ -25,16 +25,16 @@ export default function CartPage() {
           <p className="text-slate-400">Your cart is empty.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link
-              href="/music"
-              className="rounded-full bg-lumen-gold px-5 py-2 text-sm text-white"
-            >
-              Browse music
-            </Link>
-            <Link
-              href="/account?tab=shop"
-              className="rounded-full border border-white/15 px-5 py-2 text-sm text-white"
+              href="/shop"
+              className="rounded-full bg-lumen-gold px-5 py-2 text-sm font-medium text-lumen-midnight"
             >
               Visit shop
+            </Link>
+            <Link
+              href="/music"
+              className="rounded-full border border-white/15 px-5 py-2 text-sm text-white"
+            >
+              Free rooms
             </Link>
           </div>
         </div>
