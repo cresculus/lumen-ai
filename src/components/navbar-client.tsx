@@ -16,6 +16,7 @@ export function NavbarClient() {
   const navLinks = [
     ["Shop", "/shop"],
     ["Rooms", "/music"],
+    ["Wallpapers", "/wallpapers"],
     ["About", "/about"],
   ] as const;
 
