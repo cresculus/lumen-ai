@@ -50,7 +50,7 @@ function room(entry: {
 
 export const SEED_MUSIC: SeedMusic[] = [
   room({ title: "Tin Roof", slug: "tin-roof", youtubeId: "dkGIe9hW5TA", tags: ["rooms", "sleep"], cover: "/wallpapers/preview/tin-roof.jpg", featured: true }),
-  room({ title: "The Jazz Club", slug: "jazz-club", youtubeId: "Bb9Cghtntog", tags: ["rooms", "late night"], cover: "/wallpapers/preview/jazz-club.jpg", featured: true }),
+  room({ title: "The Jazz Club", slug: "jazz-club", youtubeId: "TOZC_k16xi0", tags: ["rooms", "late night"], cover: "/wallpapers/preview/jazz-club.jpg", featured: true }),
   room({ title: "The Cupola", slug: "cupola", youtubeId: "NVNXA8gG6jA", tags: ["space", "focus"], cover: "/wallpapers/preview/cupola.jpg", featured: true }),
   room({ title: "Europa", slug: "europa", youtubeId: "KLjgcyj3Nzw", tags: ["space"], cover: "/wallpapers/preview/europa.jpg" }),
   room({ title: "Mars", slug: "mars", youtubeId: "ZpNVQh-da0M", tags: ["space"], cover: "/wallpapers/preview/mars.jpg" }),

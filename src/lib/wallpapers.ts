@@ -10,7 +10,7 @@ export type Wallpaper = {
 /** Icon plate of each room, exported at 3840×2160. */
 export const wallpapers: Wallpaper[] = [
   { slug: "tin-roof", title: "Tin Roof", series: "Rooms", file: "tin-roof.jpg", youtubeId: "dkGIe9hW5TA" },
-  { slug: "jazz-club", title: "The Jazz Club", series: "Rooms", file: "jazz-club.jpg", youtubeId: "Bb9Cghtntog" },
+  { slug: "jazz-club", title: "The Jazz Club", series: "Rooms", file: "jazz-club.jpg", youtubeId: "TOZC_k16xi0" },
   { slug: "cupola", title: "The Cupola", series: "Space", file: "cupola.jpg", youtubeId: "NVNXA8gG6jA" },
   { slug: "europa", title: "Europa", series: "Space", file: "europa.jpg", youtubeId: "KLjgcyj3Nzw" },
   { slug: "mars", title: "Mars", series: "Space", file: "mars.jpg", youtubeId: "ZpNVQh-da0M" },
