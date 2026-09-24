@@ -21,157 +21,53 @@ export type SeedMusic = {
   featured: boolean;
 };
 
-export const SEED_MUSIC: SeedMusic[] = [
-  {
-    title: "Deep Sleep Ocean — 8 Hours",
-    slug: "deep-sleep-ocean-8hours",
-    description:
-      "Under a slow tide of ocean hush, warm pads drift across eight uninterrupted hours. Human-curated and finished with care.",
-    audioKey: SEED_DEMO_AUDIO_URL,
-    coverKey: null,
-    price: 499,
-    tags: ["sleep", "deep sleep", "ambient"],
-    youtubeUrl: null,
-    bpm: 60,
-    duration: 28800,
-    status: "PUBLISHED",
-    featured: true,
-  },
-  {
-    title: "Focus Flow — Study Mix",
-    slug: "focus-flow-study",
-    description:
-      "Minimal piano and soft pads woven for concentration and deep work — serene, never distracting.",
-    audioKey: SEED_DEMO_AUDIO_URL,
-    coverKey: null,
-    price: 399,
-    tags: ["focus", "study", "ambient"],
-    youtubeUrl: null,
-    bpm: 72,
-    duration: 7200,
-    status: "PUBLISHED",
-    featured: true,
-  },
-  {
-    title: "Midnight Rain on Window",
-    slug: "midnight-rain",
-    description:
-      "Gentle rain against glass, blended with warm synth pads — a quiet room at the edge of night.",
-    audioKey: SEED_DEMO_AUDIO_URL,
-    coverKey: null,
-    price: 299,
-    tags: ["sleep", "ambient", "rain"],
-    youtubeUrl: null,
+const PREVIEW =
+  "High-quality room recording. This page plays a short preview. The full video is free on YouTube. This site has no ads.";
+
+function room(entry: {
+  title: string;
+  slug: string;
+  youtubeId: string;
+  tags: string[];
+  cover?: string;
+  featured?: boolean;
+}): SeedMusic {
+  return {
+    title: entry.title,
+    slug: entry.slug,
+    description: PREVIEW,
+    audioKey: `/previews/${entry.slug}.m4a`,
+    coverKey: entry.cover ?? null,
+    price: 0,
+    tags: entry.tags,
+    youtubeUrl: `https://www.youtube.com/watch?v=${entry.youtubeId}`,
     bpm: null,
-    duration: 3600,
+    duration: 70,
     status: "PUBLISHED",
-    featured: false,
-  },
-  {
-    title: "Lumen Drift — Theta Waves",
-    slug: "lumen-drift-theta",
-    description:
-      "Theta-frequency undertones for meditation and pre-sleep calm — slow, luminous, hand-finished.",
-    audioKey: SEED_DEMO_AUDIO_URL,
-    coverKey: null,
-    price: 349,
-    tags: ["sleep", "meditation"],
-    youtubeUrl: null,
-    bpm: 55,
-    duration: 5400,
-    status: "PUBLISHED",
-    featured: true,
-  },
-  {
-    title: "Gravity Drift",
-    slug: "gravity-drift",
-    description:
-      "Cinematic post-grunge ambient rock — warm analog pads, distant brushed-guitar haze, and slow-evolving grit-soft texture. No vocals.",
-    audioKey: SEED_DEMO_AUDIO_URL,
-    coverKey: null,
-    price: 499,
-    tags: ["focus", "cinematic", "ambient", "fantasy", "quiet kingdom"],
-    youtubeUrl: "https://youtu.be/DgVomr2gb4I",
-    bpm: 90,
-    duration: 8040,
-    status: "PUBLISHED",
-    featured: true,
-  },
-  {
-    title: "Late Night — Deep House Chill",
-    slug: "late-night-deep-house-chill",
-    description:
-      "Warm bass, rolling drums, and no vocals — late work, night drives, and quiet hours when the city slows.",
-    audioKey: SEED_DEMO_AUDIO_URL,
-    coverKey: null,
-    price: 449,
-    tags: ["deep house", "fake dj", "late night"],
-    youtubeUrl: "https://youtu.be/N4lPRQzaatc",
-    bpm: 122,
-    duration: 7200,
-    status: "PUBLISHED",
-    featured: true,
-  },
-  {
-    title: "Late Train Drip",
-    slug: "late-train-drip",
-    description:
-      "Soft deep house for work sessions and night travel — city blur through a rainy window, pulse steady, no vocals.",
-    audioKey: SEED_DEMO_AUDIO_URL,
-    coverKey: null,
-    price: 399,
-    tags: ["deep house", "fake dj", "travel", "late night"],
-    youtubeUrl: null,
-    bpm: 120,
-    duration: 7200,
-    status: "PUBLISHED",
-    featured: true,
-  },
-  {
-    title: "Late Set Drift",
-    slug: "late-set-drift",
-    description:
-      "After-hours deep house for coffee and work chill — booth glow energy, continuous groove, instrumental only.",
-    audioKey: SEED_DEMO_AUDIO_URL,
-    coverKey: null,
-    price: 449,
-    tags: ["deep house", "fake dj", "chill", "late night"],
-    youtubeUrl: null,
-    bpm: 123,
-    duration: 7200,
-    status: "PUBLISHED",
-    featured: false,
-  },
-  {
-    title: "Dark Strings — Chamber Night",
-    slug: "dark-strings-chamber-night",
-    description:
-      "Low cello and violin in grey-gold light — cinematic chamber hush for deep rest, not clinical sleep pads.",
-    audioKey: SEED_DEMO_AUDIO_URL,
-    coverKey: null,
-    price: 499,
-    tags: ["chamber", "strings", "cello", "focus", "fantasy", "quiet kingdom"],
-    youtubeUrl: null,
-    bpm: 58,
-    duration: 10800,
-    status: "PUBLISHED",
-    featured: true,
-  },
-  {
-    title: "Grey Gold Room",
-    slug: "grey-gold-room",
-    description:
-      "String quartet fog in an empty hall — soft god rays, floating dust, and long-form stillness.",
-    audioKey: SEED_DEMO_AUDIO_URL,
-    coverKey: null,
-    price: 399,
-    tags: ["chamber", "strings", "neoclassical", "focus", "fantasy"],
-    youtubeUrl: null,
-    bpm: 62,
-    duration: 7200,
-    status: "PUBLISHED",
-    featured: false,
-  },
+    featured: entry.featured ?? false,
+  };
+}
+
+export const SEED_MUSIC: SeedMusic[] = [
+  room({ title: "Tin Roof", slug: "tin-roof", youtubeId: "dkGIe9hW5TA", tags: ["rooms", "sleep"], cover: "/wallpapers/preview/tin-roof.jpg", featured: true }),
+  room({ title: "The Jazz Club", slug: "jazz-club", youtubeId: "Bb9Cghtntog", tags: ["rooms", "late night"], cover: "/wallpapers/preview/jazz-club.jpg", featured: true }),
+  room({ title: "The Cupola", slug: "cupola", youtubeId: "NVNXA8gG6jA", tags: ["space", "focus"], cover: "/wallpapers/preview/cupola.jpg", featured: true }),
+  room({ title: "Europa", slug: "europa", youtubeId: "KLjgcyj3Nzw", tags: ["space"], cover: "/wallpapers/preview/europa.jpg" }),
+  room({ title: "Mars", slug: "mars", youtubeId: "ZpNVQh-da0M", tags: ["space"], cover: "/wallpapers/preview/mars.jpg" }),
+  room({ title: "Mission Control", slug: "mission-control", youtubeId: "qzQd_lgV4xw", tags: ["space", "focus"], cover: "/wallpapers/preview/mission-control.jpg" }),
+  room({ title: "Saturn", slug: "saturn", youtubeId: "ckPLN1yqcAA", tags: ["space"], cover: "/wallpapers/preview/saturn.jpg" }),
+  room({ title: "The Moon", slug: "moon", youtubeId: "JGIbcV_Avwg", tags: ["space"], cover: "/wallpapers/preview/moon.jpg" }),
+  room({ title: "The Sun", slug: "the-sun", youtubeId: "6Ys05gkE7MU", tags: ["space"], cover: "/wallpapers/preview/the-sun.jpg" }),
+  room({ title: "The Void", slug: "the-void", youtubeId: "618_5ICuaEU", tags: ["space"], cover: "/wallpapers/preview/the-void.jpg" }),
+  room({ title: "Voyager", slug: "voyager", youtubeId: "ijGfb_rB2vg", tags: ["space"], cover: "/wallpapers/preview/voyager.jpg" }),
+  room({ title: "Buenos Aires", slug: "buenos-aires", youtubeId: "RpeWHQI1ikA", tags: ["tour", "late night"] }),
+  room({ title: "Florence", slug: "florence", youtubeId: "LX_PoIugdoU", tags: ["tour"] }),
+  room({ title: "Istanbul", slug: "istanbul", youtubeId: "_xRFlKpi9_w", tags: ["tour"] }),
+  room({ title: "Kyoto", slug: "kyoto", youtubeId: "7ZgZRrfU18I", tags: ["tour", "sleep"] }),
+  room({ title: "Lake Como", slug: "lake-como", youtubeId: "QpnG0pOU-Gs", tags: ["tour", "sleep"] }),
+  room({ title: "Lisbon", slug: "lisbon", youtubeId: "yw9SCHRLqx0", tags: ["tour"] }),
+  room({ title: "Miami", slug: "miami", youtubeId: "MG7zZl7qwFs", tags: ["tour", "late night"] }),
+  room({ title: "Tokyo", slug: "tokyo", youtubeId: "chgeO60ThVQ", tags: ["tour", "late night"] }),
 ];
 
 export const SEED_SHOP = [
@@ -272,11 +168,10 @@ export const MUSIC_PILLARS = [
 
 export const MUSIC_MOOD_FILTERS = [
   "all",
-  "focus",
+  "rooms",
+  "space",
+  "tour",
   "sleep",
-  "fantasy",
+  "focus",
   "late night",
-  "chamber",
-  "ambient",
-  "study",
 ] as const;

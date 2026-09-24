@@ -16,10 +16,14 @@ export async function GET(
       return NextResponse.json({ error: "Track not found" }, { status: 404 });
     }
     const { access } = await getSessionStreamAccess(productId);
+    const url =
+      mock.audioKey.startsWith("/") || mock.audioKey.startsWith("http")
+        ? mock.audioKey
+        : MOCK_DEMO_AUDIO_URL;
     return NextResponse.json({
-      url: MOCK_DEMO_AUDIO_URL,
+      url,
       access,
-      mock: true,
+      mock: !mock.audioKey.startsWith("/"),
       track: {
         id: mock.id,
         title: mock.title,

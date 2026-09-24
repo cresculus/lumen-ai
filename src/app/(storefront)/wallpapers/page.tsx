@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function WallpapersPage() {
-  const series = ["Rooms", "Space"] as const;
+  const series = ["Rooms", "Space", "With Iselin"] as const;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
@@ -19,8 +19,8 @@ export default function WallpapersPage() {
         Take the room with you
       </h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-300">
-        Desktop wallpapers from the listening rooms. Each file is 3840×2160.
-        Free to download for your own screen.
+        Desktop wallpapers from the listening rooms, plus Iselin in the room.
+        Wide files are 3840×2160. Phone files are 2160×3840. Free for your own screen.
       </p>
 
       {series.map((name) => {
@@ -30,8 +30,10 @@ export default function WallpapersPage() {
             <h2 className="text-[11px] uppercase tracking-[0.28em] text-slate-500">
               {name}
             </h2>
-            <div className="mt-4 grid gap-5 sm:grid-cols-2">
-              {items.map((wall) => (
+            <div className={`mt-4 grid gap-5 ${name === "With Iselin" ? "sm:grid-cols-2 lg:grid-cols-3" : "sm:grid-cols-2"}`}>
+              {items.map((wall) => {
+                const tall = wall.wide === false;
+                return (
                 <article
                   key={wall.slug}
                   id={wall.slug}
@@ -41,9 +43,9 @@ export default function WallpapersPage() {
                   <img
                     src={`/wallpapers/preview/${wall.file}`}
                     alt={wall.title}
-                    className="aspect-video w-full object-cover"
-                    width={960}
-                    height={540}
+                    className={tall ? "aspect-[9/16] w-full object-cover" : "aspect-video w-full object-cover"}
+                    width={tall ? 540 : 960}
+                    height={tall ? 960 : 540}
                   />
                   <div className="flex items-center justify-between gap-3 px-4 py-4">
                     <div>
@@ -51,7 +53,7 @@ export default function WallpapersPage() {
                         {wall.title}
                       </h3>
                       <p className="mt-1 text-xs uppercase tracking-[0.16em] text-slate-500">
-                        3840 × 2160
+                        {tall ? "2160 × 3840" : "3840 × 2160"}
                       </p>
                     </div>
                     <div className="flex shrink-0 flex-wrap justify-end gap-2">
@@ -71,7 +73,8 @@ export default function WallpapersPage() {
                     </div>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           </section>
         );

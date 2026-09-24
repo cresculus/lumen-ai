@@ -42,8 +42,8 @@ export default async function MusicPage({
             Free quiet rooms
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-300">
-            Focus, Sleep, Quiet Kingdom, and Late Night — listen free here or on
-            YouTube. Sleep &amp; wellness objects live in the Shop.
+            High-quality rooms, free to listen. A short preview plays here. The
+            full video is on YouTube. This site has no ads.
           </p>
 
           <form
@@ -141,6 +141,7 @@ export default async function MusicPage({
                   tags={track.tags}
                   description={track.description}
                   featured={track.featured}
+                  cover={track.coverKey}
                 />
               </div>
             ))}

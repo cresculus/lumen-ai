@@ -105,8 +105,8 @@ export default async function HomePage() {
             Rooms stay free
           </h2>
           <p className="mt-4 max-w-xl text-slate-400">
-            Focus, Sleep, Quiet Kingdom, and Late Night — leave them on on
-            YouTube, or preview here. No subscription required.
+            High-quality rooms, free to listen. Preview them here or watch the
+            full video on YouTube. This site has no ads.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link

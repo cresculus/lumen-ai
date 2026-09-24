@@ -12,6 +12,7 @@ type MusicTrackCardProps = {
   tags: string[];
   description?: string | null;
   featured?: boolean;
+  cover?: string | null;
 };
 
 export function MusicTrackCard({
@@ -21,6 +22,7 @@ export function MusicTrackCard({
   tags,
   description,
   featured,
+  cover,
 }: MusicTrackCardProps) {
   return (
     <article className="group relative flex h-full flex-col rounded-2xl border border-white/10 bg-[#0f1c2e]/80 p-4 transition hover:border-lumen-gold/30">
@@ -33,7 +35,12 @@ export function MusicTrackCard({
         <FavoriteButton productId={id} />
       </div>
       <div className="relative mb-3 w-full shrink-0 overflow-hidden rounded-lg bg-[#152238] aspect-[16/10]">
-        <div className="absolute inset-0 bg-gradient-to-br from-lumen-gold/20 via-transparent to-indigo-900/30" />
+        {cover ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={cover} alt="" className="h-full w-full object-cover" />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-lumen-gold/20 via-transparent to-indigo-900/30" />
+        )}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
           <PlayTrackButton track={{ id, title, slug, tags }} size="lg" />
         </div>

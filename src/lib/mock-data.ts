@@ -52,7 +52,7 @@ export const MOCK_MUSIC: MockDigitalProduct[] = SEED_MUSIC.map((track) => ({
   title: track.title,
   slug: track.slug,
   description: track.description,
-  audioKey: "mock",
+  audioKey: track.audioKey,
   coverKey: track.coverKey,
   price: track.price,
   tags: track.tags,

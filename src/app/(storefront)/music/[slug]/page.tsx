@@ -30,8 +30,16 @@ export default async function MusicDetailPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
       <div className="grid gap-10 lg:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-lumen-gold/30 via-lumen-midnight/40 to-slate-900">
-          <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative aspect-video overflow-hidden rounded-3xl bg-[#0a1525]">
+          {track.coverKey ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={track.coverKey}
+              alt=""
+              className="h-full w-full object-cover"
+            />
+          ) : null}
+          <div className="absolute inset-0 flex items-center justify-center bg-black/25">
             <PlayTrackButton
               track={{
                 id: track.id,
