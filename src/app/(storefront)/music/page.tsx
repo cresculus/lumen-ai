@@ -144,7 +144,9 @@ export default async function MusicPage({
           </div>
         ) : (
           <div className="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {tracks.map((track) => (
+            {tracks.map((track) => {
+              const wall = wallpaperForSlug(track.slug);
+              return (
               <div key={track.id} className="grid-card-cell">
                 <MusicTrackCard
                   id={track.id}
@@ -154,14 +156,15 @@ export default async function MusicPage({
                   tags={track.tags}
                   description={track.description}
                   featured={track.featured}
-                />
-                  wallpaper={
-                    wallpaperForSlug(track.slug)
-                      ? `/wallpapers/4k/${wallpaperForSlug(track.slug)?.file}`
-                      : null
+                  cover={
+                    track.coverKey ||
+                    (wall ? `/wallpapers/preview/${wall.file}` : null)
                   }
+                  wallpaper={wall ? `/wallpapers/4k/${wall.file}` : null}
+                />
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
