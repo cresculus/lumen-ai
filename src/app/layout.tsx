@@ -19,24 +19,24 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.lumenlistening.com"),
   title: {
     default:
-      "Lumen Listening Rooms — Quiet rooms for feeling, focus, and deep rest",
-    template: "%s | Lumen Listening Rooms",
+      "Lumen Listening — Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration",
+    template: "%s | Lumen Listening",
   },
   description:
-    "Quiet rooms for feeling, focus, and deep rest — one place at a time. Free to listen. No ads on this site.",
+    "Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration. Long-form atmospheres you can leave on. Warm, cinematic, unhurried.",
   openGraph: {
-    title: "Lumen Listening Rooms",
+    title: "Lumen Listening",
     description:
-      "Free quiet rooms for focus and rest, plus sleep and wellness essentials.",
+      "Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration. Press play. Dim the lights. Stay as long as you need.",
     type: "website",
-    siteName: "Lumen Listening Rooms",
+    siteName: "Lumen Listening",
     url: "https://www.lumenlistening.com",
   },
   twitter: {
     card: "summary",
-    title: "Lumen Listening Rooms",
+    title: "Lumen Listening",
     description:
-      "Free quiet rooms for focus and rest, plus sleep and wellness essentials.",
+      "Press play. Dim the lights. Stay as long as you need.",
   },
 };
 

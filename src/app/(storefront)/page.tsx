@@ -36,14 +36,18 @@ export default async function HomePage() {
 
         <div className="relative mx-auto flex min-h-[calc(100vh-4.25rem)] max-w-6xl flex-col justify-end px-4 pb-10 pt-16 md:pb-14">
           <p className="text-xs uppercase tracking-[0.32em] text-lumen-gold-light">
-            One place at a time
+            Lumen Listening · www.lumenlistening.com
           </p>
-          <h1 className="font-display mt-4 max-w-4xl text-5xl font-medium leading-[0.98] text-lumen-cream md:text-7xl">
-            Quiet rooms for feeling, focus, and deep rest
+          <h1 className="font-display mt-4 max-w-4xl text-4xl font-medium leading-[1.05] text-lumen-cream md:text-6xl">
+            Quiet rooms for deep sleep, focus, late nights, calm meditation,
+            and soft restoration.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-200">
-            A listening room is one world, left on. High quality. Free to
-            listen. No ads on this site. The full room plays on YouTube.
+            Long-form atmospheres you can leave on. Warm, cinematic,
+            unhurried.
+          </p>
+          <p className="mt-3 max-w-xl text-lg text-lumen-cream">
+            Press play. Dim the lights. Stay as long as you need.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link

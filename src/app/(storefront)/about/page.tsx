@@ -13,10 +13,11 @@ export default function AboutPage() {
       <PhotoHeader
         image="/wallpapers/preview/florence.jpg"
         eyebrow="Lumen Listening Rooms"
-        title="One place at a time"
+        title="Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration."
       >
         <p className="text-lg text-slate-200">
-          Quiet rooms for feeling, focus, and deep rest.
+          Long-form atmospheres you can leave on. Warm, cinematic, unhurried.
+          Press play. Dim the lights. Stay as long as you need.
         </p>
       </PhotoHeader>
       <div className="mx-auto max-w-3xl px-4 py-12">

@@ -47,11 +47,11 @@ export default async function MusicPage({
             Listening rooms
           </p>
           <h1 className="font-display mt-3 text-4xl font-medium leading-[1.05] tracking-tight text-lumen-cream md:text-6xl">
-            One place, left on
+            Quiet rooms for deep sleep, focus, late nights, calm meditation, and soft restoration.
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-slate-300">
-            High-quality rooms, free to listen. A short preview plays here. The
-            full video is on YouTube. This site has no ads.
+          <p className="mt-4 max-w-2xl text-lg text-slate-200">
+            Long-form atmospheres you can leave on. Warm, cinematic, unhurried.
+            Press play. Dim the lights. Stay as long as you need.
           </p>
 
           <form
