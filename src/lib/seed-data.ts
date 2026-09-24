@@ -60,14 +60,14 @@ export const SEED_MUSIC: SeedMusic[] = [
   room({ title: "The Sun", slug: "the-sun", youtubeId: "6Ys05gkE7MU", tags: ["space"], cover: "/wallpapers/preview/the-sun.jpg" }),
   room({ title: "The Void", slug: "the-void", youtubeId: "618_5ICuaEU", tags: ["space"], cover: "/wallpapers/preview/the-void.jpg" }),
   room({ title: "Voyager", slug: "voyager", youtubeId: "ijGfb_rB2vg", tags: ["space"], cover: "/wallpapers/preview/voyager.jpg" }),
-  room({ title: "Buenos Aires", slug: "buenos-aires", youtubeId: "RpeWHQI1ikA", tags: ["tour", "late night"] }),
-  room({ title: "Florence", slug: "florence", youtubeId: "LX_PoIugdoU", tags: ["tour"] }),
-  room({ title: "Istanbul", slug: "istanbul", youtubeId: "_xRFlKpi9_w", tags: ["tour"] }),
-  room({ title: "Kyoto", slug: "kyoto", youtubeId: "7ZgZRrfU18I", tags: ["tour", "sleep"] }),
-  room({ title: "Lake Como", slug: "lake-como", youtubeId: "QpnG0pOU-Gs", tags: ["tour", "sleep"] }),
-  room({ title: "Lisbon", slug: "lisbon", youtubeId: "yw9SCHRLqx0", tags: ["tour"] }),
-  room({ title: "Miami", slug: "miami", youtubeId: "MG7zZl7qwFs", tags: ["tour", "late night"] }),
-  room({ title: "Tokyo", slug: "tokyo", youtubeId: "chgeO60ThVQ", tags: ["tour", "late night"] }),
+  room({ title: "Buenos Aires", slug: "buenos-aires", youtubeId: "RpeWHQI1ikA", tags: ["tour", "late night"], cover: "/wallpapers/preview/buenos-aires.jpg" }),
+  room({ title: "Florence", slug: "florence", youtubeId: "LX_PoIugdoU", tags: ["tour"], cover: "/wallpapers/preview/florence.jpg" }),
+  room({ title: "Istanbul", slug: "istanbul", youtubeId: "_xRFlKpi9_w", tags: ["tour"], cover: "/wallpapers/preview/istanbul.jpg" }),
+  room({ title: "Kyoto", slug: "kyoto", youtubeId: "7ZgZRrfU18I", tags: ["tour", "sleep"], cover: "/wallpapers/preview/kyoto.jpg" }),
+  room({ title: "Lake Como", slug: "lake-como", youtubeId: "QpnG0pOU-Gs", tags: ["tour", "sleep"], cover: "/wallpapers/preview/lake-como.jpg" }),
+  room({ title: "Lisbon", slug: "lisbon", youtubeId: "yw9SCHRLqx0", tags: ["tour"], cover: "/wallpapers/preview/lisbon.jpg" }),
+  room({ title: "Miami", slug: "miami", youtubeId: "MG7zZl7qwFs", tags: ["tour", "late night"], cover: "/wallpapers/preview/miami.jpg" }),
+  room({ title: "Tokyo", slug: "tokyo", youtubeId: "chgeO60ThVQ", tags: ["tour", "late night"], cover: "/wallpapers/preview/tokyo.jpg" }),
 ];
 
 export const SEED_SHOP = [

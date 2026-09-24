@@ -13,6 +13,7 @@ type MusicTrackCardProps = {
   description?: string | null;
   featured?: boolean;
   cover?: string | null;
+  wallpaper?: string | null;
 };
 
 export function MusicTrackCard({
@@ -23,6 +24,7 @@ export function MusicTrackCard({
   description,
   featured,
   cover,
+  wallpaper,
 }: MusicTrackCardProps) {
   return (
     <article className="group relative flex h-full flex-col rounded-2xl border border-white/10 bg-[#0f1c2e]/80 p-4 transition hover:border-lumen-gold/30">
@@ -60,7 +62,18 @@ export function MusicTrackCard({
         <span className="text-xs uppercase tracking-wide text-slate-500">
           Free to listen
         </span>
-        <PlayTrackButton track={{ id, title, slug, tags }} size="sm" />
+        <span className="flex items-center gap-3">
+          {wallpaper ? (
+            <a
+              href={wallpaper}
+              download
+              className="text-xs uppercase tracking-wide text-lumen-gold-light hover:text-lumen-cream"
+            >
+              Wallpaper
+            </a>
+          ) : null}
+          <PlayTrackButton track={{ id, title, slug, tags }} size="sm" />
+        </span>
       </div>
     </article>
   );

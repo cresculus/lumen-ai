@@ -4,6 +4,7 @@ import { FavoriteButton } from "@/components/favorite-button";
 import { PlayTrackButton } from "@/components/music-player";
 import { getPublishedMusicBySlug } from "@/lib/catalog";
 import { formatDuration } from "@/lib/utils";
+import { wallpaperForSlug } from "@/lib/wallpapers";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -26,6 +27,8 @@ export default async function MusicDetailPage({ params }: Props) {
   const track = await getPublishedMusicBySlug(slug);
 
   if (!track) notFound();
+
+  const wallpaper = wallpaperForSlug(track.slug);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -88,6 +91,15 @@ export default async function MusicDetailPage({ params }: Props) {
             >
               YouTube
             </Link>
+            {wallpaper ? (
+              <a
+                href={`/wallpapers/4k/${wallpaper.file}`}
+                download={`Lumen ${wallpaper.title} 4K.jpg`}
+                className="rounded-full border border-white/15 px-6 py-2.5 text-sm text-white hover:bg-white/5"
+              >
+                Download 4K wallpaper
+              </a>
+            ) : null}
             <Link
               href="/shop"
               className="rounded-full bg-lumen-gold px-6 py-2.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"

@@ -1,7 +1,7 @@
 export type Wallpaper = {
   slug: string;
   title: string;
-  series: "Rooms" | "Space" | "With Iselin";
+  series: "Rooms" | "Space" | "Tour" | "With Iselin";
   file: string;
   youtubeId: string;
   wide?: boolean;
@@ -20,6 +20,14 @@ export const wallpapers: Wallpaper[] = [
   { slug: "the-sun", title: "The Sun", series: "Space", file: "the-sun.jpg", youtubeId: "6Ys05gkE7MU" },
   { slug: "the-void", title: "The Void", series: "Space", file: "the-void.jpg", youtubeId: "618_5ICuaEU" },
   { slug: "voyager", title: "Voyager", series: "Space", file: "voyager.jpg", youtubeId: "ijGfb_rB2vg" },
+  { slug: "buenos-aires", title: "Buenos Aires", series: "Tour", file: "buenos-aires.jpg", youtubeId: "RpeWHQI1ikA" },
+  { slug: "florence", title: "Florence", series: "Tour", file: "florence.jpg", youtubeId: "LX_PoIugdoU" },
+  { slug: "istanbul", title: "Istanbul", series: "Tour", file: "istanbul.jpg", youtubeId: "_xRFlKpi9_w" },
+  { slug: "kyoto", title: "Kyoto", series: "Tour", file: "kyoto.jpg", youtubeId: "7ZgZRrfU18I" },
+  { slug: "lake-como", title: "Lake Como", series: "Tour", file: "lake-como.jpg", youtubeId: "QpnG0pOU-Gs" },
+  { slug: "lisbon", title: "Lisbon", series: "Tour", file: "lisbon.jpg", youtubeId: "yw9SCHRLqx0" },
+  { slug: "miami", title: "Miami", series: "Tour", file: "miami.jpg", youtubeId: "MG7zZl7qwFs" },
+  { slug: "tokyo", title: "Tokyo", series: "Tour", file: "tokyo.jpg", youtubeId: "chgeO60ThVQ" },
   { slug: "iselin-jazz-club", title: "Iselin in the Jazz Club", series: "With Iselin", file: "iselin-jazz-club.jpg", youtubeId: "IJzY06n2h-w" },
   { slug: "iselin-tin-roof", title: "Iselin in Tin Roof", series: "With Iselin", file: "iselin-tin-roof.jpg", youtubeId: "bzK2-48Fc24" },
   { slug: "iselin-cupola", title: "Iselin in the Cupola", series: "With Iselin", file: "iselin-cupola.jpg", youtubeId: "fwxR7-EAPik" },
@@ -29,3 +37,15 @@ export const wallpapers: Wallpaper[] = [
   { slug: "iselin-phone-kyoto", title: "Iselin in Kyoto — phone", series: "With Iselin", file: "iselin-phone-kyoto.jpg", youtubeId: "ZDuVU8HhPeE", wide: false },
   { slug: "iselin-phone-voyager", title: "Iselin in Voyager — phone", series: "With Iselin", file: "iselin-phone-voyager.jpg", youtubeId: "ZBwEgis2ExM", wide: false },
 ];
+
+export const wallpaperPacks = [
+  { file: "lumen-all-4k.zip", title: "All wallpapers" },
+  { file: "lumen-rooms-4k.zip", title: "Rooms" },
+  { file: "lumen-space-4k.zip", title: "Space" },
+  { file: "lumen-tour-4k.zip", title: "Tour" },
+  { file: "lumen-iselin-4k.zip", title: "With Iselin" },
+] as const;
+
+export function wallpaperForSlug(slug: string) {
+  return wallpapers.find((wall) => wall.slug === slug) ?? null;
+}

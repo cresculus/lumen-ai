@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MusicTrackCard } from "@/components/music-track-card";
 import { getPublishedMusic } from "@/lib/catalog";
 import { MUSIC_MOOD_FILTERS } from "@/lib/seed-data";
+import { wallpaperForSlug, wallpaperPacks } from "@/lib/wallpapers";
 
 export const metadata = {
   title: "Rooms",
@@ -111,6 +112,16 @@ export default async function MusicPage({
             >
               Shop wellness →
             </Link>
+            {wallpaperPacks.map((pack) => (
+              <a
+                key={pack.file}
+                href={`/wallpapers/packs/${pack.file}`}
+                download
+                className="text-lumen-gold-light hover:text-lumen-cream"
+              >
+                {pack.title} pack
+              </a>
+            ))}
           </div>
         </div>
 
@@ -142,6 +153,11 @@ export default async function MusicPage({
                   description={track.description}
                   featured={track.featured}
                   cover={track.coverKey}
+                  wallpaper={
+                    wallpaperForSlug(track.slug)
+                      ? `/wallpapers/4k/${wallpaperForSlug(track.slug)?.file}`
+                      : null
+                  }
                 />
               </div>
             ))}

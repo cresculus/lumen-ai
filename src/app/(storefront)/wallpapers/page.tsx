@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { wallpapers } from "@/lib/wallpapers";
+import { wallpaperPacks, wallpapers } from "@/lib/wallpapers";
 
 export const metadata: Metadata = {
   title: "4K Wallpapers",
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function WallpapersPage() {
-  const series = ["Rooms", "Space", "With Iselin"] as const;
+  const series = ["Rooms", "Space", "Tour", "With Iselin"] as const;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
@@ -22,6 +22,18 @@ export default function WallpapersPage() {
         Desktop wallpapers from the listening rooms, plus Iselin in the room.
         Wide files are 3840×2160. Phone files are 2160×3840. Free for your own screen.
       </p>
+      <div className="mt-6 flex flex-wrap gap-3">
+        {wallpaperPacks.map((pack) => (
+          <a
+            key={pack.file}
+            href={`/wallpapers/packs/${pack.file}`}
+            download
+            className="rounded-full border border-white/20 px-4 py-2 text-sm text-lumen-cream hover:border-lumen-gold/50"
+          >
+            Download {pack.title}
+          </a>
+        ))}
+      </div>
 
       {series.map((name) => {
         const items = wallpapers.filter((w) => w.series === name);
