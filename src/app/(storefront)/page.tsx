@@ -24,7 +24,7 @@ export default async function HomePage() {
 
   return (
     <div className="w-full bg-[#0a1525]">
-      <section className="relative min-h-[calc(100vh-4.25rem)] overflow-hidden">
+      <section className="relative overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/wallpapers/preview/jazz-club.jpg"
@@ -34,7 +34,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a1525] via-[#0a1525]/75 to-[#0a1525]/15" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1525] via-[#0a1525]/20 to-[#0a1525]/45" />
 
-        <div className="relative mx-auto flex min-h-[calc(100vh-4.25rem)] max-w-6xl flex-col justify-end px-4 pb-10 pt-16 md:pb-14">
+        <div className="relative mx-auto max-w-6xl px-4 pb-10 pt-8 md:pb-12 md:pt-10">
           <p className="text-xs uppercase tracking-[0.32em] text-lumen-gold-light">
             Lumen Listening · www.lumenlistening.com
           </p>
