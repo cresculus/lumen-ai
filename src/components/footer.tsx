@@ -8,7 +8,7 @@ export function Footer() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/lumen-listening-rooms-logo.svg"
-            alt="Lumen Listening Rooms"
+            alt="Lumen Listening"
             className="h-8 w-auto"
           />
           <p className="mt-2 max-w-sm text-xs text-slate-500">

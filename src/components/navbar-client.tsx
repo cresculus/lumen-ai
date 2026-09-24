@@ -22,23 +22,23 @@ export function NavbarClient() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0a1525]/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5">
+      <div className="relative mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         <Link
           href="/"
-          className="flex shrink-0 items-center"
-          aria-label="Lumen Listening Rooms"
+          className="relative z-10 flex shrink-0 items-center"
+          aria-label="Lumen Listening"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/lumen-listening-rooms-logo.svg"
-            alt="Lumen Listening Rooms"
+            alt="Lumen Listening"
             className="h-7 w-auto md:h-8"
-            width={200}
-            height={28}
+            width={168}
+            height={40}
           />
         </Link>
 
-        <nav className="hidden items-center gap-1 text-sm text-slate-300 md:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 text-sm text-slate-300 md:flex">
           {navLinks.map(([label, href]) => (
             <Link
               key={`${label}-${href}`}
