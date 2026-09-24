@@ -34,6 +34,7 @@ export default function WallpapersPage() {
               {items.map((wall) => (
                 <article
                   key={wall.slug}
+                  id={wall.slug}
                   className="overflow-hidden rounded-2xl border border-white/10 bg-lumen-midnight"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -53,13 +54,21 @@ export default function WallpapersPage() {
                         3840 × 2160
                       </p>
                     </div>
-                    <a
-                      href={`/wallpapers/4k/${wall.file}`}
-                      download={`Lumen ${wall.title} 4K.jpg`}
-                      className="shrink-0 rounded-full bg-lumen-gold px-4 py-2 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
-                    >
-                      Download 4K
-                    </a>
+                    <div className="flex shrink-0 flex-wrap justify-end gap-2">
+                      <a
+                        href={`https://www.youtube.com/watch?v=${wall.youtubeId}`}
+                        className="rounded-full border border-white/20 px-4 py-2 text-sm text-lumen-cream hover:border-lumen-gold/50"
+                      >
+                        Watch the room
+                      </a>
+                      <a
+                        href={`/wallpapers/4k/${wall.file}`}
+                        download={`Lumen ${wall.title} 4K.jpg`}
+                        className="rounded-full bg-lumen-gold px-4 py-2 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
+                      >
+                        Download 4K
+                      </a>
+                    </div>
                   </div>
                 </article>
               ))}
