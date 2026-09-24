@@ -12,7 +12,7 @@ export function Footer() {
             className="h-8 w-auto"
           />
           <p className="mt-2 max-w-sm text-xs text-slate-500">
-            Quiet rooms for feeling, focus &amp; soft resets.
+            Quiet rooms for feeling, focus, and deep rest.
           </p>
           <p className="mt-1 text-xs text-slate-600">
             © {new Date().getFullYear()} Lumen Listening Rooms. For relaxation

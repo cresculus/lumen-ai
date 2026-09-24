@@ -21,7 +21,7 @@ export function NavbarClient() {
   ] as const;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0a1525]">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0a1525]/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5">
         <Link
           href="/"

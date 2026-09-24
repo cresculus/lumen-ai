@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { PhotoHeader } from "@/components/photo-header";
 
 export const metadata: Metadata = {
   title: "Augmented Reality and Virtual Reality Rooms",
@@ -10,37 +11,30 @@ export const metadata: Metadata = {
 export default function VrRoomsPage() {
   return (
     <div className="w-full bg-[#0a1525]">
-      <header>
-        <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-          <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
-            Augmented reality · Virtual reality
-          </p>
-          <h1 className="font-display mt-3 max-w-3xl text-4xl font-semibold tracking-tight text-lumen-cream md:text-6xl">
-            Augmented Reality and Virtual Reality rooms
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg text-slate-300">
-            Listening rooms for augmented reality and virtual reality. This
-            section is not open yet.
-          </p>
-          <p className="mt-6 text-sm uppercase tracking-[0.18em] text-lumen-gold-light">
-            Coming soon
-          </p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link
-              href="/music"
-              className="rounded-full border border-lumen-cream/25 px-7 py-3.5 text-sm font-medium text-lumen-cream hover:bg-white/5"
-            >
-              Free listening rooms
-            </Link>
-            <Link
-              href="/wallpapers"
-              className="rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
-            >
-              4K wallpapers
-            </Link>
-          </div>
+      <PhotoHeader
+        image="/wallpapers/preview/voyager.jpg"
+        eyebrow="Coming soon"
+        title="Augmented reality and virtual reality rooms"
+      >
+        <p className="text-lg text-slate-200">
+          Listening rooms you can step into. Augmented reality and virtual
+          reality. This section is not open yet.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            href="/music"
+            className="rounded-full border border-white/30 bg-black/20 px-7 py-3.5 text-sm font-medium text-lumen-cream hover:bg-black/40"
+          >
+            Listen free
+          </Link>
+          <Link
+            href="/wallpapers"
+            className="rounded-full bg-lumen-gold px-7 py-3.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
+          >
+            4K wallpapers
+          </Link>
         </div>
-      </header>
+      </PhotoHeader>
     </div>
   );
 }

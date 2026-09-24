@@ -34,13 +34,20 @@ export default async function MusicPage({
 
   return (
     <div className="w-full bg-[#0a1525]">
-      <header className="border-b border-white/10">
-        <div className={`${PAGE_WIDTH} py-10 md:py-12`}>
+      <header className="relative overflow-hidden border-b border-white/10">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/wallpapers/preview/tin-roof.jpg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1525] via-[#0a1525]/88 to-[#0a1525]/60" />
+        <div className={`${PAGE_WIDTH} relative py-14 md:py-20`}>
           <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
             Listening rooms
           </p>
-          <h1 className="font-display mt-3 text-4xl font-semibold tracking-tight text-lumen-cream md:text-5xl">
-            Free quiet rooms
+          <h1 className="font-display mt-3 text-4xl font-medium leading-[1.05] tracking-tight text-lumen-cream md:text-6xl">
+            One place, left on
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-300">
             High-quality rooms, free to listen. A short preview plays here. The

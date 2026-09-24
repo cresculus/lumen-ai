@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PhotoHeader } from "@/components/photo-header";
 import { ProductCard } from "@/components/product-card";
 import { getPublishedShop } from "@/lib/catalog";
 
@@ -13,27 +14,22 @@ export default async function ShopPage() {
 
   return (
     <div className="w-full bg-[#0a1525]">
-      <header className="border-b border-white/10">
-        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
-            Quiet apothecary
-          </p>
-          <h1 className="font-display mt-3 text-4xl font-semibold tracking-tight text-lumen-cream md:text-5xl">
-            Silk for the night
-          </h1>
-          <p className="mt-4 max-w-2xl text-lg text-slate-300">
-            Objects cut to the bar the good silk houses use: 22 momme mulberry,
-            a contoured mask, an envelope pillowcase, a silk cap. Checkout is
-            not open yet. Listening stays free.
-          </p>
-          <Link
-            href="/music"
-            className="mt-6 inline-block text-sm text-lumen-gold-light hover:text-lumen-cream"
-          >
-            Browse free listening rooms →
-          </Link>
-        </div>
-      </header>
+      <PhotoHeader
+        image="/shop/silk-pillowcase.jpg"
+        eyebrow="22 momme silk"
+        title="Silk for the night"
+      >
+        <p className="text-lg text-slate-200">
+          A contoured mask, an envelope pillowcase, and a silk cap, made to sit
+          beside a room. Checkout is not open yet.
+        </p>
+        <Link
+          href="/music"
+          className="mt-6 inline-block text-sm text-lumen-gold-light hover:text-lumen-cream"
+        >
+          Listen free →
+        </Link>
+      </PhotoHeader>
 
       <div className="mx-auto max-w-6xl px-4 py-12 pb-28 md:py-16">
         {products.length === 0 ? (

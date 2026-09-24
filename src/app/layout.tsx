@@ -19,11 +19,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.lumenlistening.com"),
   title: {
     default:
-      "Lumen Listening Rooms — Quiet rooms for feeling, focus & soft resets",
+      "Lumen Listening Rooms — Quiet rooms for feeling, focus, and deep rest",
     template: "%s | Lumen Listening Rooms",
   },
   description:
-    "Free quiet rooms for feeling, focus, and soft resets — plus sleep and wellness objects that match the rooms.",
+    "Quiet rooms for feeling, focus, and deep rest — one place at a time. Free to listen. No ads on this site.",
   openGraph: {
     title: "Lumen Listening Rooms",
     description:

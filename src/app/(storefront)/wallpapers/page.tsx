@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PhotoHeader } from "@/components/photo-header";
 import { wallpaperPacks, wallpapers } from "@/lib/wallpapers";
 
 export const metadata: Metadata = {
@@ -11,18 +12,19 @@ export default function WallpapersPage() {
   const series = ["Rooms", "Space", "Tour", "With Iselin"] as const;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <p className="text-[11px] uppercase tracking-[0.32em] text-lumen-gold-light">
-        Wallpapers
-      </p>
-      <h1 className="font-display mt-3 text-4xl font-medium text-lumen-cream md:text-5xl">
-        Take the room with you
-      </h1>
-      <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-300">
-        Desktop wallpapers from the listening rooms, plus Iselin in the room.
-        Wide files are 3840×2160. Phone files are 2160×3840. Free for your own screen.
-      </p>
-      <div className="mt-6 flex flex-wrap gap-3">
+    <div>
+      <PhotoHeader
+        image="/wallpapers/preview/kyoto.jpg"
+        eyebrow="Wallpapers"
+        title="Take the room with you"
+      >
+        <p className="text-lg leading-relaxed text-slate-200">
+          Desktop files are 3840×2160. Phone files are 2160×3840. Free for your
+          own screen.
+        </p>
+      </PhotoHeader>
+      <div className="mx-auto max-w-6xl px-4 py-12">
+      <div className="flex flex-wrap gap-3">
         {wallpaperPacks.map((pack) => (
           <a
             key={pack.file}
@@ -101,6 +103,7 @@ export default function WallpapersPage() {
           </section>
         );
       })}
+      </div>
     </div>
   );
 }

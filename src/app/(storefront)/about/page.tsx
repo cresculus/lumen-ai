@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PhotoHeader } from "@/components/photo-header";
 
 export const metadata = {
   title: "About",
@@ -8,14 +9,18 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <p className="text-sm uppercase tracking-[0.25em] text-lumen-gold-light">
-        Our story
-      </p>
-      <h1 className="font-display mt-3 text-4xl font-semibold text-lumen-cream">
-        About Lumen Listening Rooms
-      </h1>
-      <p className="mt-6 text-lg leading-relaxed text-slate-300">
+    <div>
+      <PhotoHeader
+        image="/wallpapers/preview/florence.jpg"
+        eyebrow="Lumen Listening Rooms"
+        title="One place at a time"
+      >
+        <p className="text-lg text-slate-200">
+          Quiet rooms for feeling, focus, and deep rest.
+        </p>
+      </PhotoHeader>
+      <div className="mx-auto max-w-3xl px-4 py-12">
+      <p className="text-lg leading-relaxed text-slate-300">
         Lumen Listening Rooms builds intimate sound sanctuaries for deep sleep,
         deep work, late nights, and soft resets — including the story skins of
         Quiet Kingdom. Listening stays free on YouTube and in Rooms.
@@ -66,7 +71,7 @@ export default function AboutPage() {
           href="/shop"
           className="rounded-full bg-lumen-gold px-6 py-2.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
         >
-          Shop wellness
+          The shop
         </Link>
         <Link
           href="/music"
@@ -74,6 +79,7 @@ export default function AboutPage() {
         >
           Free rooms
         </Link>
+      </div>
       </div>
     </div>
   );
