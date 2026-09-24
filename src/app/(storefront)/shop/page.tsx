@@ -67,6 +67,29 @@ export default async function ShopPage() {
           </div>
         )}
       </div>
+
+      <section className="border-t border-white/10 bg-[#0f1c2e]">
+        <div className="mx-auto max-w-6xl px-4 py-14">
+          <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
+            AI / VR Rooms
+          </p>
+          <h2 className="font-display mt-3 text-3xl font-semibold text-lumen-cream">
+            Step inside the room
+          </h2>
+          <p className="mt-4 max-w-xl text-slate-300">
+            Rooms you can enter, not only hear. This section is not open yet.
+          </p>
+          <p className="mt-5 text-sm uppercase tracking-[0.18em] text-lumen-gold-light">
+            Coming soon
+          </p>
+          <Link
+            href="/vr"
+            className="mt-6 inline-block text-sm text-lumen-gold-light hover:text-lumen-cream"
+          >
+            AI/VR Rooms →
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
