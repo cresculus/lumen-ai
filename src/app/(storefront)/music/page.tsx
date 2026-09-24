@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ParticleField } from "@/components/particle-field";
 import { MusicTrackCard } from "@/components/music-track-card";
 import { getPublishedMusic } from "@/lib/catalog";
 import { MUSIC_MOOD_FILTERS } from "@/lib/seed-data";
@@ -34,14 +35,8 @@ export default async function MusicPage({
 
   return (
     <div className="w-full bg-[#0a1525]">
-      <header className="relative overflow-hidden border-b border-white/10">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/wallpapers/preview/tin-roof.jpg"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1525] via-[#0a1525]/88 to-[#0a1525]/60" />
+      <header className="relative overflow-hidden border-b border-white/10 bg-[#0a1525]">
+        <ParticleField />
         <div className={`${PAGE_WIDTH} relative py-14 md:py-20`}>
           <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
             Listening rooms
@@ -159,13 +154,12 @@ export default async function MusicPage({
                   tags={track.tags}
                   description={track.description}
                   featured={track.featured}
-                  cover={track.coverKey}
+                />
                   wallpaper={
                     wallpaperForSlug(track.slug)
                       ? `/wallpapers/4k/${wallpaperForSlug(track.slug)?.file}`
                       : null
                   }
-                />
               </div>
             ))}
           </div>

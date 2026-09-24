@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ParticleField } from "@/components/particle-field";
 import { ProductCard } from "@/components/product-card";
 import { getPublishedShop } from "@/lib/catalog";
 import { wallpapers } from "@/lib/wallpapers";
@@ -24,16 +25,8 @@ export default async function HomePage() {
 
   return (
     <div className="w-full bg-[#0a1525]">
-      <section className="relative overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/wallpapers/preview/jazz-club.jpg"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[center_40%]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1525] via-[#0a1525]/75 to-[#0a1525]/15" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1525] via-[#0a1525]/20 to-[#0a1525]/45" />
-
+      <section className="relative overflow-hidden bg-[#0a1525]">
+        <ParticleField />
         <div className="relative mx-auto max-w-6xl px-4 pb-10 pt-8 md:pb-12 md:pt-10">
           <p className="text-xs uppercase tracking-[0.32em] text-lumen-gold-light">
             Lumen Listening · www.lumenlistening.com
@@ -125,16 +118,10 @@ export default async function HomePage() {
 
         <Link
           href="/vr"
-          className="group relative min-h-80 overflow-hidden rounded-3xl border border-white/10"
+          className="group relative flex min-h-80 flex-col justify-end overflow-hidden rounded-3xl border border-white/10 bg-[#0a1525] p-8"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/wallpapers/preview/cupola.jpg"
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1525] via-[#0a1525]/55 to-[#0a1525]/10" />
-          <div className="relative flex h-full flex-col justify-end p-8">
+          <ParticleField />
+          <div className="relative">
             <p className="text-xs uppercase tracking-[0.28em] text-lumen-gold-light">
               Coming soon
             </p>

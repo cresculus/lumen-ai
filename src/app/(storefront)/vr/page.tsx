@@ -12,7 +12,6 @@ export default function VrRoomsPage() {
   return (
     <div className="w-full bg-[#0a1525]">
       <PhotoHeader
-        image="/wallpapers/preview/voyager.jpg"
         eyebrow="Coming soon"
         title="Augmented reality and virtual reality rooms"
       >

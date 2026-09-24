@@ -13,11 +13,11 @@ export function NavbarClient() {
   const dashLabel = isAdmin ? "Dashboard" : "Account";
 
   const navLinks = [
-    ["Shop", "/shop"],
+    ["About", "/about"],
     ["Rooms", "/music"],
     ["AR/VR", "/vr"],
     ["Wallpapers", "/wallpapers"],
-    ["About", "/about"],
+    ["Shop", "/shop"],
   ] as const;
 
   return (

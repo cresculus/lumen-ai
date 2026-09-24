@@ -15,7 +15,6 @@ export default async function ShopPage() {
   return (
     <div className="w-full bg-[#0a1525]">
       <PhotoHeader
-        image="/shop/silk-pillowcase.jpg"
         eyebrow="22 momme silk"
         title="Silk for the night"
       >

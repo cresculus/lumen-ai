@@ -14,7 +14,6 @@ export default function WallpapersPage() {
   return (
     <div>
       <PhotoHeader
-        image="/wallpapers/preview/kyoto.jpg"
         eyebrow="Wallpapers"
         title="Take the room with you"
       >
