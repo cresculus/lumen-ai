@@ -64,7 +64,7 @@ export default async function HomePage() {
           </p>
           <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
             <h2 className="font-display max-w-xl text-3xl font-semibold text-lumen-cream md:text-4xl">
-              Sleep &amp; wellness for the rooms
+              Silk for the night
             </h2>
             <Link
               href="/shop"
@@ -74,7 +74,7 @@ export default async function HomePage() {
             </Link>
           </div>
           <p className="mt-4 max-w-xl text-slate-400">
-            Buy what helps you stay in the room — not the music itself.
+            22 momme mulberry silk, made to sit beside a room. Checkout is coming soon.
           </p>
 
           {shopPreview.length === 0 ? (
@@ -85,10 +85,9 @@ export default async function HomePage() {
                 <ProductCard
                   key={product.id}
                   title={product.title}
-                  slug={product.slug}
-                  price={product.price}
                   description={product.description}
                   href={`/shop/${product.slug}`}
+                  image={product.images[0]}
                   badge={product.featured ? "Featured" : undefined}
                 />
               ))}

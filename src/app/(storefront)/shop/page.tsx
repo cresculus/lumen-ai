@@ -5,7 +5,7 @@ import { getPublishedShop } from "@/lib/catalog";
 export const metadata = {
   title: "Shop",
   description:
-    "Sleep and wellness objects for Lumen Listening Rooms — masks, ear plugs, and quiet rest essentials.",
+    "22 momme mulberry silk for the night — mask, pillowcase, sleep cap, and eye pillow. Checkout coming soon.",
 };
 
 export default async function ShopPage() {
@@ -19,11 +19,12 @@ export default async function ShopPage() {
             Quiet apothecary
           </p>
           <h1 className="font-display mt-3 text-4xl font-semibold tracking-tight text-lumen-cream md:text-5xl">
-            Sleep &amp; wellness
+            Silk for the night
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-300">
-            Objects that match the rooms — soft rest, deeper nights, and calm
-            focus. Listening stays free on YouTube and in Rooms.
+            Objects cut to the bar the good silk houses use: 22 momme mulberry,
+            a contoured mask, an envelope pillowcase, a silk cap. Checkout is
+            not open yet. Listening stays free.
           </p>
           <Link
             href="/music"
@@ -57,9 +58,9 @@ export default async function ShopPage() {
                 key={product.id}
                 title={product.title}
                 slug={product.slug}
-                price={product.price}
                 description={product.description}
                 href={`/shop/${product.slug}`}
+                image={product.images[0]}
                 badge={product.featured ? "Featured" : undefined}
               />
             ))}

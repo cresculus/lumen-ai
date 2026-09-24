@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BuyButton } from "@/components/buy-button";
 import { getPublishedShopBySlug } from "@/lib/catalog";
-import { formatPrice } from "@/lib/utils";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -14,7 +12,7 @@ export async function generateMetadata({ params }: Props) {
     title: product.title,
     description:
       product.description ||
-      "Sleep and wellness from Lumen Listening Rooms.",
+      "Silk for the night from Lumen Listening Rooms. Checkout coming soon.",
   };
 }
 
@@ -23,6 +21,8 @@ export default async function ShopDetailPage({ params }: Props) {
   const product = await getPublishedShopBySlug(slug);
 
   if (!product) notFound();
+
+  const image = product.images[0];
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
@@ -33,7 +33,16 @@ export default async function ShopDetailPage({ params }: Props) {
         ← Back to shop
       </Link>
       <div className="mt-6 grid gap-8 md:grid-cols-2">
-        <div className="aspect-square rounded-2xl bg-gradient-to-br from-lumen-gold/20 to-lumen-midnight/40" />
+        <div className="aspect-square overflow-hidden rounded-2xl bg-[#0a1525]">
+          {image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={image}
+              alt={product.title}
+              className="h-full w-full object-cover"
+            />
+          ) : null}
+        </div>
         <div>
           <p className="text-sm uppercase tracking-wider text-lumen-gold-light">
             {product.category}
@@ -41,32 +50,22 @@ export default async function ShopDetailPage({ params }: Props) {
           <h1 className="font-display mt-2 text-4xl font-semibold text-lumen-cream">
             {product.title}
           </h1>
-          <p className="mt-4 text-2xl text-lumen-gold-light">
-            {formatPrice(product.price)}
-          </p>
-          <p className="mt-2 text-sm text-slate-400">
-            {product.inventory > 0
-              ? `${product.inventory} in stock`
-              : "Out of stock"}
+          <p className="mt-4 text-sm uppercase tracking-[0.18em] text-lumen-gold-light">
+            Coming soon
           </p>
           {product.description && (
             <p className="mt-4 text-slate-300">{product.description}</p>
           )}
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <BuyButton
-              productId={product.id}
-              title={product.title}
-              price={product.price}
-              slug={product.slug}
-              type="PHYSICAL"
-            />
-            <Link
-              href="/music"
-              className="text-sm text-slate-400 hover:text-lumen-cream"
-            >
-              Free rooms →
-            </Link>
-          </div>
+          <p className="mt-4 text-sm text-slate-400">
+            Payment is not open yet. These pieces stay listed so you can see
+            what is coming.
+          </p>
+          <Link
+            href="/music"
+            className="mt-8 inline-block text-sm text-slate-400 hover:text-lumen-cream"
+          >
+            Free rooms →
+          </Link>
         </div>
       </div>
     </div>
