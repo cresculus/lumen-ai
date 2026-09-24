@@ -25,12 +25,22 @@ export default function WallpapersPage() {
 
       {series.map((name) => {
         const items = wallpapers.filter((w) => w.series === name);
+        const heading =
+          name === "With Iselin"
+            ? "Enjoy your rooms with Iselin. Download the wallpapers."
+            : name;
         return (
           <section key={name} className="mt-12">
-            <h2 className="text-[11px] uppercase tracking-[0.28em] text-slate-500">
-              {name}
+            <h2
+              className={
+                name === "With Iselin"
+                  ? "font-display text-2xl text-lumen-cream"
+                  : "text-[11px] uppercase tracking-[0.28em] text-slate-500"
+              }
+            >
+              {heading}
             </h2>
-            <div className={`mt-4 grid gap-5 ${name === "With Iselin" ? "sm:grid-cols-2 lg:grid-cols-3" : "sm:grid-cols-2"}`}>
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
               {items.map((wall) => {
                 const tall = wall.wide === false;
                 return (
@@ -43,9 +53,9 @@ export default function WallpapersPage() {
                   <img
                     src={`/wallpapers/preview/${wall.file}`}
                     alt={wall.title}
-                    className={tall ? "aspect-[9/16] w-full object-cover" : "aspect-video w-full object-cover"}
-                    width={tall ? 540 : 960}
-                    height={tall ? 960 : 540}
+                    className="aspect-video w-full object-cover"
+                    width={960}
+                    height={540}
                   />
                   <div className="flex items-center justify-between gap-3 px-4 py-4">
                     <div>

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { CartNavLink } from "@/components/cart-nav-link";
 import { LayoutDashboard, Menu, User, X } from "lucide-react";
 
 export function NavbarClient() {
@@ -22,7 +21,7 @@ export function NavbarClient() {
   ] as const;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-lumen-indigo/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0a1525]">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5">
         <Link
           href="/"
@@ -52,11 +51,10 @@ export function NavbarClient() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <CartNavLink />
           {session?.user ? (
             <Link
               href={dashHref}
-              className="inline-flex items-center gap-2 rounded-full bg-lumen-gold px-4 py-1.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
+              className="hidden items-center gap-2 rounded-full px-3 py-1.5 text-sm text-slate-300 hover:text-lumen-cream md:inline-flex"
             >
               {isAdmin ? (
                 <LayoutDashboard className="h-4 w-4" />
@@ -65,14 +63,7 @@ export function NavbarClient() {
               )}
               {dashLabel}
             </Link>
-          ) : (
-            <Link
-              href="/login"
-              className="rounded-full bg-lumen-gold px-4 py-1.5 text-sm font-medium text-lumen-midnight hover:bg-lumen-gold-light"
-            >
-              Sign in
-            </Link>
-          )}
+          ) : null}
           <button
             type="button"
             className="rounded-lg p-2 text-slate-300 hover:bg-white/5 hover:text-lumen-cream md:hidden"

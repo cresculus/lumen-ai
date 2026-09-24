@@ -25,12 +25,6 @@
 
 body {
   background: #0a1525;
-  background-image: radial-gradient(
-    ellipse 120% 80% at 50% -20%,
-    #1a2840 0%,
-    #0f1c2e 45%,
-    #0a1525 100%
-  );
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
   min-height: 100vh;

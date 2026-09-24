@@ -11,12 +11,7 @@ export default async function HomePage() {
 
   return (
     <div className="w-full bg-[#0a1525]">
-      <section className="relative min-h-[78vh] overflow-hidden bg-[#0f1c2e] md:min-h-[88vh]">
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_30%,rgba(201,162,39,0.18),transparent_50%),radial-gradient(ellipse_at_80%_60%,rgba(15,40,70,0.9),transparent_55%),linear-gradient(180deg,#0f1c2e_0%,#0a1525_100%)]" />
-          <div className="absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(232,212,138,0.12)_1px,transparent_1px)] [background-size:28px_28px]" />
-        </div>
-
+      <section className="relative min-h-[78vh] md:min-h-[88vh]">
         <div className="relative mx-auto flex min-h-[78vh] max-w-6xl flex-col justify-end px-4 pb-16 pt-24 md:min-h-[88vh] md:justify-center md:pb-24 md:pt-20">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -119,7 +114,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-t border-white/10 bg-[#0f1c2e]/50">
+      <section className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
           <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
             Listening

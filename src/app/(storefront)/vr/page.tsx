@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function VrRoomsPage() {
   return (
     <div className="w-full bg-[#0a1525]">
-      <header className="border-b border-white/10 bg-[#0f1c2e]">
+      <header>
         <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
           <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
             AI / VR Rooms

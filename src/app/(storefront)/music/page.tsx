@@ -33,7 +33,7 @@ export default async function MusicPage({
 
   return (
     <div className="w-full bg-[#0a1525]">
-      <header className="border-b border-white/10 bg-[#0f1c2e]">
+      <header className="border-b border-white/10">
         <div className={`${PAGE_WIDTH} py-10 md:py-12`}>
           <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
             Listening rooms

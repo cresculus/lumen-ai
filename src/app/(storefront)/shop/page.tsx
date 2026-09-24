@@ -13,7 +13,7 @@ export default async function ShopPage() {
 
   return (
     <div className="w-full bg-[#0a1525]">
-      <header className="border-b border-white/10 bg-[#0f1c2e]">
+      <header className="border-b border-white/10">
         <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
           <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
             Quiet apothecary
@@ -68,7 +68,7 @@ export default async function ShopPage() {
         )}
       </div>
 
-      <section className="border-t border-white/10 bg-[#0f1c2e]">
+      <section className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-4 py-14">
           <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
             AI / VR Rooms
