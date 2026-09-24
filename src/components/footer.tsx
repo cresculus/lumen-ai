@@ -20,9 +20,6 @@ export function Footer() {
           </p>
         </div>
         <div className="flex gap-4">
-          <Link href="/vr" className="hover:text-lumen-cream">
-            AI/VR
-          </Link>
           <Link href="/wallpapers" className="hover:text-lumen-cream">
             Wallpapers
           </Link>
