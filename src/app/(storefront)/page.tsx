@@ -94,13 +94,14 @@ export default async function HomePage() {
       <section className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
           <p className="text-sm uppercase tracking-[0.28em] text-lumen-gold-light">
-            AR/VR Rooms
+            Augmented reality · Virtual reality
           </p>
           <h2 className="font-display mt-3 max-w-2xl text-3xl font-semibold text-lumen-cream md:text-4xl">
-            Step inside the room
+            Augmented Reality and Virtual Reality rooms
           </h2>
           <p className="mt-4 max-w-xl text-slate-400">
-            Rooms you can enter, not only hear. This section is not open yet.
+            Listening rooms for augmented reality and virtual reality. This
+            section is not open yet.
           </p>
           <p className="mt-6 text-sm uppercase tracking-[0.18em] text-lumen-gold-light">
             Coming soon
@@ -109,7 +110,7 @@ export default async function HomePage() {
             href="/vr"
             className="mt-8 inline-block text-sm text-lumen-gold-light hover:text-lumen-cream"
           >
-            AR/VR Rooms →
+            AR/VR rooms →
           </Link>
         </div>
       </section>
